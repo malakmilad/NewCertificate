@@ -8,6 +8,7 @@ use App\Imports\GroupImport;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Vinkla\Hashids\Facades\Hashids;
 
 class GroupController extends Controller
 {
@@ -33,17 +34,21 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        $group = Group::create(['name' => $request->name]);
+        Group::create(['name' => $request->name]);
 
         Excel::import(new GroupImport($request->name), $request->file('file'));
+        toastr()->success('Group has been deleted successfully!');
+        return redirect()->route('group.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Group $group)
+    public function show($id)
     {
-        //
+        $hash = Hashids::decode($id);
+        $group=Group::findOrFail($hash[0]);
+        return view('admin.group.show',compact('group'));
     }
 
     /**

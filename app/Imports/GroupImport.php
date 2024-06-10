@@ -20,15 +20,17 @@ class GroupImport implements ToModel, WithHeadingRow
 
     public function model(array $row)
     {
-        $student = Student::firstOrCreate(
-            ['email' => $row['email']],
-            [
-                'name' => $row['student_name'],
-                'uuid' => $row['nationalid_or_passportid'],
-                'phone' => $row['phone']
-            ]
-        );
-
+        $student = Student::where('uuid', $row['nationalid_or_passportid'])->first();
+        if(!$student){
+            $student = Student::firstOrCreate(
+                ['email' => $row['email']],
+                [
+                    'name' => $row['student_name'],
+                    'uuid' => $row['nationalid_or_passportid'],
+                    'phone' => $row['phone']
+                ]
+            );
+        }
         $course = Course::firstOrCreate(['name' => $row['course_name']]);
 
         $studentCourse = StudentCourse::firstOrCreate([

@@ -25,7 +25,6 @@ Route::middleware('auth')->group(function () {
         Route::get('group/create','create')->name('group.create');
         Route::get('group/show/{group}','show')->name('group.show');
         Route::post('group/store','store')->name('group.store');
-        Route::get('group/delete/{group}','destroy')->name('group.delete');
         Route::get('group/export','export')->name('group.export');
     });
 });
