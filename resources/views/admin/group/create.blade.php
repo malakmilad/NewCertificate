@@ -51,7 +51,7 @@
                             @enderror
                         </div>
                     </div>
-                    <a class="btn btn-light-primary fw-bolder w-100 mb-8">
+                    <a href="{{route('group.export')}}" class="btn btn-light-primary fw-bolder w-100 mb-8">
                         download sample
                     </a>
                     <button type="submit" class="btn btn-light-primary fw-bolder w-100 mb-8">

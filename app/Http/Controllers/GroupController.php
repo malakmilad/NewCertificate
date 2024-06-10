@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\GroupExport;
 use App\Http\Requests\StoreGroupRequest;
+use App\Imports\GroupImport;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GroupController extends Controller
 {
@@ -30,7 +33,9 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        //
+        $group = Group::create(['name' => $request->name]);
+
+        Excel::import(new GroupImport($request->name), $request->file('file'));
     }
 
     /**
@@ -63,5 +68,8 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+    public function export(){
+        return Excel::download(new GroupExport,'group.xlsx');
     }
 }

@@ -22,7 +22,8 @@ class StoreGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:groups,name'
+            'name'=>'required|unique:groups,name',
+            'file'=>'required|file|mimes:xlsx'
         ];
     }
 }
