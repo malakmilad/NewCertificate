@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGroupRequest;
 use App\Models\Group;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $groups=Group::get();
+        return view('admin.group.index',compact('groups'));
     }
 
     /**
@@ -20,13 +22,13 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.group.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGroupRequest $request)
     {
         //
     }

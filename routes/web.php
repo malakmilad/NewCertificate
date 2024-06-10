@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FontController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,13 @@ Route::middleware('auth')->group(function () {
         Route::get('font/create','create')->name('font.create');
         Route::post('font/store','store')->name('font.store');
         Route::get('font/delete/{font}','destroy')->name('font.delete');
+    });
+    Route::controller(GroupController::class)->group(function(){
+        Route::get('group/index','index')->name('group.index');
+        Route::get('group/create','create')->name('group.create');
+        Route::get('group/show/{group}','show')->name('group.show');
+        Route::post('group/store','store')->name('group.store');
+        Route::get('group/delete/{group}','destroy')->name('group.delete');
     });
 });
 
