@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link active" href="../../demo1/dist/index.html">
+                    <a class="menu-link active" href="{{route('font.index')}}">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -50,7 +50,7 @@
                                 </svg>
                             </span>
                         </span>
-                        <span class="menu-title">Default</span>
+                        <span class="menu-title">Font</span>
                     </a>
                 </div>
             </div>

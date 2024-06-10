@@ -12,7 +12,7 @@ class FontController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.font.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class FontController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.font.create');
     }
 
     /**
