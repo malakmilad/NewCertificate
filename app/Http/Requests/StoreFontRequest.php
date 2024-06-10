@@ -22,7 +22,7 @@ class StoreFontRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'font_file'=>'required|file|mimes:ttf'
+            'font_file'=>'required|file'
         ];
     }
 }

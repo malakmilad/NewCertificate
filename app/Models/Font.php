@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Font extends Model
 {
     use HasFactory;
+    protected $guarded=[];
+
 }

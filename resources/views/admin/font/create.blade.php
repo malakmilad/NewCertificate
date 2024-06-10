@@ -16,12 +16,28 @@
             </div>
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                 <div class="text-center mb-13">
-                    <h1 class="mb-3">Invite a Friend</h1>
+                    <h1 class="mb-3">Create Font</h1>
                 </div>
                 <div class="separator d-flex flex-center mb-8">
-                    <span class="text-uppercase bg-body fs-7 fw-bold text-muted px-3">or</span>
+                    <span class="text-uppercase bg-body fs-7 fw-bold text-muted px-3"></span>
                 </div>
-                <textarea class="form-control form-control-solid mb-8" rows="3" placeholder="Type or paste emails here"></textarea>
+                <form action="{{ route('font.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label class="required form-label">Font File</label>
+                    <input type="file" name="font_file" class="form-control form-control-solid mb-8" rows="3">
+                    </input>
+                    @error('font_file')
+                        <div
+                            class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                            <div class="d-flex flex-column pe-0 pe-sm-10">
+                                <span>{{ $message }}</span>
+                            </div>
+                        </div>
+                    @enderror
+                    <button type="submit" class="btn btn-light-primary fw-bolder w-100 mb-8">
+                        Save
+                    </button>
+                </form>
             </div>
         </div>
     </div>

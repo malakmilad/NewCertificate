@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
         Route::get('font/index','index')->name('font.index');
         Route::get('font/create','create')->name('font.create');
         Route::post('font/store','store')->name('font.store');
+        Route::get('font/delete/{font}','destroy')->name('font.delete');
     });
 });
 

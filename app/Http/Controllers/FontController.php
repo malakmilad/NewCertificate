@@ -12,7 +12,8 @@ class FontController extends Controller
      */
     public function index()
     {
-        return view('admin.font.index');
+        $fonts=Font::get();
+        return view('admin.font.index',compact('fonts'));
     }
 
     /**
@@ -43,7 +44,7 @@ class FontController extends Controller
                 'path' => 'fonts/' . $fontName,
             ]);
 
-            toastr()->success('Data has been saved successfully!');
+            toastr()->success('Font has been saved successfully!');
             return redirect()->route('font.index');
         }
     }
@@ -59,7 +60,7 @@ class FontController extends Controller
             }
         }
         $font->delete();
-        toastr()->success('Data has been deleted successfully!');
+        toastr()->success('Font has been deleted successfully!');
         return redirect()->route('font.index');
     }
 }
