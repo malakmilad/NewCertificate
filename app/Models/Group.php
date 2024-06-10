@@ -9,7 +9,7 @@ class Group extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function students()
+    public function studentCourses()
     {
         return $this->belongsToMany(StudentCourse::class, 'group_student_course');
     }

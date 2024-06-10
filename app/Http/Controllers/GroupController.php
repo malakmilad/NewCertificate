@@ -47,8 +47,14 @@ class GroupController extends Controller
     public function show($id)
     {
         $hash = Hashids::decode($id);
-        $group=Group::findOrFail($hash[0]);
-        return view('admin.group.show',compact('group'));
+        $students = Group::find($hash[0])
+        ->studentCourses()
+        ->with(['student.courses'])
+        ->get()
+        ->pluck('student')
+        ->unique('id')
+        ->values();
+        return view('admin.group.show',compact('students'));
     }
 
     /**

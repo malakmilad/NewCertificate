@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class GroupStudentCourse extends Model
 {
     use HasFactory;
+    protected $table = 'group_student_course'; // Ensure the correct table name is used
     protected $guarded=[];
     public function group()
     {
