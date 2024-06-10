@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\FontController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
