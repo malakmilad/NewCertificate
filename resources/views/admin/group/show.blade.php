@@ -1,41 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Students and Courses</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-5">
-    <h1>Students and Their Courses</h1>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Student Email</th>
-                <th>Courses</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($students as $student)
-                <tr>
-                    <td>{{ $student->name }}</td>
-                    <td>{{ $student->email }}</td>
-                    <td>
-                        <ul>
-                            @foreach($student->courses as $course)
-                                <li>{{ $course->name }}</li>
-                            @endforeach
-                        </ul>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+@extends('admin.layout.app')
+@section('content')
+    <div class="row gy-5 g-xl-8">
+        <div class="col-xl-12">
+            <div class="card card-xl-stretch mb-5 mb-xl-8">
+                <div class="card-header border-0 pt-5">
+                    <h3 class="card-title align-items-start flex-column">
+                        <span class="card-label fw-bolder fs-3 mb-1"></span>
+                        <span class="text-muted mt-1 fw-bold fs-7"></span>
+                    </h3>
+                </div>
+                <div class="card-body py-3">
+                    <div class="table-responsive">
+                        <table id="group" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                            <thead>
+                                <tr class="fw-bolder text-muted">
+                                    <th class="w-25px">ID</th>
+                                    <th class="min-w-150px">Name</th>
+                                    <th class="min-w-150px">Email</th>
+                                    <th class="min-w-150px">Uuid</th>
+                                    <th class="min-w-150px">Phone</th>
+                                    <th class="min-w-150px">Courses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($students as $student)
+                                    <tr>
+                                        <td>
+                                            {{ $student->id }}
+                                        </td>
+                                        <td>
+                                            {{ $student->name }}
+                                        </td>
+                                        <td>
+                                            {{ $student->email }}
+                                        </td>
+                                        <td>
+                                            {{ $student->uuid }}
+                                        </td>
+                                        <td>
+                                            {{ $student->phone }}
+                                        </td>
+                                        <td>
+                                            @foreach ($student->courses as $course)
+                                                <span class="badge badge-light-danger">{{ $course->name }}</span>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('script')
+<script>
+    $("#group").DataTable({});
+</script>
+@endsection
