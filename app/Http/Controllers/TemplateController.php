@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Font;
 use App\Models\Template;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        //
+       $templates= Template::get();
+        return view('admin.template.index',compact('templates'));
     }
 
     /**
@@ -20,7 +22,8 @@ class TemplateController extends Controller
      */
     public function create()
     {
-        //
+        $fonts=Font::get();
+        return view('admin.template.create',compact('fonts'));
     }
 
     /**

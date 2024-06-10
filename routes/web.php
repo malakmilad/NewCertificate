@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FontController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,14 @@ Route::middleware('auth')->group(function () {
         Route::get('group/show/{group}','show')->name('group.show');
         Route::post('group/store','store')->name('group.store');
         Route::get('group/export','export')->name('group.export');
+    });
+    Route::controller(TemplateController::class)->group(function(){
+        Route::get('template/index','index')->name('template.index');
+        Route::get('template/create','create')->name('template.create');
+        Route::get('template/show/{template}','show')->name('template.show');
+        Route::get('template/edit/{template}','edit')->name('template.edit');
+        Route::post('template/store','store')->name('template.store');
+        Route::get('template/delete/{template}','destroy')->name('template.delete');
     });
 });
 
