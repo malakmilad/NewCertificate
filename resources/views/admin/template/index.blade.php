@@ -10,8 +10,7 @@
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         title="Click to add a Template">
-                        <a class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
-                            data-bs-target="#kt_modal_invite_friends">
+                        <a href="{{route('template.create')}}" class="btn btn-sm btn-light btn-active-primary">
                             <span class="svg-icon svg-icon-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
