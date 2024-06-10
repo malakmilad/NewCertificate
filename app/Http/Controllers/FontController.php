@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreFontRequest;
 use App\Models\Font;
-use Illuminate\Http\Request;
 
 class FontController extends Controller
 {
@@ -26,40 +26,40 @@ class FontController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreFontRequest $request)
     {
-        //
-    }
+        if ($request->file('font_file')) {
+            $file = $request->file('font_file');
+            $fontName = $file->getClientOriginalName();
+            $fontNameWithoutExtension = pathinfo($fontName, PATHINFO_FILENAME);
+            $whiteSpace = preg_replace('/(?<=\p{L})(?=\p{N})|(?<=\p{N})(?=\p{L})/', ' ', $fontNameWithoutExtension);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Font $font)
-    {
-        //
-    }
+            // Move file to the fonts directory
+            $file->move(public_path('fonts'), $fontName);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Font $font)
-    {
-        //
-    }
+            // Save font details to the database
+            Font::create([
+                'name' => $whiteSpace,
+                'path' => 'fonts/' . $fontName,
+            ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Font $font)
-    {
-        //
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->route('font.index');
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Font $font)
     {
-        //
+        if($font->path){
+            $path = public_path($font->path);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+        $font->delete();
+        toastr()->success('Data has been deleted successfully!');
+        return redirect()->route('font.index');
     }
 }
