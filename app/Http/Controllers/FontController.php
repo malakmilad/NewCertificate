@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFontRequest;
 use App\Models\Font;
+use Vinkla\Hashids\Facades\Hashids;
 
 class FontController extends Controller
 {
@@ -51,8 +52,10 @@ class FontController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Font $font)
+    public function destroy($id)
     {
+        $hash = Hashids::decode($id);
+        $font=Font::findOrFail($hash[0]);
         if($font->path){
             $path = public_path($font->path);
             if (file_exists($path)) {
