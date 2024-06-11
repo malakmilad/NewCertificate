@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTemplateRequest;
 use App\Models\Font;
 use App\Models\Template;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class TemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTemplateRequest $request)
     {
         //
     }

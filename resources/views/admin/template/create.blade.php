@@ -24,6 +24,7 @@
 @section('content')
     <form action="{{route('template.store')}}" method="POST" enctype="multipart/form-data" >
         @csrf
+        <button class="btn btn-light-primary mb-10">Save</button>
         <div class="row gy-5 g-xl-8">
             <div class="col-xl-8">
                 <div class="card card-xl-stretch mb-5 mb-xl-8">

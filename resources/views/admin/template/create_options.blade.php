@@ -33,12 +33,28 @@
                             <label class="required form-label">Template Name</label>
                             <input type="text" name="template_name" id="template_name"
                                 placeholder="Enter Your Template Name" class="form-control">
+                            @error('template_name')
+                                <div
+                                    class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                    <div class="d-flex flex-column pe-0 pe-sm-10">
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
                             <label class="required form-label">Template Image</label>
                             <input type="file" name="template_image" id="template_image" class="form-control">
+                            @error('template_image')
+                                <div
+                                    class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                    <div class="d-flex flex-column pe-0 pe-sm-10">
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-5">
@@ -49,6 +65,14 @@
                                 <label class="required form-label">Content</label>
                                 <input type="text" placeholder="Enter Your Content" name="student_content"
                                     id="student_content" class="form-control">
+                                @error('student_content')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6">
                                 <label class="required form-label">Color</label>
@@ -58,6 +82,14 @@
                                 <label class="form-label">Font Size</label>
                                 <input type="number" class="form-control" name="student_font_size"
                                     id="student_font_size" placeholder="Enter Your Font Size">
+                                @error('student_font_size')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Font Family</label>
@@ -65,10 +97,17 @@
                                     id="student_font_family">
                                     <option disabled selected value="">Select Font</option>
                                     @foreach ($fonts as $font)
-                                    <option value="{{$font->name}}">{{$font->name}}</option>
+                                        <option value="{{ $font->name }}">{{ $font->name }}</option>
                                     @endforeach
-
                                 </select>
+                                @error('student_font_family')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <input type="hidden" name="student_x" id="student_x">
                             <input type="hidden" name="student_y" id="student_y">
@@ -82,6 +121,14 @@
                                 <label class="required form-label">Content</label>
                                 <input type="text" placeholder="Enter Your Content" name="course_content"
                                     id="course_content" class="form-control">
+                                @error('course_content')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6">
                                 <label class="required form-label">Color</label>
@@ -91,6 +138,14 @@
                                 <label class="form-label">Font Size</label>
                                 <input type="number" class="form-control" name="course_font_size"
                                     id="course_font_size" placeholder="Enter Your Font Size">
+                                @error('course_font_size')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Font Family</label>
@@ -98,9 +153,17 @@
                                     id="course_font_family">
                                     <option disabled selected value="">Select Font</option>
                                     @foreach ($fonts as $font)
-                                    <option value="{{$font->name}}">{{$font->name}}</option>
+                                        <option value="{{ $font->name }}">{{ $font->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('course_font_family')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <input type="hidden" name="course_x" id="course_x">
                             <input type="hidden" name="course_y" id="course_y">
@@ -113,6 +176,14 @@
                             <div class="col-6">
                                 <label class="required form-label">Content</label>
                                 <input type="date" name="date_content" id="date_content" class="form-control">
+                                @error('date_content')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6">
                                 <label class="required form-label">Color</label>
@@ -122,6 +193,14 @@
                                 <label class="form-label">Font Size</label>
                                 <input type="number" class="form-control" name="date_font_size" id="date_font_size"
                                     placeholder="Enter Your Font Size">
+                                @error('date_font_size')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Font Family</label>
@@ -129,9 +208,17 @@
                                     id="date_font_family">
                                     <option disabled selected value="">Select Font</option>
                                     @foreach ($fonts as $font)
-                                    <option value="{{$font->name}}">{{$font->name}}</option>
+                                        <option value="{{ $font->name }}">{{ $font->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('date_font_family')
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div>
                             <input type="hidden" name="date_x" id="date_x">
                             <input type="hidden" name="date_y" id="date_y">
