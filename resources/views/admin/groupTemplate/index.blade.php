@@ -55,7 +55,7 @@
                                         <td>{{ $student['template'] }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href=""
+                                                <a href="{{route('generate.show',Hashids::encode($student['id']))}}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
