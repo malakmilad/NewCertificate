@@ -1,6 +1,6 @@
 <button id="kt_explore_toggle"
     class="explore-toggle btn btn-sm bg-body btn-color-gray-700 btn-active-primary shadow-sm position-fixed px-5 fw-bolder zindex-2 top-50 mt-10 end-0 transform-90 fs-6 rounded-top-0"
-    title="Explore Options" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-trigger="hover">
+    title="Options" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-trigger="hover">
     <span id="kt_explore_toggle_label">Options</span>
 </button>
 <div id="kt_explore" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true"
@@ -8,7 +8,7 @@
     data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close">
     <div class="card shadow-none rounded-0 w-100">
         <div class="card-header" id="kt_explore_header">
-            <h3 class="card-title fw-bolder text-gray-700">Explore Options</h3>
+            <h3 class="card-title fw-bolder text-gray-700">Options</h3>
             <div class="card-toolbar">
                 <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_explore_close">
                     <span class="svg-icon svg-icon-2">
@@ -30,14 +30,15 @@
                 <div class="mb-0">
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
-                            <label class="form-label">test</label>
-                            <input type="text" name="" id="" class="form-control">
+                            <label class="required form-label">Template Name</label>
+                            <input type="text" name="template_name" id="template_name"
+                                placeholder="Enter Your Template Name" class="form-control">
                         </div>
                     </div>
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
-                            <label class="form-label">test</label>
-                            <input type="text" name="" id="" class="form-control">
+                            <label class="required form-label">Template Image</label>
+                            <input type="file" name="template_image" id="template_image" class="form-control">
                         </div>
                     </div>
                     <div class="mb-5">
@@ -45,65 +46,97 @@
                             Student</h3>
                         <div class="row g-5">
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control">
+                                <label class="required form-label">Content</label>
+                                <input type="text" placeholder="Enter Your Content" name="student_content"
+                                    id="student_content" class="form-control">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="required form-label">Color</label>
+                                <input type="color" class="form-control" name="student_color" id="student_color">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="form-label">Font Size</label>
+                                <input type="number" class="form-control" name="student_font_size"
+                                    id="student_font_size" placeholder="Enter Your Font Size">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="form-label">Font Family</label>
+                                <select class="form-select form-select-solid" name="student_font_family"
+                                    id="student_font_family">
+                                    <option disabled selected value="">Select Font</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                </select>
                             </div>
+                            <input type="hidden" name="student_x" id="student_x">
+                            <input type="hidden" name="student_y" id="student_y">
                         </div>
                     </div>
                     <div class="mb-5">
-                        <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">Course</h3>
+                        <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">
+                            Course</h3>
                         <div class="row g-5">
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control">
+                                <label class="required form-label">Content</label>
+                                <input type="text" placeholder="Enter Your Content" name="course_content"
+                                    id="course_content" class="form-control">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="required form-label">Color</label>
+                                <input type="color" class="form-control" name="course_color" id="course_color">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="form-label">Font Size</label>
+                                <input type="number" class="form-control" name="course_font_size"
+                                    id="course_font_size" placeholder="Enter Your Font Size">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="form-label">Font Family</label>
+                                <select class="form-select form-select-solid" name="course_font_family"
+                                    id="course_font_family">
+                                    <option disabled selected value="">Select Font</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                </select>
                             </div>
+                            <input type="hidden" name="course_x" id="course_x">
+                            <input type="hidden" name="course_y" id="course_y">
                         </div>
                     </div>
                     <div class="mb-5">
-                        <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">Date</h3>
+                        <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">
+                            Date</h3>
                         <div class="row g-5">
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control">
+                                <label class="required form-label">Content</label>
+                                <input type="date" name="date_content" id="date_content" class="form-control">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="required form-label">Color</label>
+                                <input type="color" class="form-control" name="date_color" id="date_color">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="form-label">Font Size</label>
+                                <input type="number" class="form-control" name="date_font_size" id="date_font_size"
+                                    placeholder="Enter Your Font Size">
                             </div>
                             <div class="col-6">
-                                <label class="form-label">test</label>
-                                <input type="text" class="form-control" name="" id="">
+                                <label class="form-label">Font Family</label>
+                                <select class="form-select form-select-solid" name="date_font_family"
+                                    id="date_font_family">
+                                    <option disabled selected value="">Select Font</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                </select>
                             </div>
+                            <input type="hidden" name="date_x" id="date_x">
+                            <input type="hidden" name="date_y" id="date_y">
                         </div>
                     </div>
+                    <br>
                 </div>
             </div>
         </div>
