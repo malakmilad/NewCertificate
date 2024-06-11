@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::get('template/index','index')->name('template.index');
         Route::get('template/create','create')->name('template.create');
         Route::get('template/show/{template}','show')->name('template.show');
-        Route::get('template/edit/{template}','edit')->name('template.edit');
+        // Route::get('template/edit/{template}','edit')->name('template.edit');
         Route::post('template/store','store')->name('template.store');
         Route::get('template/delete/{template}','destroy')->name('template.delete');
     });

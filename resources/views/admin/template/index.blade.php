@@ -44,7 +44,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href="{{ route('template.show' , $template->id) }}"
+                                                <a href="{{ route('template.show' , Hashids::encode($template->id)) }}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -53,7 +53,7 @@
                                                             d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
                                                     </svg>
                                                 </a>
-                                                <a href="{{ route('template.edit', $template->id) }}"
+                                                {{-- <a href="{{ route('template.edit', $template->id) }}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -66,8 +66,8 @@
                                                                 fill="black"></path>
                                                         </svg>
                                                     </span>
-                                                </a>
-                                                <a href="{{ route('template.delete', $template->id) }}"
+                                                </a> --}}
+                                                <a href="{{ route('template.delete' , Hashids::encode($template->id)) }}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"

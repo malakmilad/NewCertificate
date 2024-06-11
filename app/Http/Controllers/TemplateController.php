@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTemplateRequest;
 use App\Models\Font;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TemplateController extends Controller
 {
@@ -133,9 +134,11 @@ class TemplateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Template $template)
+    public function show($id)
     {
-        //
+        $hash = Hashids::decode($id);
+        $template=Template::findOrFail($hash[0]);
+        return view('admin.template.show',compact('template'));
     }
 
     /**
@@ -157,8 +160,18 @@ class TemplateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Template $template)
+    public function destroy($id)
     {
-        //
+        $hash = Hashids::decode($id);
+        $template=Template::findOrFail($hash[0]);
+        if($template->template_imag){
+            $path = public_path($template->template_image);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+        $template->delete();
+        toastr()->success('Template has been deleted successfully!');
+        return redirect()->route('font.index');
     }
 }
