@@ -14,6 +14,40 @@ template_image.addEventListener("input", (event) => {
         reader.readAsDataURL(file);
     }
 });
+//qr code
+let qrAppended = false;
+
+$("#qrButton").click(function (e) {
+    e.preventDefault();
+    if (!qrAppended) {
+        let qr = `<img id="qrImg" src="https://quickchart.io/qr?text=EEIC" style="position: absolute; width:75px; height:75px;"></img>`;
+        $("#canvas").append(qr);
+        qrAppended = true;
+        let newContent = getQRInputHtml();
+        $(this).closest(".rounded").after(newContent); // Correct the selector
+        initializeQrCodeInputs();
+    }
+});
+
+function getQRInputHtml() {
+    return `
+<input type="hidden" name="qr_input" value="https://quickchart.io/qr?text=EEIC"/>
+<input type="hidden" name="qr_code_x" id="qr_code_x"/>
+<input type="hidden" name="qr_code_y" id="qr_code_y"/>`;
+}
+
+function initializeQrCodeInputs() {
+    $(`#qrImg`).draggable({
+        cursor: "move",
+        containment: "parent",
+        stop: function (event, ui) {
+            const position = ui.position;
+            $(`#qr_code_x`).val(position.left);
+            $(`#qr_code_y`).val(position.top);
+        },
+    });
+}
+//
 const student = document.getElementById("student");
 const course = document.getElementById("course");
 const date = document.getElementById("date");
