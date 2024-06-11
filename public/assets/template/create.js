@@ -31,9 +31,9 @@ $("#qrButton").click(function (e) {
 
 function getQRInputHtml() {
     return `
-<input type="hidden" name="qr_input" value="https://quickchart.io/qr?text=EEIC"/>
-<input type="hidden" name="qr_code_x" id="qr_code_x"/>
-<input type="hidden" name="qr_code_y" id="qr_code_y"/>`;
+<input type="hidden" name="qr_content" value="https://quickchart.io/qr?text=EEIC"/>
+<input type="hidden" name="qr_x" id="qr_x"/>
+<input type="hidden" name="qr_y" id="qr_y"/>`;
 }
 
 function initializeQrCodeInputs() {
@@ -42,8 +42,8 @@ function initializeQrCodeInputs() {
         containment: "parent",
         stop: function (event, ui) {
             const position = ui.position;
-            $(`#qr_code_x`).val(position.left);
-            $(`#qr_code_y`).val(position.top);
+            $(`#qr_x`).val(position.left);
+            $(`#qr_y`).val(position.top);
         },
     });
 }
