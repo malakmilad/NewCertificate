@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGroupTemplateRequest;
+use App\Models\Group;
 use App\Models\GroupTemplate;
+use App\Models\Template;
 use Illuminate\Http\Request;
 
 class GroupTemplateController extends Controller
@@ -12,7 +15,11 @@ class GroupTemplateController extends Controller
      */
     public function index()
     {
-        //
+        $groups=Group::get();
+        $templates=Template::get();
+        $groupTemplates=GroupTemplate::get();
+        dd($groupTemplates);
+        return view('admin.groupTemplate.index',compact('groups','templates'));
     }
 
     /**
@@ -20,15 +27,22 @@ class GroupTemplateController extends Controller
      */
     public function create()
     {
-        //
+        $groups=Group::get();
+        $templates=Template::get();
+        return view('admin.groupTemplate.create',compact('groups','templates'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGroupTemplateRequest $request)
     {
-        //
+        GroupTemplate::create([
+            'group_id'=>$request->group_id,
+            'template_id'=>$request->template_id
+        ]);
+        toastr()->success('Generate has been saved successfully!');
+        return redirect()->route('generate.index');
     }
 
     /**

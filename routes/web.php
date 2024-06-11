@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FontController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupTemplateController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,12 @@ Route::middleware('auth')->group(function () {
         // Route::get('template/edit/{template}','edit')->name('template.edit');
         Route::post('template/store','store')->name('template.store');
         Route::get('template/delete/{template}','destroy')->name('template.delete');
+    });
+    Route::controller(GroupTemplateController::class)->group(function(){
+        Route::get('generate/index','index')->name('generate.index');
+        Route::get('generate/create','create')->name('generate.create');
+        Route::post('generate/store','store')->name('generate.store');
+
     });
 });
 
