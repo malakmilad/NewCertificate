@@ -63,6 +63,18 @@
                             <div class="btn btn-light-primary w-100" id="qrButton">Add</div>
                         </div>
                     </div>
+                    <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
+                        <div>
+                            <label class="required form-label">Text</label>
+                            <div class="btn btn-light-primary w-100">Add</div>
+                        </div>
+                    </div>
+                    <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
+                        <div>
+                            <label class="required form-label">Signature</label>
+                            <div class="btn btn-light-primary w-100">Add</div>
+                        </div>
+                    </div>
                     <div class="mb-5">
                         <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">
                             Student</h3>
