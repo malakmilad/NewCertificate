@@ -32,6 +32,8 @@
                         <div id="student"></div>
                         <div id="course"></div>
                         <div id="date"></div>
+                        <div id="allText"></div>
+                        <div id="allSignature"></div>
                     </div>
                 </div>
             </div>

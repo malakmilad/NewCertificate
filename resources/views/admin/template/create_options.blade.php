@@ -66,13 +66,13 @@
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
                             <label class="required form-label">Text</label>
-                            <div class="btn btn-light-primary w-100">Add</div>
+                            <button onclick="addText()" class="btn btn-light-primary w-100">Add</button>
                         </div>
                     </div>
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
                             <label class="required form-label">Signature</label>
-                            <div class="btn btn-light-primary w-100">Add</div>
+                            <button onclick="addSignature()" class="btn btn-light-primary w-100">Add</button>
                         </div>
                     </div>
                     <div class="mb-5">

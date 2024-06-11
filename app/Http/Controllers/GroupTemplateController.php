@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\GroupTemplate;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
 
 class GroupTemplateController extends Controller
 {
@@ -15,11 +16,29 @@ class GroupTemplateController extends Controller
      */
     public function index()
     {
-        $groups=Group::get();
-        $templates=Template::get();
-        $groupTemplates=GroupTemplate::get();
-        dd($groupTemplates);
-        return view('admin.groupTemplate.index',compact('groups','templates'));
+        $groups = Group::get();
+        $templates = Template::get();
+        // Fetch all GroupTemplates with related data
+        $groupTemplates = GroupTemplate::with([
+            'template',
+            'group.studentCourses.student.courses'
+        ])->get();
+
+        // Prepare unique students data
+        $students = $groupTemplates->flatMap(function ($groupTemplate) {
+            return $groupTemplate->group->studentCourses->map(function ($studentCourse) use ($groupTemplate) {
+                return [
+                    'id' => $studentCourse->student->id,
+                    'name' => $studentCourse->student->name,
+                    'email' => $studentCourse->student->email,
+                    'uuid' => $studentCourse->student->uuid,
+                    'phone' => $studentCourse->student->phone,
+                    'courses' => $studentCourse->student->courses->pluck('name')->toArray(),
+                    'template' => $groupTemplate->template->name
+                ];
+            });
+        })->unique('id');
+        return view('admin.groupTemplate.index', compact('groups', 'templates', 'students'));
     }
 
     /**
@@ -27,9 +46,9 @@ class GroupTemplateController extends Controller
      */
     public function create()
     {
-        $groups=Group::get();
-        $templates=Template::get();
-        return view('admin.groupTemplate.create',compact('groups','templates'));
+        $groups = Group::get();
+        $templates = Template::get();
+        return view('admin.groupTemplate.create', compact('groups', 'templates'));
     }
 
     /**
@@ -38,8 +57,8 @@ class GroupTemplateController extends Controller
     public function store(StoreGroupTemplateRequest $request)
     {
         GroupTemplate::create([
-            'group_id'=>$request->group_id,
-            'template_id'=>$request->template_id
+            'group_id' => $request->group_id,
+            'template_id' => $request->template_id,
         ]);
         toastr()->success('Generate has been saved successfully!');
         return redirect()->route('generate.index');
@@ -48,9 +67,11 @@ class GroupTemplateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(GroupTemplate $groupTemplate)
+    public function show($id)
     {
-        //
+        $hash = Hashids::decode($id);
+        $groupTemplate = GroupTemplate::findOrFail($hash[0])->with('template', 'group')->first();
+        return view('admin.groupTemplate.show', compact('groupTemplate'));
     }
 
     /**

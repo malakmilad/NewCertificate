@@ -40,6 +40,25 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($students as $student)
+                                <tr>
+                                    <td>{{ $student['id'] }}</td>
+                                    <td>{{ $student['name'] }}</td>
+                                    <td>{{ $student['email'] }}</td>
+                                    <td>{{ $student['uuid'] }}</td>
+                                    <td>{{ $student['phone'] }}</td>
+                                    <td>
+                                            @foreach($student['courses'] as $course)
+                                            <span class="badge badge-light-danger">{{ $course }}</span>
+
+                                            @endforeach
+                                    </td>
+                                    <td>{{ $student['template'] }}</td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
