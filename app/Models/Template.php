@@ -9,6 +9,12 @@ class Template extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected function casts(): array
+    {
+        return [
+            'options' => 'array',
+        ];
+    }
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_templates');
