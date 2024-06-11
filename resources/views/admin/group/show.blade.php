@@ -55,8 +55,8 @@
         </div>
     </div>
 @endsection
-@section('script')
+@push('script')
 <script>
-    $("#group").DataTable({});
+    new DataTable('#group');
 </script>
-@endsection
+@endpush

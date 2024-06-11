@@ -40,6 +40,11 @@ class GroupImport implements ToModel, WithHeadingRow
 
         $group = Group::firstOrCreate(['name' => $this->groupName]);
 
-        $group->students()->attach($studentCourse);
+        // Check if the student_course is already attached to the group
+        if (!$group->studentCourses->contains($studentCourse->id)) {
+            $group->studentCourses()->attach($studentCourse->id);
+        }
+
+        return $studentCourse;
     }
 }
