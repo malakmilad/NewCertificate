@@ -64,9 +64,10 @@
                                 <select class="form-select form-select-solid" name="student_font_family"
                                     id="student_font_family">
                                     <option disabled selected value="">Select Font</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
+                                    @foreach ($fonts as $font)
+                                    <option value="{{$font->name}}">{{$font->name}}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                             <input type="hidden" name="student_x" id="student_x">
@@ -96,9 +97,9 @@
                                 <select class="form-select form-select-solid" name="course_font_family"
                                     id="course_font_family">
                                     <option disabled selected value="">Select Font</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
+                                    @foreach ($fonts as $font)
+                                    <option value="{{$font->name}}">{{$font->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <input type="hidden" name="course_x" id="course_x">
@@ -127,13 +128,15 @@
                                 <select class="form-select form-select-solid" name="date_font_family"
                                     id="date_font_family">
                                     <option disabled selected value="">Select Font</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
+                                    @foreach ($fonts as $font)
+                                    <option value="{{$font->name}}">{{$font->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <input type="hidden" name="date_x" id="date_x">
                             <input type="hidden" name="date_y" id="date_y">
+                            <input type="hidden" name="width" id="width">
+                            <input type="hidden" name="height" id="height">
                         </div>
                     </div>
                     <br>

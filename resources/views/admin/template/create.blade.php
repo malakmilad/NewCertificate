@@ -1,19 +1,43 @@
 @extends('admin.layout.app')
+@push('css')
+<style>
+    #canvas{
+        position: relative;
+        width: 100%;
+        height: 470px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+    #student{
+        position: absolute;
+    }
+    #course{
+        position: absolute;
+    }
+    #date{
+        position: absolute;
+    }
+</style>
+@endpush
 @section('content')
-    <form action="">
+    <form action="{{route('template.store')}}" method="POST" enctype="multipart/form-data" >
+        @csrf
         <div class="row gy-5 g-xl-8">
             <div class="col-xl-8">
                 <div class="card card-xl-stretch mb-5 mb-xl-8">
-                    <div class="card-header border-0 pt-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bolder fs-3 mb-1">Members Statistics</span>
-                        </h3>
+                    <div id="canvas" class="card-body py-3">
+                        <div id="student"></div>
+                        <div id="course"></div>
+                        <div id="date"></div>
                     </div>
-                    <canvas id="canva" class="card-body py-3">
-                    </canvas>
                 </div>
             </div>
         </div>
         @include('admin.template.create_options')
     </form>
 @endsection
+@push('script')
+<script src="{{asset('assets/template/create.js')}}"></script>
+@endpush
