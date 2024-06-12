@@ -9,40 +9,40 @@
             background-position: center;
             background-repeat: no-repeat;
             overflow: hidden;
-            background-image: url('{{ asset($groupTemplate->template->image) }}');
+            background-image: url('{{ asset($templateId->image) }}');
         }
 
         #course {
             position: absolute;
-            top: {{ number_format($groupTemplate->template->options['course']['position_percent_y'], 2) }}%;
-            left: {{ number_format($groupTemplate->template->options['course']['position_percent_x'], 2) }}%;
-            color: {{ $groupTemplate->template->options['course']['color'] }};
-            font-size: {{ $groupTemplate->template->options['course']['font_size'] }}px;
-            font-family: {{ $groupTemplate->template->options['course']['font_family'] }};
+            top: {{ number_format($templateId->options['course']['position_percent_y'], 2) }}%;
+            left: {{ number_format($templateId->options['course']['position_percent_x'], 2) }}%;
+            color: {{ $templateId->options['course']['color'] }};
+            font-size: {{ $templateId->options['course']['font_size'] }}px;
+            font-family: {{ $templateId->options['course']['font_family'] }};
         }
 
         #student {
             position: absolute;
-            top: {{ number_format($groupTemplate->template->options['student']['position_percent_y'], 2) }}%;
-            left: {{ number_format($groupTemplate->template->options['student']['position_percent_x'], 2) }}%;
-            color: {{ $groupTemplate->template->options['student']['color'] }};
-            font-size: {{ $groupTemplate->template->options['student']['font_size'] }}px;
-            font-family: {{ $groupTemplate->template->options['student']['font_family'] }};
+            top: {{ number_format($templateId->options['student']['position_percent_y'], 2) }}%;
+            left: {{ number_format($templateId->options['student']['position_percent_x'], 2) }}%;
+            color: {{ $templateId->options['student']['color'] }};
+            font-size: {{ $templateId->options['student']['font_size'] }}px;
+            font-family: {{ $templateId->options['student']['font_family'] }};
         }
         #qrImg{
             position: absolute;
-            top: {{ number_format($groupTemplate->template->options['qr_code']['position_percent_y'], 2) }}%;
-            left: {{ number_format($groupTemplate->template->options['qr_code']['position_percent_x'], 2) }}%;
+            top: {{ number_format($templateId->options['qr_code']['position_percent_y'], 2) }}%;
+            left: {{ number_format($templateId->options['qr_code']['position_percent_x'], 2) }}%;
             width:75px;
             height:75px;
         }
         #date {
             position: absolute;
-            top: {{ number_format($groupTemplate->template->options['date']['position_percent_y'], 2) }}%;
-            left: {{ number_format($groupTemplate->template->options['date']['position_percent_x'], 2) }}%;
-            color: {{ $groupTemplate->template->options['date']['color'] }};
-            font-size: {{ $groupTemplate->template->options['date']['font_size'] }}px;
-            font-family: {{ $groupTemplate->template->options['date']['font_family'] }};
+            top: {{ number_format($templateId->options['date']['position_percent_y'], 2) }}%;
+            left: {{ number_format($templateId->options['date']['position_percent_x'], 2) }}%;
+            color: {{ $templateId->options['date']['color'] }};
+            font-size: {{ $templateId->options['date']['font_size'] }}px;
+            font-family: {{ $templateId->options['date']['font_family'] }};
         }
 
     </style>
@@ -62,9 +62,9 @@
             </a>
         </div>
         <div id="canvas" class="card-img-top">
-            <div id="student">malak</div>
-            <div id="course">web</div>
-            <div id="date">20/20/2020</div>
+            <div id="student">{{$studentName}}</div>
+            <div id="course">{{$courseName}}</div>
+            <div id="date">{{$templateId->options['date']['content']}}</div>
            <img id="qrImg" src="https://quickchart.io/qr?text=eeic"></img>
         </div>
     </div>

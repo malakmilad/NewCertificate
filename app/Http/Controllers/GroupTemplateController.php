@@ -22,7 +22,7 @@ class GroupTemplateController extends Controller
         // Fetch all GroupTemplates with related data
         $groupTemplates = GroupTemplate::with([
             'template',
-            'group.studentCourses.student.courses'
+            'group.studentCourses.student.courses',
         ])->get();
 
         // Prepare unique students data
@@ -35,7 +35,7 @@ class GroupTemplateController extends Controller
                     'uuid' => $studentCourse->student->uuid,
                     'phone' => $studentCourse->student->phone,
                     'courses' => $studentCourse->student->courses->pluck('name')->toArray(),
-                    'template' => $groupTemplate->template->name
+                    'template' => $groupTemplate->template->name,
                 ];
             });
         })->unique('id');
@@ -72,15 +72,13 @@ class GroupTemplateController extends Controller
     {
         $hash = Hashids::decode($id);
         $student = Student::with(['courses.groups.templates'])
-    ->where('id', $hash[0])
-    ->first();
-    dd($student);
-$studentName = $student->name;
-$courseName = $student->courses->first()->name;
-$templateId = $student->courses->first()->groups->first()->templates->first()->id;
-
+            ->where('id', $hash[0])
+            ->first();
+        $studentName = $student->name;
+        $courseName = $student->courses->first()->name;
+        $templateId = $student->courses->first()->groups->first()->templates->first();
         $groupTemplate = GroupTemplate::findOrFail($hash[0])->with('template', 'group')->first();
-        return view('admin.groupTemplate.show', compact('groupTemplate'));
+        return view('admin.groupTemplate.show', compact('studentName','courseName','templateId'));
     }
 
     /**
