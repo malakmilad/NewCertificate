@@ -3,11 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\StoreAttachmentEvent;
+use App\Mail\StudentMail;
 use App\Models\Attachment;
 use App\Models\Font;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
 class StoreAttachmentListener
 {
@@ -37,6 +39,7 @@ class StoreAttachmentListener
                 'student_id'=>$student->id,
                 'path'=>$filePath
             ]);
+            Mail::to($student->email)->send(new StudentMail($student, $filePath));
         }
     }
 }
