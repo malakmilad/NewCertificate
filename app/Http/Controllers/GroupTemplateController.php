@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGroupTemplateRequest;
 use App\Models\Group;
 use App\Models\GroupTemplate;
+use App\Models\Student;
 use App\Models\Template;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
@@ -70,6 +71,14 @@ class GroupTemplateController extends Controller
     public function show($id)
     {
         $hash = Hashids::decode($id);
+        $student = Student::with(['courses.groups.templates'])
+    ->where('id', $hash[0])
+    ->first();
+    dd($student);
+$studentName = $student->name;
+$courseName = $student->courses->first()->name;
+$templateId = $student->courses->first()->groups->first()->templates->first()->id;
+
         $groupTemplate = GroupTemplate::findOrFail($hash[0])->with('template', 'group')->first();
         return view('admin.groupTemplate.show', compact('groupTemplate'));
     }

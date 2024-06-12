@@ -13,4 +13,8 @@ class Course extends Model
     {
         return $this->belongsToMany(Student::class, 'student_course');
     }
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_student_course', 'student_course_id', 'group_id');
+    }
 }

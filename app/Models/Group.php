@@ -18,4 +18,8 @@ class Group extends Model
     {
         return $this->belongsToMany(Template::class, 'group_templates');
     }
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'group_student_course', 'group_id', 'student_course_id');
+    }
 }
