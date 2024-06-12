@@ -127,7 +127,7 @@ class TemplateController extends Controller
         ];
         Template::create($data);
 
-        toastr()->success('Data has been saved successfully!');
+        toastr()->success('Template has been saved successfully!');
         return redirect()->route('template.index');
     }
 

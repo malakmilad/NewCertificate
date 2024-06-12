@@ -44,7 +44,6 @@
             font-size: {{ $templateId->options['date']['font_size'] }}px;
             font-family: {{ $templateId->options['date']['font_family'] }};
         }
-
     </style>
 @endpush
 @section('content')
@@ -65,7 +64,7 @@
             <div id="student">{{$studentName}}</div>
             <div id="course">{{$courseName}}</div>
             <div id="date">{{$templateId->options['date']['content']}}</div>
-           <img id="qrImg" src="https://quickchart.io/qr?text=eeic"></img>
+           <img id="qrImg" src="https://quickchart.io/qr?text={{url('scan/'.$studentId)}}"">
         </div>
     </div>
 @endsection

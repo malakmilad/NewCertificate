@@ -114,10 +114,11 @@ class GroupTemplateController extends Controller
             ->where('id', $hash[0])
             ->first();
         $fonts = Font::get();
+        $studentId=$student->id;
         $studentName = $student->name;
         $courseName = $student->courses->first()->name;
         $templateId = $student->courses->first()->groups->first()->templates->first();
-        $studentPdf=Pdf::loadView('admin.pdf.student',compact('studentName','courseName','templateId'));
+        $studentPdf=Pdf::loadView('admin.pdf.student',compact('studentId','studentName','courseName','templateId'));
         return $studentPdf->download($student->name.'.pdf');
     }
 }

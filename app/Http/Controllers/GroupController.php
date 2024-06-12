@@ -37,7 +37,7 @@ class GroupController extends Controller
         Group::create(['name' => $request->name]);
 
         Excel::import(new GroupImport($request->name), $request->file('file'));
-        toastr()->success('Group has been deleted successfully!');
+        toastr()->success('Group has been saved successfully!');
         return redirect()->route('group.index');
     }
 

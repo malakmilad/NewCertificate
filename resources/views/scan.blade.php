@@ -2,25 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    @foreach ($fonts as $font)
-        <style>
-            @font-face {
-                font-family: '{{ $font->name }}';
-                src: url('{{ public_path($font->path) }}') format('truetype');
-            }
-        </style>
-    @endforeach
+    @include('admin.layout.head')
     <style>
-        #canvas {
+           #canvas {
             position: relative;
             width: 100%;
-            height: 395px;
+            height: 673px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             overflow: hidden;
-            background-image: url('{{ public_path($templateId->image) }}');
+            background-image: url('{{ asset($templateId->image) }}');
         }
 
         #course {
@@ -62,13 +54,29 @@
     </style>
 </head>
 
-<body>
-    <div id="canvas" class="card-img-top">
-        <div id="student">{{ $studentName }}</div>
-        <div id="course">{{ $courseName }}</div>
-        <div id="date">{{ $templateId->options['date']['content'] }}</div>
-        <img id="qrImg" src="https://quickchart.io/qr?text={{url('scan/'.$studentId)}}"></img>
+<body id="kt_body" class="bg-white position-relative">
+    <div class="d-flex flex-column flex-root">
+        <div class="mb-n10 mb-lg-n20 z-index-2">
+            <div class="container">
+                <div class="text-center mb-17">
+                    <h3 class="fs-2hx text-dark mb-5" id="how-it-works">Welcome {{ $studentName }}</h3>
+                </div>
+                <div class="tns tns-default">
+                    <div>
+                        <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
+                            <div id="canvas" class="card-rounded shadow mw-100">
+                                <div id="student">{{ $studentName }}</div>
+                                <div id="course">{{ $courseName }}</div>
+                                <div id="date">{{ $templateId->options['date']['content'] }}</div>
+                                <img id="qrImg" src="https://quickchart.io/qr?text={{url('scan/'.$studentId)}}"></img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    @include('admin.layout.scripts')
 </body>
 
 </html>
