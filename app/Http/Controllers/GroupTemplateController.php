@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AttachmentEvent;
 use App\Http\Requests\StoreGroupTemplateRequest;
 use App\Models\Font;
 use App\Models\Group;
@@ -63,6 +64,7 @@ class GroupTemplateController extends Controller
             'group_id' => $request->group_id,
             'template_id' => $request->template_id,
         ]);
+        event(new AttachmentEvent($request->group_id, $request->template_id));
         toastr()->success('Generate has been saved successfully!');
         return redirect()->route('generate.index');
     }
