@@ -50,7 +50,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <a href="" class="btn btn-light-primary mb-10">
+            <a href="{{route('generate.download',Hashids::encode($studentId))}}" class="btn btn-light-primary mb-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
                     <path

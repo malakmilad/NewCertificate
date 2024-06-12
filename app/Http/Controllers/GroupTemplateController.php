@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGroupTemplateRequest;
+use App\Models\Font;
 use App\Models\Group;
 use App\Models\GroupTemplate;
 use App\Models\Student;
 use App\Models\Template;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -74,11 +76,11 @@ class GroupTemplateController extends Controller
         $student = Student::with(['courses.groups.templates'])
             ->where('id', $hash[0])
             ->first();
+        $studentId=$student->id;
         $studentName = $student->name;
         $courseName = $student->courses->first()->name;
         $templateId = $student->courses->first()->groups->first()->templates->first();
-        $groupTemplate = GroupTemplate::findOrFail($hash[0])->with('template', 'group')->first();
-        return view('admin.groupTemplate.show', compact('studentName','courseName','templateId'));
+        return view('admin.groupTemplate.show', compact('studentId','studentName','courseName','templateId'));
     }
 
     /**
@@ -103,5 +105,17 @@ class GroupTemplateController extends Controller
     public function destroy(GroupTemplate $groupTemplate)
     {
         //
+    }
+    public function download($id){
+        $hash = Hashids::decode($id);
+        $student = Student::with(['courses.groups.templates'])
+            ->where('id', $hash[0])
+            ->first();
+        $fonts = Font::get();
+        $studentName = $student->name;
+        $courseName = $student->courses->first()->name;
+        $templateId = $student->courses->first()->groups->first()->templates->first();
+        $studentPdf=Pdf::loadView('admin.pdf.student',compact('studentName','courseName','templateId'));
+        return $studentPdf->download($student->name.'.pdf');
     }
 }

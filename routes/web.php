@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('generate/index','index')->name('generate.index');
         Route::get('generate/create','create')->name('generate.create');
         Route::get('generate/show/{id}','show')->name('generate.show');
+        Route::get('generate/download/{id}','download')->name('generate.download');
         Route::post('generate/store','store')->name('generate.store');
 
     });
