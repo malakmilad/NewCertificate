@@ -41,5 +41,11 @@
 @endsection
 @push('script')
 <script src="{{asset('assets/template/create.js')}}"></script>
+<script>
+    let fonts =
+        @php
+            echo json_encode($fonts);
+        @endphp
+</script>
 <script src="{{asset('assets/template/text.js')}}"></script>
 @endpush

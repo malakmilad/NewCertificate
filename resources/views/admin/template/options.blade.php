@@ -242,7 +242,7 @@
                             <input type="hidden" name="date_y" id="date_y">
                             <input type="hidden" name="width" id="width">
                             <input type="hidden" name="height" id="height">
-                            <input type="hidden" name="count" id="count">
+                            <input type="hidden" name="countText" id="countText">
                         </div>
                     </div>
                     <br>

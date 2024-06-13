@@ -3,7 +3,7 @@ let count = 0;
 $("#textButton").click(function (e) {
     e.preventDefault();
     count++;
-    $("#count").val(count);
+    $("#countText").val(count);
     let text = `<div id="text${count}" style="position: absolute;"></div>`;
     $("#canvas").append(text);
     let newContainer = createContainer(count);
@@ -12,6 +12,7 @@ $("#textButton").click(function (e) {
 });
 
 function createContainer(count) {
+    let fontOptions = fonts.map(font => `<option value="${font.name}">${font.name}</option>`).join('');
     return `
     <div class="mb-5 rounded" id="container${count}">
         <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">Text</h3>
@@ -39,7 +40,8 @@ function createContainer(count) {
             <div class="col-6">
                 <label class="form-label">Font Family</label>
                 <select class="form-select form-select-solid" id="text${count}_font_family" name="text${count}_font_family">
-                    <option disabled="" selected="" value="">Select Font</option>
+                     <option disabled selected value="">Select Font</option>
+                        ${fontOptions}
                 </select>
             </div>
             <input type="hidden" name="text${count}_x" id="text${count}_x">
@@ -53,7 +55,7 @@ function removeText(containerCount) {
     $(`#text${containerCount}`).remove();
     $(`#container${containerCount}`).remove();
     count = containerCount - 1;
-    $("#count").val(count);
+    $("#countText").val(count);
 }
 
 function options(containerCount) {

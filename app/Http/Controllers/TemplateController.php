@@ -121,6 +121,7 @@ class TemplateController extends Controller
                 'position_percent_y' => $qr_percent_y,
             ]
         ];
+        $countText=$request->countText;
         $data = [
             'name' => $template_name,
             'image' => $templateImagePath,
