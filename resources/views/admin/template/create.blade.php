@@ -9,6 +9,7 @@
         background-position: center;
         background-repeat: no-repeat;
         overflow: hidden;
+        background-image: url({{asset('assets/media/illustrations/placeholder.jpg')}});
     }
     #student{
         position: absolute;
