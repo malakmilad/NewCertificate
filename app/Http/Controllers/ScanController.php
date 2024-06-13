@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use Vinkla\Hashids\Facades\Hashids;
 
 class ScanController extends Controller
 {
     public function scan($id){
+        $hash=Hashids::decode($id);
         $student = Student::with(['courses.groups.templates'])
-            ->where('id', $id)
+            ->where('id', $hash[0])
             ->first();
         if(!$student){
             abort(404);

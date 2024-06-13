@@ -67,7 +67,7 @@
         <div id="student">{{ $student->name }}</div>
         <div id="course">{{ $student->courses[0]->name }}</div>
         <div id="date">{{ $template->options['date']['content'] }}</div>
-        <img id="qrImg" src="https://quickchart.io/qr?text={{url('scan/'.$student->id)}}"></img>
+        <img id="qrImg" src="https://quickchart.io/qr?text={{url('scan/'.Hashids::encode($student->id))}}"></img>
     </div>
 </body>
 
