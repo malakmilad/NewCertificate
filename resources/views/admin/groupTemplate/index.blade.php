@@ -32,7 +32,7 @@
                                     <th class="w-25px">ID</th>
                                     <th class="min-w-150px">Name</th>
                                     <th class="min-w-150px">Email</th>
-                                    <th class="min-w-150px">Uuid</th>
+                                    <th class="min-w-150px">NotionalID OR Passport</th>
                                     <th class="min-w-150px">Phone</th>
                                     <th class="min-w-150px">Courses</th>
                                     <th class="min-w-150px">Template</th>
