@@ -32,15 +32,14 @@
                         <div id="student"></div>
                         <div id="course"></div>
                         <div id="date"></div>
-                        <div id="allText"></div>
-                        <div id="allSignature"></div>
                     </div>
                 </div>
             </div>
         </div>
-        @include('admin.template.create_options')
+        @include('admin.template.options')
     </form>
 @endsection
 @push('script')
 <script src="{{asset('assets/template/create.js')}}"></script>
+<script src="{{asset('assets/template/text.js')}}"></script>
 @endpush

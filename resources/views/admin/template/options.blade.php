@@ -66,7 +66,7 @@
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
                             <label class="required form-label">Text</label>
-                            <button onclick="addText()" class="btn btn-light-primary w-100">Add</button>
+                            <div class="btn btn-light-primary w-100" id="textButton">Add</div>
                         </div>
                     </div>
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
@@ -242,6 +242,7 @@
                             <input type="hidden" name="date_y" id="date_y">
                             <input type="hidden" name="width" id="width">
                             <input type="hidden" name="height" id="height">
+                            <input type="hidden" name="count" id="count">
                         </div>
                     </div>
                     <br>

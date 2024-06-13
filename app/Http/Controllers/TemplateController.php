@@ -31,8 +31,9 @@ class TemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTemplateRequest $request)
+    public function store(Request $request)
     {
+        dd($request);
         $template_name = $request->template_name;
         if ($request->file('template_image')) {
             $image = $request->file('template_image');
