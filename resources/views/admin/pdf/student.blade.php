@@ -12,6 +12,17 @@
         </style>
     @endforeach
     <style>
+        @foreach ($templateId->options['texts'] as $index => $text)
+            #text{{ $index }} {
+                position: absolute;
+                top: {{ number_format($text['position_percent_y'], 2) }}%;
+                left: {{ number_format($text['position_percent_x'], 2) }}%;
+                color: {{ $text['color'] }};
+                font-size: {{ $text['font_size'] }}px;
+                font-family: {{ $text['font_family'] }};
+                direction: rtl;
+            }
+        @endforeach
         #canvas {
             position: relative;
             width: 100%;
@@ -67,7 +78,13 @@
         <div id="student">{{ $studentName }}</div>
         <div id="course">{{ $courseName }}</div>
         <div id="date">{{ $templateId->options['date']['content'] }}</div>
-        <img id="qrImg" src="https://quickchart.io/qr?text={{url('scan/'.Hashids::encode($studentId))}}"></img>
+        <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($studentId)) }}"></img>
+        @php
+            $texts = $templateId->options['texts'];
+        @endphp
+        @foreach ($texts as $index => $text)
+            <div id="text{{ $index }}">{{ $text['content'] }}</div>
+        @endforeach
     </div>
 </body>
 

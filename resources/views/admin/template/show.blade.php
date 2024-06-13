@@ -1,6 +1,17 @@
 @extends('admin.layout.app')
 @push('css')
     <style>
+        @foreach ($template->options['texts'] as $index => $text)
+            #text{{ $index }} {
+                position: absolute;
+                top: {{ number_format($text['position_percent_y'], 2) }}%;
+                left: {{ number_format($text['position_percent_x'], 2) }}%;
+                color: {{ $text['color'] }};
+                font-size: {{ $text['font_size'] }}px;
+                font-family: {{ $text['font_family'] }};
+                direction: rtl;
+            }
+        @endforeach
         #canvas {
             position: relative;
             width: 100%;
@@ -11,7 +22,6 @@
             overflow: hidden;
             background-image: url('{{ asset($template->image) }}');
         }
-
         #course {
             position: absolute;
             top: {{ number_format($template->options['course']['position_percent_y'], 2) }}%;
@@ -20,7 +30,6 @@
             font-size: {{ $template->options['course']['font_size'] }}px;
             font-family: {{ $template->options['course']['font_family'] }};
         }
-
         #student {
             position: absolute;
             top: {{ number_format($template->options['student']['position_percent_y'], 2) }}%;
@@ -29,13 +38,15 @@
             font-size: {{ $template->options['student']['font_size'] }}px;
             font-family: {{ $template->options['student']['font_family'] }};
         }
-        #qrImg{
+
+        #qrImg {
             position: absolute;
             top: {{ number_format($template->options['qr_code']['position_percent_y'], 2) }}%;
             left: {{ number_format($template->options['qr_code']['position_percent_x'], 2) }}%;
-            width:75px;
-            height:75px;
+            width: 75px;
+            height: 75px;
         }
+
         #date {
             position: absolute;
             top: {{ number_format($template->options['date']['position_percent_y'], 2) }}%;
@@ -44,7 +55,6 @@
             font-size: {{ $template->options['date']['font_size'] }}px;
             font-family: {{ $template->options['date']['font_family'] }};
         }
-
     </style>
 @endpush
 @section('content')
@@ -53,7 +63,13 @@
             <div id="student">{{ $template->options['student']['content'] }}</div>
             <div id="course">{{ $template->options['course']['content'] }}</div>
             <div id="date">{{ $template->options['date']['content'] }}</div>
-            <img id="qrImg" src="{{$template->options['qr_code']['content']}}"></img>
+            <img id="qrImg" src="{{ $template->options['qr_code']['content'] }}"></img>
+            @php
+                $texts = $template->options['texts'];
+            @endphp
+            @foreach ($texts as $index => $text)
+                <div id="text{{ $index }}">{{ $text['content'] }}</div>
+            @endforeach
         </div>
     </div>
 @endsection

@@ -31,9 +31,8 @@ class TemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTemplateRequest $request)
     {
-        dd($request);
         $template_name = $request->template_name;
         if ($request->file('template_image')) {
             $image = $request->file('template_image');
@@ -82,7 +81,10 @@ class TemplateController extends Controller
         $qr_percent_x = ($qr_x / $width) * 100;
         $qr_percent_y = ($qr_y / $height) * 100;
 
+        $countText=$request->countText;
+
         $options = [
+            'countText'=>$countText,
             'student' => [
                 'content' => $student_content,
                 'color' => $student_color,
@@ -121,7 +123,28 @@ class TemplateController extends Controller
                 'position_percent_y' => $qr_percent_y,
             ]
         ];
-        $countText=$request->countText;
+        $texts = [];
+        for($i = 0; $i <= $countText; $i++){
+            $text_content=$request["text".$i."_content"];
+            $text_color=$request["text".$i."_color"];
+            $text_font_family=$request["text".$i."_font_family"];
+            $text_font_size=$request["text".$i."_font_size"];
+            $text_x=$request["text".$i."_x"];
+            $text_y=$request["text".$i."_y"];
+            $text_percent_x=($text_x/$width)*100;
+            $text_percent_y=($text_y/$height)*100;
+            $texts[]=[
+                'content' => $text_content,
+                'color' => $text_color,
+                'font_family' => $text_font_family,
+                'font_size' => $text_font_size,
+                'position_pixel_x' => $text_x,
+                'position_pixel_y' => $text_y,
+                'position_percent_x' => $text_percent_x,
+                'position_percent_y' => $text_percent_y,
+            ];
+        }
+        $options['texts'] = $texts;
         $data = [
             'name' => $template_name,
             'image' => $templateImagePath,
