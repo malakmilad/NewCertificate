@@ -22,6 +22,15 @@
                 font-family: {{ $text['font_family'] }};
             }
         @endforeach
+        @foreach ($template->options['signatures'] as $key => $signature)
+            #signature{{ $key }} {
+                position: absolute;
+                top: {{ number_format($signature['position_percent_y'], 2) }}%;
+                left: {{ number_format($signature['position_percent_x'], 2) }}%;
+                width: 100px;
+                heigth: 100px;
+            }
+        @endforeach
         #canvas {
             position: relative;
             width: 100%;
@@ -83,6 +92,12 @@
         @endphp
         @foreach ($texts as $index => $text)
             <div id="text{{ $index }}">{{ $text['content'] }}</div>
+        @endforeach
+        @php
+            $signatures = $template->options['signatures'];
+        @endphp
+        @foreach ($signatures as $key => $signature)
+            <img id="signature{{ $key }}" src="{{ public_path($signature['content']) }}"></img>
         @endforeach
     </div>
 </body>
