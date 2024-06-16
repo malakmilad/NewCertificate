@@ -81,14 +81,11 @@ class TemplateController extends Controller
         $qr_percent_x = ($qr_x / $width) * 100;
         $qr_percent_y = ($qr_y / $height) * 100;
 
-        $countText=$request->countText;
-
         $options = [
-            'countText'=>$countText,
             'student' => [
                 'content' => $student_content,
                 'color' => $student_color,
-                'font_size' =>$student_font_size,
+                'font_size' => $student_font_size,
                 'font_family' => $student_font_family,
                 'position_pixel_x' => $student_x,
                 'position_pixel_y' => $student_y,
@@ -98,7 +95,7 @@ class TemplateController extends Controller
             'course' => [
                 'content' => $course_content,
                 'color' => $course_color,
-                'font_size' =>$course_font_size,
+                'font_size' => $course_font_size,
                 'font_family' => $course_font_family,
                 'position_pixel_x' => $course_x,
                 'position_pixel_y' => $course_y,
@@ -106,14 +103,14 @@ class TemplateController extends Controller
                 'position_percent_y' => $course_percent_y,
             ],
             'date' => [
-                    'content' => $date_content,
-                    'color' => $date_color,
-                    'font_size' => $date_font_size,
-                    'font_family' => $date_font_family,
-                    'position_pixel_x' =>$date_x,
-                    'position_pixel_y' => $date_y,
-                    'position_percent_x' => $date_percent_x,
-                    'position_percent_y' => $date_percent_y,
+                'content' => $date_content,
+                'color' => $date_color,
+                'font_size' => $date_font_size,
+                'font_family' => $date_font_family,
+                'position_pixel_x' => $date_x,
+                'position_pixel_y' => $date_y,
+                'position_percent_x' => $date_percent_x,
+                'position_percent_y' => $date_percent_y,
             ],
             'qr_code' => [
                 'content' => $qr_content,
@@ -121,19 +118,20 @@ class TemplateController extends Controller
                 'position_pixel_y' => $qr_y,
                 'position_percent_x' => $qr_percent_x,
                 'position_percent_y' => $qr_percent_y,
-            ]
+            ],
         ];
         $texts = [];
-        for($i = 0; $i <= $countText; $i++){
-            $text_content=$request["text".$i."_content"];
-            $text_color=$request["text".$i."_color"];
-            $text_font_family=$request["text".$i."_font_family"];
-            $text_font_size=$request["text".$i."_font_size"];
-            $text_x=$request["text".$i."_x"];
-            $text_y=$request["text".$i."_y"];
-            $text_percent_x=($text_x/$width)*100;
-            $text_percent_y=($text_y/$height)*100;
-            $texts[]=[
+        $countText = $request->countText;
+        for ($i = 0; $i <= $countText; $i++) {
+            $text_content = $request["text" . $i . "_content"];
+            $text_color = $request["text" . $i . "_color"];
+            $text_font_family = $request["text" . $i . "_font_family"];
+            $text_font_size = $request["text" . $i . "_font_size"];
+            $text_x = $request["text" . $i . "_x"];
+            $text_y = $request["text" . $i . "_y"];
+            $text_percent_x = ($text_x / $width) * 100;
+            $text_percent_y = ($text_y / $height) * 100;
+            $texts[] = [
                 'content' => $text_content,
                 'color' => $text_color,
                 'font_family' => $text_font_family,
@@ -145,6 +143,30 @@ class TemplateController extends Controller
             ];
         }
         $options['texts'] = $texts;
+
+        $signatures = [];
+        $countSignature = $request->countSignature;
+        for ($x = 0; $x <= $countSignature; $x++) {
+            $signature_x = $request["signature" . $x . "_x"];
+            $signature_y = $request["signature" . $x . "_y"];
+            $signature_percent_x = ($signature_x / $width) * 100;
+            $signature_percent_y = ($signature_y / $height) * 100;
+            if ($request->file("signature".$x."_content")) {
+                $signature = $request->file("signature".$x."_content");
+                $exten = $signature->getClientOriginalExtension();
+                $newFile = $template_name . $x . '.' . $exten;
+                $signature->move('signature', $newFile);
+                $signaturePath = 'signature/' . $newFile;
+                $signatures[] = [
+                    'content' => $signaturePath,
+                    'position_pixel_x' => $signature_x,
+                    'position_pixel_y' => $signature_y,
+                    'position_percent_x' => $signature_percent_x,
+                    'position_percent_y' => $signature_percent_y,
+                ];
+            }
+        }
+        $options['signatures']=$signatures;
         $data = [
             'name' => $template_name,
             'image' => $templateImagePath,
@@ -162,8 +184,8 @@ class TemplateController extends Controller
     public function show($id)
     {
         $hash = Hashids::decode($id);
-        $template=Template::findOrFail($hash[0]);
-        return view('admin.template.show',compact('template'));
+        $template = Template::findOrFail($hash[0]);
+        return view('admin.template.show', compact('template'));
     }
 
     /**
@@ -188,8 +210,8 @@ class TemplateController extends Controller
     public function destroy($id)
     {
         $hash = Hashids::decode($id);
-        $template=Template::findOrFail($hash[0]);
-        if($template->template_imag){
+        $template = Template::findOrFail($hash[0]);
+        if ($template->template_imag) {
             $path = public_path($template->template_image);
             if (file_exists($path)) {
                 unlink($path);

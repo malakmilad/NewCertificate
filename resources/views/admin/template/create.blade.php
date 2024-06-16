@@ -49,4 +49,6 @@
         @endphp
 </script>
 <script src="{{asset('assets/template/text.js')}}"></script>
+<script src="{{asset('assets/template/signature.js')}}"></script>
+
 @endpush
