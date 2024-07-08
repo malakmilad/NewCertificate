@@ -20,6 +20,7 @@
                 color: {{ $text['color'] }};
                 font-size: {{ $text['font_size'] }}px;
                 font-family: {{ $text['font_family'] }};
+                direction: rtl;
             }
         @endforeach
         @foreach ($template->options['signatures'] as $key => $signature)
