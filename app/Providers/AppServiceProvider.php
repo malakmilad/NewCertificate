@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             StoreAttachmentEvent::class,
             StoreAttachmentListener::class,
         );
-        // $fonts=Font::get();
-        // View::share('fonts',$fonts);
+        $fonts=Font::get();
+        View::share('fonts',$fonts);
     }
 }
