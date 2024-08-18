@@ -6,6 +6,7 @@
  */
 namespace Dompdf\Renderer;
 
+use ArPHP\I18N\Arabic;
 use Dompdf\Adapter\CPDF;
 use Dompdf\Frame;
 
