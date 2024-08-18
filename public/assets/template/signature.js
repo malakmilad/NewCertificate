@@ -56,6 +56,7 @@ function optionsSignature(counter) {
         }
     });
     $(`#signature${counter}`).draggable({
+        cursor: "move",
         containment: "parent",
         stop: function (event, ui) {
             const position = ui.position;
