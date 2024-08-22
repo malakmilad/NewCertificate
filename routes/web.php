@@ -9,7 +9,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('scan/{id}', [ScanController::class, 'scan']);
 Route::get('/', function () {
-    return view('auth.login');
+    $domain = 'e-certificates.eeic.gov.eg'; // Replace with your domain
+
+$dns_records = dns_get_record($domain, DNS_ALL);
+
+foreach ($dns_records as $record) {
+    echo 'Type: ' . $record['type'] . PHP_EOL;
+    echo 'Host: ' . $record['host'] . PHP_EOL;
+    echo 'IP/Value: ' . (isset($record['ip']) ? $record['ip'] : $record['txt']) . PHP_EOL;
+    echo PHP_EOL;
+}
+die();
+    // return view('auth.login');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');
