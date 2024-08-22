@@ -112,7 +112,7 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'noreply@eeic.gov.eg'),
         'name' => env('MAIL_FROM_NAME', 'EEIC'),
     ],
-    'reply_to' => ['address' => 'eeic@entlaqa.com', 'name' => 'EEIC'],
+    'reply_to' => ['address' => 'noreply@eeic.gov.eg', 'name' => 'EEIC'],
 
 
 

@@ -25,7 +25,7 @@ class StudentMail extends Mailable
         $this->path=$path;
     }
     public function build(){
-        return $this->from('noreply@eeic.gov.eg', 'entlaqa') // Override the from email and name here if needed
+        return $this->from('noreply@eeic.gov.eg', 'EEIC') // Override the from email and name here if needed
                     ->view('admin.pdf.mail')
                     ->subject('Your PDF Document')
                     ->attach($this->path)
