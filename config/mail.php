@@ -12,7 +12,7 @@ return [
     | the message. All additional mailers can be configured within the
     | "mailers" array. Examples of each type of mailer are provided.
     |
-    */
+     */
 
     'default' => env('MAIL_MAILER', 'log'),
 
@@ -33,10 +33,15 @@ return [
     |            "postmark", "resend", "log", "array",
     |            "failover", "roundrobin"
     |
-    */
+     */
 
     'mailers' => [
-
+        'mailgun' => [
+            'transport' => 'mailgun',
+            // 'client' => [
+            //     'timeout' => 5,
+            // ],
+        ],
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
@@ -106,14 +111,12 @@ return [
     | the same address. Here you may specify a name and address that is
     | used globally for all emails that are sent by your application.
     |
-    */
+     */
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'noreply@eeic.gov.eg'),
         'name' => env('MAIL_FROM_NAME', 'EEIC'),
     ],
     'reply_to' => ['address' => 'noreply@eeic.gov.eg', 'name' => 'EEIC'],
-
-
 
 ];
