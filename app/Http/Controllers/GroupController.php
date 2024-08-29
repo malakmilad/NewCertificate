@@ -6,6 +6,7 @@ use App\Exports\GroupExport;
 use App\Http\Requests\StoreGroupRequest;
 use App\Imports\GroupImport;
 use App\Models\Group;
+use App\Models\GroupStudentCourse;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Vinkla\Hashids\Facades\Hashids;
@@ -17,8 +18,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups=Group::get();
-        return view('admin.group.index',compact('groups'));
+        $groups = Group::get();
+        return view('admin.group.index', compact('groups'));
     }
 
     /**
@@ -35,7 +36,6 @@ class GroupController extends Controller
     public function store(StoreGroupRequest $request)
     {
         Group::create(['name' => $request->name]);
-
         Excel::import(new GroupImport($request->name), $request->file('file'));
         toastr()->success('Group has been saved successfully!');
         return redirect()->route('group.index');
@@ -47,14 +47,25 @@ class GroupController extends Controller
     public function show($id)
     {
         $hash = Hashids::decode($id);
-        $students = Group::find($hash[0])
-        ->studentCourses()
-        ->with(['student.courses'])
-        ->get()
-        ->pluck('student')
-        ->unique('id')
-        ->values();
-        return view('admin.group.show',compact('students'));
+        $groupId = $hash[0];
+
+        // Fetch students along with the specific course they are enrolled in for that group
+        $students = GroupStudentCourse::where('group_id', $groupId)
+            ->with(['studentCourse.student', 'studentCourse.course'])
+            ->get()
+            ->map(function ($groupStudentCourse) {
+                return [
+                    'student' => $groupStudentCourse->studentCourse->student,
+                    'course' => $groupStudentCourse->studentCourse->course,
+                ];
+            })
+            ->groupBy('student.id')
+            ->map(function ($grouped) {
+                return $grouped->first();
+            })
+            ->values();
+
+        return view('admin.group.show', compact('students'));
     }
 
     /**
@@ -80,7 +91,8 @@ class GroupController extends Controller
     {
         //
     }
-    public function export(){
-        return Excel::download(new GroupExport,'group.xlsx');
+    public function export()
+    {
+        return Excel::download(new GroupExport, 'group.xlsx');
     }
 }

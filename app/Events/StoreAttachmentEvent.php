@@ -19,10 +19,12 @@ class StoreAttachmentEvent
      */
     public $students;
     public $template;
-    public function __construct($students,$template)
+    public $group;
+    public function __construct($students,$template,$group)
     {
         $this->students=$students;
         $this->template=$template;
+        $this->group=$group;
     }
 
     /**

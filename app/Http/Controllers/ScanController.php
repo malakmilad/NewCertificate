@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Student;
+use App\Models\Template;
 use Vinkla\Hashids\Facades\Hashids;
 
 class ScanController extends Controller
 {
-    public function scan($id){
+    public function scan($id,$course_id,$templateId){
         $hash=Hashids::decode($id);
         $student = Student::with(['courses.groups.templates'])
             ->where('id', $hash[0])
@@ -17,8 +19,8 @@ class ScanController extends Controller
         }
         $studentId=$student->id;
         $studentName = $student->name;
-        $courseName = $student->courses->first()->name;
-        $templateId = $student->courses->first()->groups->first()->templates->first();
+        $courseName = Course::findOrFail($course_id)['name'];
+        $templateId = Template::findOrFail($templateId);
         return view('scan', compact('studentId','studentName','courseName','templateId'));
     }
 }

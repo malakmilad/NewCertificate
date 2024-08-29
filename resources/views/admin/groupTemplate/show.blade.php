@@ -71,7 +71,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <a href="{{ route('generate.download', Hashids::encode($studentId)) }}" class="btn btn-light-primary mb-10">
+            <a href="{{ route('generate.download',[Hashids::encode($studentId),$course_id,$templateId]) }}" class="btn btn-light-primary mb-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
                     <path
@@ -86,7 +86,7 @@
             <div id="student">{{ $studentName }}</div>
             <div id="course">{{ $courseName }}</div>
             <div id="date">{{ $templateId->options['date']['content'] }}</div>
-            <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($studentId)) }}">
+            <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . [Hashids::encode($studentId),$course_id,$templateId]) }}">
             @php
                 $texts = $templateId->options['texts'];
             @endphp

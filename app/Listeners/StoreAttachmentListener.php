@@ -26,20 +26,31 @@ class StoreAttachmentListener
      */
     public function handle(StoreAttachmentEvent $event): void
     {
-        $students=$event->students;
-        foreach($students as $student){
-            $fonts=Font::get();
-            $template=$event->template;
-            $studentAttachment=Pdf::loadView('admin.pdf.view',compact('fonts','student','template'));
-            $attachmentPath=public_path('attachment');
-            $fileName="{$student->name}.pdf";
-            $filePath="{$attachmentPath}/{$fileName}";
-            $studentAttachment->save($filePath);
-            Attachment::create([
-                'student_id'=>$student->id,
-                'path'=>$filePath
-            ]);
-            Mail::to($student->email)->send(new StudentMail($student, $filePath));
+        $students = $event->students;
+        $template = $event->template;
+        $group = $event->group;
+        foreach ($students as $student) {
+            $studentCourse = $student->courses->filter(function ($course) use ($group) {
+                return $course->groups->contains($group);
+            })->first();
+            if ($studentCourse) {
+                $fonts = Font::get();
+                $studentAttachment = Pdf::loadView('admin.pdf.view', [
+                    'fonts' => $fonts,
+                    'student' => $student,
+                    'course' => $studentCourse,
+                    'template' => $template,
+                ]);
+                $attachmentPath = public_path('attachment');
+                $fileName = "{$student->name}_{$studentCourse->name}.pdf";
+                $filePath = "{$attachmentPath}/{$fileName}";
+                $studentAttachment->save($filePath);
+                Attachment::updateOrCreate(
+                    ['student_id' => $student->id, 'path' => $filePath],
+                    ['path' => $filePath]
+                );
+                Mail::to($student->email)->send(new StudentMail($student, $filePath));
+            }
         }
     }
 }

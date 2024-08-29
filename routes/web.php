@@ -7,7 +7,7 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('scan/{id}', [ScanController::class, 'scan']);
+Route::get('scan/{id}/{course_id}/{template_id}', [ScanController::class, 'scan']);
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -40,8 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(GroupTemplateController::class)->group(function () {
         Route::get('generate/index', 'index')->name('generate.index');
         Route::get('generate/create', 'create')->name('generate.create');
-        Route::get('generate/show/{id}', 'show')->name('generate.show');
-        Route::get('generate/download/{id}', 'download')->name('generate.download');
+        Route::get('generate/show/{id}/{course_id}/{template_id}', 'show')->name('generate.show');
+        Route::get('generate/download/{id}/{course_id}/{template_id}', 'download')->name('generate.download');
         Route::post('generate/store', 'store')->name('generate.store');
 
     });

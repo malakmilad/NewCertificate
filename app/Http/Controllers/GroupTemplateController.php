@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\AttachmentEvent;
 use App\Http\Requests\StoreGroupTemplateRequest;
+use App\Models\Course;
 use App\Models\Font;
 use App\Models\Group;
 use App\Models\GroupTemplate;
@@ -20,29 +21,37 @@ class GroupTemplateController extends Controller
      */
     public function index()
     {
-        $groups = Group::get();
-        $templates = Template::get();
-        // Fetch all GroupTemplates with related data
+        $groups = Group::all();
+        $templates = Template::all();
         $groupTemplates = GroupTemplate::with([
             'template',
             'group.studentCourses.student.courses',
         ])->get();
-
-        // Prepare unique students data
         $students = $groupTemplates->flatMap(function ($groupTemplate) {
-            return $groupTemplate->group->studentCourses->map(function ($studentCourse) use ($groupTemplate) {
-                return [
-                    'id' => $studentCourse->student->id,
-                    'name' => $studentCourse->student->name,
-                    'email' => $studentCourse->student->email,
-                    'uuid' => $studentCourse->student->uuid,
-                    'phone' => $studentCourse->student->phone,
-                    'courses' => $studentCourse->student->courses->pluck('name')->toArray(),
-                    'template' => $groupTemplate->template->name,
-                ];
+            $group = $groupTemplate->group;
+
+            return $group->studentCourses->flatMap(function ($studentCourse) use ($groupTemplate) {
+                $student = $studentCourse->student;
+                $courses = $student->courses->filter(function ($course) use ($studentCourse) {
+                    return $studentCourse->course_id == $course->id;
+                });
+                return $courses->map(function ($course) use ($student, $groupTemplate) {
+                    return [
+                        'id' => $student->id,
+                        'name' => $student->name,
+                        'email' => $student->email,
+                        'uuid' => $student->uuid,
+                        'phone' => $student->phone,
+                        'course_id' => $course->id,
+                        'course' => $course->name,
+                        'template' => $groupTemplate->template->name,
+                        'template_id' => $groupTemplate->template->id,
+                    ];
+                });
             });
-        })->unique('id');
-        return view('admin.groupTemplate.index', compact('groups', 'templates', 'students'));
+        });
+
+        return view('admin.groupTemplate.index', compact('students', 'groups', 'templates'));
     }
 
     /**
@@ -72,17 +81,17 @@ class GroupTemplateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($id,$course_id,$templateId)
     {
         $hash = Hashids::decode($id);
         $student = Student::with(['courses.groups.templates'])
             ->where('id', $hash[0])
             ->first();
-        $studentId=$student->id;
+        $studentId = $student->id;
         $studentName = $student->name;
-        $courseName = $student->courses->first()->name;
-        $templateId = $student->courses->first()->groups->first()->templates->first();
-        return view('admin.groupTemplate.show', compact('studentId','studentName','courseName','templateId'));
+        $courseName = Course::findOrFail($course_id)['name'];
+        $templateId = Template::findOrFail($templateId);
+        return view('admin.groupTemplate.show', compact('studentId', 'studentName','course_id', 'courseName', 'templateId'));
     }
 
     /**
@@ -108,17 +117,18 @@ class GroupTemplateController extends Controller
     {
         //
     }
-    public function download($id){
+    public function download($id,$course_id,$templateId)
+    {
         $hash = Hashids::decode($id);
         $student = Student::with(['courses.groups.templates'])
             ->where('id', $hash[0])
             ->first();
         $fonts = Font::get();
-        $studentId=$student->id;
+        $studentId = $student->id;
         $studentName = $student->name;
-        $courseName = $student->courses->first()->name;
-        $templateId = $student->courses->first()->groups->first()->templates->first();
-        $studentPdf=Pdf::loadView('admin.pdf.student',compact('studentId','studentName','courseName','templateId'));
-        return $studentPdf->download($student->name.'.pdf');
+        $courseName = Course::findOrFail($course_id)['name'];
+        $templateId = Template::findOrFail($templateId);
+        $studentPdf = Pdf::loadView('admin.pdf.student', compact('studentId', 'studentName', 'courseName','course_id', 'templateId'));
+        return $studentPdf->download($student->name.'_'.$courseName . '.pdf');
     }
 }
