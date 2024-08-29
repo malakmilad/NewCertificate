@@ -85,9 +85,9 @@
 <body>
     <div id="canvas" class="card-img-top">
         <div id="student">{{ $student->name }}</div>
-        <div id="course">{{ $course->name }}</div> <!-- Display the relevant course -->
+        <div id="course">{{ $course->name }}</div>
         <div id="date">{{ $template->options['date']['content'] }}</div>
-        <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($student->id)) }}"></img>
+        <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($student->id).'/'. $course->id.'/'.$template->id) }}">
         @php
             $texts = $template->options['texts'];
         @endphp

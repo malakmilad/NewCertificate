@@ -21,6 +21,6 @@ class ScanController extends Controller
         $studentName = $student->name;
         $courseName = Course::findOrFail($course_id)['name'];
         $templateId = Template::findOrFail($templateId);
-        return view('scan', compact('studentId','studentName','courseName','templateId'));
+        return view('scan', compact('studentId','studentName','courseName','course_id','templateId'));
     }
 }

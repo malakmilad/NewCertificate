@@ -88,8 +88,8 @@
                                 <div id="student">{{ $studentName }}</div>
                                 <div id="course">{{ $courseName }}</div>
                                 <div id="date">{{ $templateId->options['date']['content'] }}</div>
-                                <img id="qrImg"
-                                    src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($studentId)) }}">
+                                <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($studentId).'/'. $course_id.'/'.$templateId->id) }}">
+
                                 @php
                                     $texts = $templateId->options['texts'];
                                 @endphp

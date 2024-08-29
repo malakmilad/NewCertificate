@@ -69,7 +69,7 @@ class GroupTemplateController extends Controller
      */
     public function store(StoreGroupTemplateRequest $request)
     {
-        GroupTemplate::create([
+        GroupTemplate::updateOrCreate([
             'group_id' => $request->group_id,
             'template_id' => $request->template_id,
         ]);

@@ -6,6 +6,7 @@ use App\Events\AttachmentEvent;
 use App\Events\StoreAttachmentEvent;
 use App\Models\Group;
 use App\Models\Template;
+use Illuminate\Support\Facades\DB;
 
 class AttachmentListener
 {
@@ -24,15 +25,16 @@ class AttachmentListener
     {
         $template = Template::findOrFail($event->template_id);
         $group = Group::findOrFail($event->group_id);
-        $students = $group->studentCourses()
-            ->with(['student.courses' => function($query) use ($group) {
-                $query->whereHas('groups', function($query) use ($group) {
-                    $query->where('group_id', $group->id);
-                });
-            }])
-            ->get()
-            ->pluck('student')
-            ->unique('id');
+        $students = DB::table('students')
+            ->join('student_course', 'students.id', '=', 'student_course.student_id')
+            ->join('group_student_course', 'student_course.id', '=', 'group_student_course.student_course_id')
+            ->join('groups', 'group_student_course.group_id', '=', 'groups.id')
+            ->join('group_templates', 'groups.id', '=', 'group_templates.group_id')
+            ->where('group_templates.template_id', $event->template_id)
+            ->where('groups.id', $event->group_id)
+            ->select('students.*')
+            ->distinct()
+            ->get();
         event(new StoreAttachmentEvent($students, $template, $group));
     }
 
