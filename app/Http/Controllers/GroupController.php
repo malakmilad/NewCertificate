@@ -7,6 +7,7 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Imports\GroupImport;
 use App\Models\Group;
 use App\Models\GroupStudentCourse;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Vinkla\Hashids\Facades\Hashids;
@@ -49,21 +50,15 @@ class GroupController extends Controller
         $hash = Hashids::decode($id);
         $groupId = $hash[0];
 
-        // Fetch students along with the specific course they are enrolled in for that group
-        $students = GroupStudentCourse::where('group_id', $groupId)
-            ->with(['studentCourse.student', 'studentCourse.course'])
-            ->get()
-            ->map(function ($groupStudentCourse) {
-                return [
-                    'student' => $groupStudentCourse->studentCourse->student,
-                    'course' => $groupStudentCourse->studentCourse->course,
-                ];
-            })
-            ->groupBy('student.id')
-            ->map(function ($grouped) {
-                return $grouped->first();
-            })
-            ->values();
+        $students = Student::select('students.id', 'students.name', 'students.email', 'students.uuid', 'students.phone', 'courses.name as course_name')
+            ->join('student_course', 'students.id', '=', 'student_course.student_id')
+            ->join('group_student_course', 'student_course.id', '=', 'group_student_course.student_course_id')
+            ->join('courses', 'student_course.course_id', '=', 'courses.id')
+            ->where('group_student_course.group_id', $groupId)
+            ->get();
+
+        // dd($students);
+
 
         return view('admin.group.show', compact('students'));
     }

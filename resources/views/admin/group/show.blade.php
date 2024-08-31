@@ -23,15 +23,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($students as $studentData)
+                                @foreach ($students as $student)
                                     <tr>
-                                        <td>{{ $studentData['student']->id }}</td>
-                                        <td>{{ $studentData['student']->name }}</td>
-                                        <td>{{ $studentData['student']->email }}</td>
-                                        <td>{{ $studentData['student']->uuid }}</td>
-                                        <td>{{ $studentData['student']->phone }}</td>
+                                        <td>{{ $student->id }}</td>
+                                        <td>{{ $student->name }}</td>
+                                        <td>{{ $student->email }}</td>
+                                        <td>{{ $student->uuid }}</td>
+                                        <td>{{ $student->phone }}</td>
                                         <td>
-                                            <span class="badge badge-light-danger">{{ $studentData['course']->name }}</span>
+                                            <span class="badge badge-light-danger">{{ $student->course_name }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
