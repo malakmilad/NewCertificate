@@ -30,12 +30,13 @@
                             <thead>
                                 <tr class="fw-bolder text-muted">
                                     <th class="w-25px">ID</th>
-                                    <th class="min-w-150px">Name</th>
+                                    <th class="min-w-100px">Name</th>
                                     <th class="min-w-150px">Email</th>
                                     <th class="min-w-150px">NotionalID OR Passport</th>
                                     <th class="min-w-150px">Phone</th>
                                     <th class="min-w-150px">Courses</th>
-                                    <th class="min-w-150px">Template</th>
+                                    <th class="min-w-100px">Template</th>
+                                    <th class="min-w-100px">Group</th>
                                     <th class="min-w-100px text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -49,6 +50,7 @@
                                         <td>{{ $student['phone'] }}</td>
                                         <td><span class="badge badge-light-danger">{{ $student['course'] }}</span></td> <!-- Single course per row -->
                                         <td>{{ $student['template'] }}</td>
+                                        <td>{{ $student['group']['name'] }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
                                                 <a href="{{ route('generate.show', [Hashids::encode($student['id']), $student['course_id'],$student['template_id']]) }}"

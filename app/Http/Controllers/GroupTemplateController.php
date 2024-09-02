@@ -33,6 +33,7 @@ class GroupTemplateController extends Controller
             return $groupTemplate->group->enrollments->map(function ($enrollment) use ($groupTemplate) {
                 $student = $enrollment->student;
                 $course = $enrollment->course;
+                $group=$enrollment->group;
                 return [
                     'id' => $student->id,
                     'name' => $student->name,
@@ -43,6 +44,7 @@ class GroupTemplateController extends Controller
                     'course' => $course->name,
                     'template' => $groupTemplate->template->name,
                     'template_id' => $groupTemplate->template->id,
+                    'group'=>$group
                 ];
             });
         });

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class StudentMail extends Mailable
+class ArabicStudentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,7 +19,6 @@ class StudentMail extends Mailable
     public $student;
     public $path;
     public $course;
-
     public function __construct($student,$path,$course)
     {
         $this->student = $student;
@@ -29,6 +28,7 @@ class StudentMail extends Mailable
     public function build(){
         return $this->from('noreply@eeic.gov.eg', 'EEIC')
                     ->view('admin.mail.arabic')
+                    ->subject('شهادة إتمام البرنامج التدريبي')
                     ->attach($this->path)
                     ->with([
                         'student' => $this->student,

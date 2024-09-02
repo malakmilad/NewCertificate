@@ -3,14 +3,16 @@
 namespace App\Listeners;
 
 use App\Events\StoreAttachmentEvent;
+use App\Mail\ArabicStudentMail;
+use App\Mail\EnglishStudentMail;
 use App\Mail\StudentMail;
 use App\Models\Attachment;
 use App\Models\Course;
 use App\Models\Font;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use LanguageDetector\LanguageDetector;
 
 class StoreAttachmentListener
 {
@@ -32,20 +34,20 @@ class StoreAttachmentListener
         $group = $event->group;
 
         foreach ($students as $student) {
-            $studentId=$student->id;
-            $groupId=$group->id;
-            $templateId=$template->id;
-            $courses = Course::whereHas('enrollments', function($query) use ($studentId, $groupId, $templateId) {
+            $studentId = $student->id;
+            $groupId = $group->id;
+            $templateId = $template->id;
+            $courses = Course::whereHas('enrollments', function ($query) use ($studentId, $groupId, $templateId) {
                 $query->where('student_id', $studentId)
-                      ->where('group_id', $groupId)
-                      ->whereHas('group.templates', function($templateQuery) use ($templateId) {
-                          $templateQuery->where('template_id', $templateId);
-                      });
+                    ->where('group_id', $groupId)
+                    ->whereHas('group.templates', function ($templateQuery) use ($templateId) {
+                        $templateQuery->where('template_id', $templateId);
+                    });
             })->get();
             foreach ($courses as $course) {
                 if ($course) {
                     $fonts = Font::get();
-                    $data=[
+                    $data = [
                         'fonts' => $fonts,
                         'student' => $student,
                         'course' => $course,
@@ -60,8 +62,16 @@ class StoreAttachmentListener
                         'student_id' => $student->id,
                         'path' => $filePath,
                     ]);
-                    Mail::to($student->email)->send(new StudentMail($student, $filePath));
-                    Log::info('Mail sent successfully to ' . $student->email . ' for course ' . $course->name.' template '.$template->name);
+                    $detector = new LanguageDetector();
+
+                    $language = $detector->evaluate($course->name)->getLanguage();
+
+                    if ($language == 'ar') {
+                        Mail::to($student->email)->send(new ArabicStudentMail($student, $filePath,$course));
+                    } else {
+                        Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath,$course));
+                    }
+                    Log::info('Mail sent successfully to ' . $student->email . ' for course ' . $course->name . ' template ' . $template->name);
                 }
             }
         }
