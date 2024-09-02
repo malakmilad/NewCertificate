@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class EnrollmentTemplate extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function enrollments()
+    public function template()
     {
-        return $this->hasMany(Enrollment::class);
+        return $this->belongsTo(Template::class);
     }
 
-    public function attachments()
+    public function group()
     {
-        return $this->hasMany(Attachment::class);
+        return $this->belongsTo(Group::class);
     }
 }

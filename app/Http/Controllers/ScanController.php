@@ -10,17 +10,19 @@ use Vinkla\Hashids\Facades\Hashids;
 class ScanController extends Controller
 {
     public function scan($id,$course_id,$templateId){
-        $hash=Hashids::decode($id);
-        $student = Student::with(['courses.groups.templates'])
-            ->where('id', $hash[0])
-            ->first();
-        if(!$student){
-            abort(404);
-        }
-        $studentId=$student->id;
-        $studentName = $student->name;
-        $courseName = Course::findOrFail($course_id)['name'];
-        $templateId = Template::findOrFail($templateId);
-        return view('scan', compact('studentId','studentName','courseName','course_id','templateId'));
+        $hash = Hashids::decode($id);
+        $studentId = $hash[0];
+
+        $student = Student::with(['enrollments' => function ($query) use ($course_id) {
+            $query->where('id', $course_id);
+        }])->findOrFail($studentId);
+        $course = Course::findOrFail($course_id);
+        $template = Template::findOrFail($templateId);
+        $data = [
+            'student' => $student,
+            'course' => $course,
+            'template' => $template,
+        ];
+        return view('scan', $data);
     }
 }

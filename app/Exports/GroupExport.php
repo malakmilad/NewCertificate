@@ -28,7 +28,7 @@ class GroupExport implements FromArray, WithMapping, WithHeadings, WithColumnWid
         return [
             "Student Name",
             "Email",
-            "NationalID OR PassportID",
+            "National ID OR Passport ID",
             "Phone",
             "Course Name",
         ];

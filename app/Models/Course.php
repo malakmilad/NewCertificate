@@ -9,12 +9,8 @@ class Course extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function students()
+    public function enrollments()
     {
-        return $this->belongsToMany(Student::class, 'student_course');
-    }
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'group_student_course', 'student_course_id', 'group_id');
+        return $this->hasMany(Enrollment::class);
     }
 }

@@ -15,8 +15,8 @@ class Template extends Model
             'options' => 'array',
         ];
     }
-    public function groups()
+    public function enrollmentTemplates()
     {
-        return $this->belongsToMany(Group::class, 'group_templates');
+        return $this->hasMany(EnrollmentTemplate::class);
     }
 }

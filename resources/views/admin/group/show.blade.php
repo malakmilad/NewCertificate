@@ -31,7 +31,11 @@
                                         <td>{{ $student->uuid }}</td>
                                         <td>{{ $student->phone }}</td>
                                         <td>
-                                            <span class="badge badge-light-danger">{{ $student->course_name }}</span>
+                                            @foreach ($student->enrollments as $enrollment)
+                                                <span
+                                                    class="badge badge-light-danger">{{ $enrollment->course->name }}
+                                                </span>
+                                            @endforeach
                                         </td>
                                     </tr>
                                 @endforeach

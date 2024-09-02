@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\AttachmentEvent;
-use App\Http\Requests\StoreGroupTemplateRequest;
 use App\Models\Course;
+use App\Models\EnrollmentTemplate;
 use App\Models\Font;
 use App\Models\Group;
 use App\Models\GroupTemplate;
@@ -21,37 +21,37 @@ class GroupTemplateController extends Controller
      */
     public function index()
     {
+        // Retrieve all groups and templates
         $groups = Group::all();
         $templates = Template::all();
-        $groupTemplates = GroupTemplate::with([
-            'template',
-            'group.studentCourses.student.courses',
-        ])->get();
-        $students = $groupTemplates->flatMap(function ($groupTemplate) {
-            $group = $groupTemplate->group;
 
-            return $group->studentCourses->flatMap(function ($studentCourse) use ($groupTemplate) {
-                $student = $studentCourse->student;
-                $courses = $student->courses->filter(function ($course) use ($studentCourse) {
-                    return $studentCourse->course_id == $course->id;
-                });
-                return $courses->map(function ($course) use ($student, $groupTemplate) {
-                    return [
-                        'id' => $student->id,
-                        'name' => $student->name,
-                        'email' => $student->email,
-                        'uuid' => $student->uuid,
-                        'phone' => $student->phone,
-                        'course_id' => $course->id,
-                        'course' => $course->name,
-                        'template' => $groupTemplate->template->name,
-                        'template_id' => $groupTemplate->template->id,
-                    ];
-                });
+        // Retrieve all enrollment templates with related group and template
+        $enrollmentTemplates = EnrollmentTemplate::with(['template', 'group.enrollments.student'])->get();
+
+        // Flatten and filter the data
+        $students = $enrollmentTemplates->flatMap(function ($groupTemplate) {
+            return $groupTemplate->group->enrollments->map(function ($enrollment) use ($groupTemplate) {
+                $student = $enrollment->student;
+                $course = $enrollment->course;
+                return [
+                    'id' => $student->id,
+                    'name' => $student->name,
+                    'email' => $student->email,
+                    'uuid' => $student->uuid,
+                    'phone' => $student->phone,
+                    'course_id' => $course->id,
+                    'course' => $course->name,
+                    'template' => $groupTemplate->template->name,
+                    'template_id' => $groupTemplate->template->id,
+                ];
             });
         });
-
-        return view('admin.groupTemplate.index', compact('students', 'groups', 'templates'));
+        $data = [
+            'students' => $students,
+            'groups' => $groups,
+            'templates' => $templates,
+        ];
+        return view('admin.groupTemplate.index', $data);
     }
 
     /**
@@ -59,17 +59,15 @@ class GroupTemplateController extends Controller
      */
     public function create()
     {
-        $groups = Group::get();
-        $templates = Template::get();
-        return view('admin.groupTemplate.create', compact('groups', 'templates'));
+        return view('admin.groupTemplate.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGroupTemplateRequest $request)
+    public function store(Request $request)
     {
-        GroupTemplate::updateOrCreate([
+        EnrollmentTemplate::updateOrCreate([
             'group_id' => $request->group_id,
             'template_id' => $request->template_id,
         ]);
@@ -81,17 +79,22 @@ class GroupTemplateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id,$course_id,$templateId)
+    public function show($id, $course_id, $templateId)
     {
         $hash = Hashids::decode($id);
-        $student = Student::with(['courses.groups.templates'])
-            ->where('id', $hash[0])
-            ->first();
-        $studentId = $student->id;
-        $studentName = $student->name;
-        $courseName = Course::findOrFail($course_id)['name'];
-        $templateId = Template::findOrFail($templateId);
-        return view('admin.groupTemplate.show', compact('studentId', 'studentName','course_id', 'courseName', 'templateId'));
+        $studentId = $hash[0];
+
+        $student = Student::with(['enrollments' => function ($query) use ($course_id) {
+            $query->where('id', $course_id);
+        }])->findOrFail($studentId);
+        $course = Course::findOrFail($course_id);
+        $template = Template::findOrFail($templateId);
+        $data = [
+            'student' => $student,
+            'course' => $course,
+            'template' => $template,
+        ];
+        return view('admin.groupTemplate.show', $data);
     }
 
     /**
@@ -117,18 +120,22 @@ class GroupTemplateController extends Controller
     {
         //
     }
-    public function download($id,$course_id,$templateId)
+    public function download($id, $course_id, $templateId)
     {
         $hash = Hashids::decode($id);
-        $student = Student::with(['courses.groups.templates'])
-            ->where('id', $hash[0])
-            ->first();
-        $fonts = Font::get();
-        $studentId = $student->id;
-        $studentName = $student->name;
-        $courseName = Course::findOrFail($course_id)['name'];
-        $templateId = Template::findOrFail($templateId);
-        $studentPdf = Pdf::loadView('admin.pdf.student', compact('studentId', 'studentName', 'courseName','course_id', 'templateId'));
-        return $studentPdf->download($student->name.'_'.$courseName . '.pdf');
+        $studentId = $hash[0];
+
+        $student = Student::with(['enrollments' => function ($query) use ($course_id) {
+            $query->where('id', $course_id);
+        }])->findOrFail($studentId);
+        $course = Course::findOrFail($course_id);
+        $template = Template::findOrFail($templateId);
+        $data = [
+            'student' => $student,
+            'course' => $course,
+            'template' => $template,
+        ];
+        $studentPdf = Pdf::loadView('admin.pdf.student', $data);
+        return $studentPdf->download($student->name . '_' . $course->name . '.pdf');
     }
 }

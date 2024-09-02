@@ -9,17 +9,13 @@ class Group extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function studentCourses()
+    public function enrollments()
     {
-        return $this->belongsToMany(StudentCourse::class, 'group_student_course');
+        return $this->hasMany(Enrollment::class);
     }
 
     public function templates()
     {
-        return $this->belongsToMany(Template::class, 'group_templates');
-    }
-    public function courses()
-    {
-        return $this->belongsToMany(Course::class, 'group_student_course', 'group_id', 'student_course_id');
+        return $this->hasMany(EnrollmentTemplate::class);
     }
 }
