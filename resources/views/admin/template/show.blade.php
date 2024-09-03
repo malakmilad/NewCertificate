@@ -64,7 +64,6 @@
             left: {{ number_format($template->options['date']['position_percent_x'], 2) }}%;
             color: {{ $template->options['date']['color'] }};
             font-size: {{ $template->options['date']['font_size'] }}px;
-            font-family: {{ $template->options['date']['font_family'] }};
         }
     </style>
 @endpush

@@ -207,29 +207,11 @@
                                 <label class="required form-label">Color</label>
                                 <input type="color" class="form-control" name="date_color" id="date_color">
                             </div>
-                            <div class="col-6">
+                            <div class="col-12">
                                 <label class="form-label">Font Size</label>
                                 <input type="number" class="form-control" name="date_font_size" id="date_font_size"
                                     placeholder="Enter Your Font Size">
                                 @error('date_font_size')
-                                    <div
-                                        class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
-                                        <div class="d-flex flex-column pe-0 pe-sm-10">
-                                            <span>{{ $message }}</span>
-                                        </div>
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label">Font Family</label>
-                                <select class="form-select form-select-solid" name="date_font_family"
-                                    id="date_font_family">
-                                    <option disabled selected value="">Select Font</option>
-                                    @foreach ($fonts as $font)
-                                        <option value="{{ $font->name }}">{{ $font->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('date_font_family')
                                     <div
                                         class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
                                         <div class="d-flex flex-column pe-0 pe-sm-10">

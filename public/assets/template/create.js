@@ -65,7 +65,6 @@ const course_font_family = document.getElementById("course_font_family");
 const date_content = document.getElementById("date_content");
 const date_color = document.getElementById("date_color");
 const date_font_size = document.getElementById("date_font_size");
-const date_font_family = document.getElementById("date_font_family");
 // Event listeners for title
 // event listeners for course
 course_content.addEventListener("input", updateCourseName);
@@ -81,7 +80,6 @@ student_font_family.addEventListener("change", updateStudentFontFamily);
 date_content.addEventListener("input", updateDateContent);
 date_color.addEventListener("input", updateDateColor);
 date_font_size.addEventListener("input", updateDateFontSize);
-date_font_family.addEventListener("change", updateDateFontFamily);
 // Function to update title text
 function updateCourseName() {
     course.textContent = course_content.value;
@@ -119,11 +117,6 @@ function updateDateColor() {
 }
 function updateDateFontSize() {
     date.style.fontSize = `${date_font_size.value}px`;
-}
-function updateDateFontFamily() {
-    date.style.fontFamily = date_font_family.value;
-    date.style.fontStyle = "normal";
-    date.style.fontWeight = "normal";
 }
 $("#course").draggable({
     cursor: "move",

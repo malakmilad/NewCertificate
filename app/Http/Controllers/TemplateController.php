@@ -61,7 +61,6 @@ class TemplateController extends Controller
         $date_content = $request->date_content;
         $date_color = $request->date_color;
         $date_font_size = $request->date_font_size;
-        $date_font_family = $request->date_font_family;
         $date_x = $request->date_x;
         $date_y = $request->date_y;
 
@@ -106,7 +105,6 @@ class TemplateController extends Controller
                 'content' => $date_content,
                 'color' => $date_color,
                 'font_size' => $date_font_size,
-                'font_family' => $date_font_family,
                 'position_pixel_x' => $date_x,
                 'position_pixel_y' => $date_y,
                 'position_percent_x' => $date_percent_x,
@@ -219,6 +217,6 @@ class TemplateController extends Controller
         }
         $template->delete();
         toastr()->success('Template has been deleted successfully!');
-        return redirect()->route('font.index');
+        return redirect()->route('template.index');
     }
 }

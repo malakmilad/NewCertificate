@@ -32,7 +32,6 @@ class StoreTemplateRequest extends FormRequest
             'course_font_family'=>'required',
             'date_content'=>'required',
             'date_font_size'=>'required',
-            'date_font_family'=>'required',
         ];
     }
     public function messages():array
@@ -51,7 +50,6 @@ class StoreTemplateRequest extends FormRequest
             'course_font_family.required'=>'required',
             'date_content.required'=>'required',
             'date_font_size.required'=>'required',
-            'date_font_family.required'=>'required',
         ];
     }
 }
