@@ -75,7 +75,7 @@
                             <div class="btn btn-light-primary w-100" id="signatureButton">Add</div>
                         </div>
                     </div>
-                    <div class="mb-5">
+                    <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">
                             Student</h3>
                         <div class="row g-5">
@@ -131,7 +131,7 @@
                             <input type="hidden" name="student_y" id="student_y">
                         </div>
                     </div>
-                    <div class="mb-5">
+                    <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">
                             Course</h3>
                         <div class="row g-5">
@@ -187,7 +187,7 @@
                             <input type="hidden" name="course_y" id="course_y">
                         </div>
                     </div>
-                    <div class="mb-5">
+                    <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <h3 class="fw-bolder text-center mb-6" style="color: #C70815;">
                             Date</h3>
                         <div class="row g-5">
