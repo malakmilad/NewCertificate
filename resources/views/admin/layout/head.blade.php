@@ -21,12 +21,12 @@
 <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 <link href="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-{{-- @foreach ($fonts as $font)
+@foreach ($fonts as $font)
     <style>
         @font-face {
             font-family: '{{ $font->name }}';
             src: url('{{ asset($font->path) }}');
         }
     </style>
-@endforeach --}}
+@endforeach
 @stack('css')
