@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
             'email'=>'eeic@entlaqa.com',
             'password'=>Hash::make('Eeic@2024#Z')
         ]);
+        //*Password at mailgun @2025Certificate
     }
 }
