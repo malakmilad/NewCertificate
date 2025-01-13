@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\AttachmentEvent;
+use App\Http\Requests\StoreGroupTemplateRequest;
 use App\Models\Course;
 use App\Models\EnrollmentTemplate;
 use App\Models\Font;
@@ -67,7 +68,7 @@ class GroupTemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGroupTemplateRequest $request)
     {
         EnrollmentTemplate::updateOrCreate([
             'group_id' => $request->group_id,

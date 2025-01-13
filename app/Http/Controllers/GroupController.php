@@ -50,10 +50,12 @@ class GroupController extends Controller
         $groupId = $hash[0];
 
         $students = Student::whereHas('enrollments', function ($query) use ($groupId) {
-            $query->where('group_id', $groupId);
+            $query->where('group_id', $groupId); // Filter enrollments by group ID
         })
-            ->with(['enrollments.course'])
-            ->get();
+        ->with(['enrollments' => function ($query) use ($groupId) {
+            $query->where('group_id', $groupId)->with('course'); // Ensure we only get group-specific courses
+        }])
+        ->get();
         return view('admin.group.show', compact('students'));
     }
 
