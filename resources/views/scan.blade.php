@@ -20,7 +20,7 @@
                 position: absolute;
                 top: {{ number_format($signature['position_percent_y'], 2) }}%;
                 left: {{ number_format($signature['position_percent_x'], 2) }}%;
-                width: 100px;
+                width: 200px;
                 heigth: 100px;
             }
         @endforeach
