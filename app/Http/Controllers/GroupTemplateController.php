@@ -139,6 +139,8 @@ class GroupTemplateController extends Controller
             'template' => $template,
         ];
         $studentPdf = Pdf::loadView('admin.pdf.student', $data);
-        return $studentPdf->download($student->name . '_' . $course->name . '.pdf');
+        $studentPdf->setPaper('A4', 'landscape');
+        return $studentPdf->stream('certificate.pdf');
+        // return $studentPdf->download($student->name . '_' . $course->name . '.pdf');
     }
 }

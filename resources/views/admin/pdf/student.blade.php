@@ -14,8 +14,22 @@
     @endforeach
     <style>
          @page {
-        size: A4 landscape;
-    }
+            size: a4 landscape;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-image: url('{{ public_path($template->image) }}');
+        }
+
         @foreach ($template->options['texts'] as $index => $text)
             #text{{ $index }} {
                 position: absolute;
@@ -36,17 +50,6 @@
                 heigth: 100px;
             }
         @endforeach
-        #canvas {
-            position: relative;
-            width: 100%;
-            height: 395px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            overflow: hidden;
-            background-image: url('{{ public_path($template->image) }}');
-        }
-
         #course {
             position: absolute;
             top: {{ number_format($template->options['course']['position_percent_y'], 2) }}%;
@@ -86,24 +89,23 @@
 </head>
 
 <body>
-    <div id="canvas" class="card-img-top">
-        <div id="student">{{ $student->name }}</div>
-        <div id="course">{{ $course->name }}</div>
-        <div id="date">{{ $template->options['date']['content'] }}</div>
-        <img id="qrImg" src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($student->id).'/'. $course->id.'/'.$template->id) }}">
-        @php
-            $texts = $template->options['texts'];
-        @endphp
-        @foreach ($texts as $index => $text)
-            <div id="text{{ $index }}">{{ $text['content'] }}</div>
-        @endforeach
-        @php
-            $signatures = $template->options['signatures'];
-        @endphp
-        @foreach ($signatures as $key => $signature)
-            <img id="signature{{ $key }}" src="{{ public_path($signature['content']) }}"></img>
-        @endforeach
-    </div>
+    <div id="student">{{ $student->name }}</div>
+    <div id="course">{{ $course->name }}</div>
+    <div id="date">{{ $template->options['date']['content'] }}</div>
+    <img id="qrImg"
+        src="https://quickchart.io/qr?text={{ url('scan/' . Hashids::encode($student->id) . '/' . $course->id . '/' . $template->id) }}">
+    @php
+        $texts = $template->options['texts'];
+    @endphp
+    @foreach ($texts as $index => $text)
+        <div id="text{{ $index }}">{{ $text['content'] }}</div>
+    @endforeach
+    @php
+        $signatures = $template->options['signatures'];
+    @endphp
+    @foreach ($signatures as $key => $signature)
+        <img id="signature{{ $key }}" src="{{ public_path($signature['content']) }}"></img>
+    @endforeach
 </body>
 
 </html>
