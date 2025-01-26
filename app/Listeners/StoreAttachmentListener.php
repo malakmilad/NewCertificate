@@ -54,6 +54,7 @@ class StoreAttachmentListener
                         'template' => $template,
                     ];
                     $studentAttachment = Pdf::loadView('admin.pdf.view', $data);
+                    $studentAttachment->setPaper('A4', 'landscape');
                     $attachmentPath = public_path('attachment');
                     $fileName = "{$student->name}_{$course->name}_{$template->name}.pdf";
                     $filePath = "{$attachmentPath}/{$fileName}";

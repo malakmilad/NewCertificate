@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\GroupExport;
 use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
 use App\Imports\GroupImport;
+use App\Models\Enrollment;
 use App\Models\Group;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -37,7 +37,7 @@ class GroupController extends Controller
     {
         Group::create(['name' => $request->name]);
         Excel::import(new GroupImport($request->name), $request->file('file'));
-        toastr()->success('Group has been saved successfully!');
+        toastr()->success('Group Has Been Saved Successfully!');
         return redirect()->route('group.index');
     }
 
@@ -46,16 +46,16 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        $hash = Hashids::decode($id);
+        $hash    = Hashids::decode($id);
         $groupId = $hash[0];
 
         $students = Student::whereHas('enrollments', function ($query) use ($groupId) {
             $query->where('group_id', $groupId); // Filter enrollments by group ID
         })
-        ->with(['enrollments' => function ($query) use ($groupId) {
-            $query->where('group_id', $groupId)->with('course'); // Ensure we only get group-specific courses
-        }])
-        ->get();
+            ->with(['enrollments' => function ($query) use ($groupId) {
+                $query->where('group_id', $groupId)->with('course'); // Ensure we only get group-specific courses
+            }])
+            ->get();
         return view('admin.group.show', compact('students'));
     }
 
@@ -64,23 +64,34 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Group $group)
+    public function update(UpdateGroupRequest $request, $id)
     {
-        //
+        $hash    = Hashids::decode($id);
+        $group   = Group::findOrFail($hash[0]);
+        $group->update(['name' => $request->name]);
+        Excel::import(new GroupImport($request->name), $request->file('file'));
+        toastr()->success('Group Has Been Updated Successfully!');
+        return redirect()->route('group.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Group $group)
+    public function destroy($id)
     {
-        //
+        $hash  = Hashids::decode($id);
+        $group = Group::findOrFail($hash[0]);
+        Enrollment::where('group_id',$group->id)->delete();
+        $group->delete();
+        toastr()->success('Group Has Been Deleted Successfully!');
+        return redirect()->route('group.index');
+
     }
     public function export()
     {

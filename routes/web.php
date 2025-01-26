@@ -26,6 +26,9 @@ Route::middleware('auth')->group(function () {
         Route::get('group/index', 'index')->name('group.index');
         Route::get('group/create', 'create')->name('group.create');
         Route::get('group/show/{group}', 'show')->name('group.show');
+        Route::get('group/edit/{group}', 'edit')->name('group.edit');
+        Route::put('group/update/{group}', action: 'update')->name('group.update');
+        Route::get('group/delete/{group}', 'destroy')->name('group.delete');
         Route::post('group/store', 'store')->name('group.store');
         Route::get('group/export', 'export')->name('group.export');
     });

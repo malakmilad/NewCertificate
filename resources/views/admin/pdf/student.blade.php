@@ -13,6 +13,9 @@
         </style>
     @endforeach
     <style>
+         @page {
+        size: A4 landscape;
+    }
         @foreach ($template->options['texts'] as $index => $text)
             #text{{ $index }} {
                 position: absolute;
