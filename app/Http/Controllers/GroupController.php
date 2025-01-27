@@ -5,6 +5,7 @@ use App\Exports\GroupExport;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Imports\GroupImport;
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Group;
 use App\Models\Student;
@@ -75,8 +76,7 @@ class GroupController extends Controller
         $hash    = Hashids::decode($id);
         $group   = Group::findOrFail($hash[0]);
         $group->update(['name' => $request->name]);
-        Excel::import(new GroupImport($request->name), $request->file('file'));
-        toastr()->success('Group Has Been Updated Successfully!');
+        toastr()->success('Group Name Has Been Updated Successfully!');
         return redirect()->route('group.index');
     }
 
@@ -87,6 +87,11 @@ class GroupController extends Controller
     {
         $hash  = Hashids::decode($id);
         $group = Group::findOrFail($hash[0]);
+        $enrollments=Enrollment::where('group_id',$group->id)->get();
+        foreach($enrollments as $enrollment){
+           Student::findOrFail($enrollment->student_id)->delete();
+           Course::findOrFail($enrollment->course_id)->delete();
+        }
         Enrollment::where('group_id',$group->id)->delete();
         $group->delete();
         toastr()->success('Group Has Been Deleted Successfully!');

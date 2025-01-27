@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                 <div class="text-center mb-13">
-                    <h1 class="mb-3">Edit Group</h1>
+                    <h1 class="mb-3">Rename Group</h1>
                 </div>
                 <div class="separator d-flex flex-center mb-8">
                     <span class="text-uppercase bg-body fs-7 fw-bold text-muted px-3"></span>
@@ -25,8 +25,9 @@
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" value="{{ $group->id ?? '' }}" name="id">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
                             <label class="required form-label">Name</label>
                             <input type="text" name="name" class="form-control form-control-solid mb-8"
                                 placeholder="Enter Group Name" value="{{ $group->name ?? '' }}">
@@ -40,23 +41,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-6">
-                            <label class="required form-label">File</label>
-                            <input type="file" name="file" class="form-control form-control-solid mb-8">
-                            </input>
-                            @error('file')
-                                <div
-                                    class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
-                                    <div class="d-flex flex-column pe-0 pe-sm-10">
-                                        <span>{{ $message }}</span>
-                                    </div>
-                                </div>
-                            @enderror
-                        </div>
                     </div>
-                    <a href="{{ route('group.export') }}" class="btn btn-light-primary fw-bolder w-100 mb-8">
-                        download sample
-                    </a>
                     <button type="submit" class="btn btn-light-primary fw-bolder w-100 mb-8">
                         Update
                     </button>

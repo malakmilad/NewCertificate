@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Group;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Vinkla\Hashids\Facades\Hashids;
 
 class UpdateGroupRequest extends FormRequest
 {
@@ -24,15 +23,13 @@ class UpdateGroupRequest extends FormRequest
      */
     public function rules(): array
     {
-        $name = $this->request->get('name');
-        $group   = Group::Where('name',$name)->first();
-        $group = Group::find($group->id);
+        $id = $this->request->get('id');
+        $group = Group::find($id);
         return [
             'name' => [
-            'required',
-            Rule::unique('groups')->ignore($group),
-        ],
-            'file'=>'required|file|mimes:xlsx'
+                'required',
+                Rule::unique('groups')->ignore($group),
+            ],
         ];
     }
 }
