@@ -8,7 +8,7 @@
                         <span class="card-label fw-bolder fs-3 mb-1">Students</span>
                         <span class="text-muted mt-1 fw-bold fs-7">Over {{count($students)}}</span>
                     </h3>
-                    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+                    {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         title="Click To Add A New Student">
                         <a class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
                         data-bs-target="#kt_modal_invite_friends">
@@ -22,7 +22,7 @@
                                 </svg>
                             </span>
                             New Student</a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-body py-3">
                     <div class="table-responsive">
@@ -62,7 +62,7 @@
         </div>
     </div>
     @include('admin.student.create')
-    @include('admin.student.error')
+    {{-- @include('admin.student.error') --}}
 @endsection
 @push('script')
     <script>
