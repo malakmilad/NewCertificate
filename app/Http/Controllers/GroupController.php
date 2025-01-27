@@ -5,7 +5,6 @@ use App\Exports\GroupExport;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Imports\GroupImport;
-use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Group;
 use App\Models\Student;
@@ -57,7 +56,7 @@ class GroupController extends Controller
                 $query->where('group_id', $groupId)->with('course'); // Ensure we only get group-specific courses
             }])
             ->get();
-        return view('admin.group.show', compact('students'));
+        return view('admin.group.show', compact('students', 'id'));
     }
 
     /**
@@ -87,11 +86,6 @@ class GroupController extends Controller
     {
         $hash  = Hashids::decode($id);
         $group = Group::findOrFail($hash[0]);
-        $enrollments=Enrollment::where('group_id',$group->id)->get();
-        foreach($enrollments as $enrollment){
-           Student::findOrFail($enrollment->student_id)->delete();
-           Course::findOrFail($enrollment->course_id)->delete();
-        }
         Enrollment::where('group_id',$group->id)->delete();
         $group->delete();
         toastr()->success('Group Has Been Deleted Successfully!');

@@ -4,6 +4,7 @@ use App\Http\Controllers\FontController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupTemplateController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,7 +47,9 @@ Route::middleware('auth')->group(function () {
         Route::get('generate/show/{id}/{course_id}/{template_id}', 'show')->name('generate.show');
         Route::get('generate/download/{id}/{course_id}/{template_id}', 'download')->name('generate.download');
         Route::post('generate/store', 'store')->name('generate.store');
-
+    });
+    Route::controller(StudentController::class)->group(function(){
+        Route::post('student/store','store')->name('student.store');
     });
 });
 

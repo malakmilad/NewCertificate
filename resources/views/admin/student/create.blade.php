@@ -16,39 +16,42 @@
             </div>
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                 <div class="text-center mb-13">
-                    <h1 class="mb-3">Create Student</h1>
+                    <h1 class="mb-3">Add New Student To This Group</h1>
                 </div>
                 <div class="separator d-flex flex-center mb-8">
                     <span class="text-uppercase bg-body fs-7 fw-bold text-muted px-3"></span>
                 </div>
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{route('student.store')}}" method="POST">
                     @csrf
+                    <input type="hidden" name="group_id" value={{$id}}>
                     <div class="row">
                         <div class="col-6">
                             <label class="required form-label">Name</label>
                             <input type="text" name="name" class="form-control form-control-solid mb-8" placeholder="Enter Student Name">
                             </input>
-                            @error('name')
-                                <div
-                                    class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
-                                    <div class="d-flex flex-column pe-0 pe-sm-10">
-                                        <span>{{ $message }}</span>
-                                    </div>
-                                </div>
-                            @enderror
                         </div>
                         <div class="col-6">
                             <label class="required form-label">Email</label>
                             <input type="email" name="email" class="form-control form-control-solid mb-8" placeholder="Enter Student Email">
                             </input>
-                            @error('email')
-                                <div
-                                    class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
-                                    <div class="d-flex flex-column pe-0 pe-sm-10">
-                                        <span>{{ $message }}</span>
-                                    </div>
-                                </div>
-                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label class="required form-label">National ID OR Passport ID</label>
+                            <input type="text" name="national_id" class="form-control form-control-solid mb-8" placeholder="Enter Student National ID">
+                            </input>
+                        </div>
+                        <div class="col-6">
+                            <label class="required form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control form-control-solid mb-8" placeholder="Enter Student Phone">
+                            </input>
+                        </div>
+                        <div class="separator d-flex flex-center mb-8">
+                            <span class="text-uppercase bg-body fs-7 fw-bold text-muted px-3"></span>
+                        </div>
+                        <div class="col-12 text-center">
+                            <label class="required form-label">Course Name</label>
+                            <input type="text" name="course_name" class="form-control form-control-solid mb-8" placeholder="Enter Course Name">
+                            </input>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-light-primary fw-bolder w-100 mb-8">
