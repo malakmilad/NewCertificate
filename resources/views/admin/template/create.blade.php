@@ -38,6 +38,7 @@
             </div>
         </div>
         @include('admin.template.options')
+        @include('admin.template.error')
     </form>
 @endsection
 @push('script')

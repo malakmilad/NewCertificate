@@ -38,18 +38,18 @@ class StoreTemplateRequest extends FormRequest
     {
         return
         [
-            'template_name.required'=>'required',
-            'template_name.unique'=>'please write another name',
-            'template_image.required'=>'required',
-            'template_image.dimensions'=>'must 1920*1080',
-            'student_content.required'=>'required',
-            'student_font_family.required'=>'required',
-            'student_font_size.required'=>'required',
-            'course_content.required'=>'required',
-            'course_font_size.required'=>'required',
-            'course_font_family.required'=>'required',
-            'date_content.required'=>'required',
-            'date_font_size.required'=>'required',
+            'template_name.required'=>'title is required',
+            'template_name.unique'=>'please write another title',
+            'template_image.required'=>'certificate is required',
+            'template_image.dimensions'=>'certificate dimension must be 1920*1080',
+            'student_content.required'=>'student content is required',
+            'student_font_family.required'=>'student font family is required',
+            'student_font_size.required'=>'student font size is required',
+            'course_content.required'=>'course content is required',
+            'course_font_size.required'=>'course font size is required',
+            'course_font_family.required'=>'course font family required',
+            'date_content.required'=>'date content required',
+            'date_font_size.required'=>'date font size required',
         ];
     }
 }
