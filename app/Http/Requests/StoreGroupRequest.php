@@ -26,4 +26,15 @@ class StoreGroupRequest extends FormRequest
             'file'=>'required|file|mimes:xlsx'
         ];
     }
+    public function messages():array
+    {
+        return
+        [
+            'name.required'=>'group name is required',
+            'name.unique'=>'change group name',
+            'file.required'=>'file is required',
+            'file.file'=>'file must be a file',
+            'file.mimes'=>'file must be an xlsx file'
+        ];
+    }
 }

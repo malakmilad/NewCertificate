@@ -26,4 +26,12 @@ class StoreGroupTemplateRequest extends FormRequest
             'template_id'=>'required',
         ];
     }
+    public function messages():array
+    {
+        return
+        [
+            'group_id.required'=>'Group is required',
+            'template_id.required'=>'Template is required'
+        ];
+    }
 }

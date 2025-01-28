@@ -25,4 +25,12 @@ class StoreFontRequest extends FormRequest
             'font_file'=>'required|file'
         ];
     }
+    public function messages():array
+    {
+        return
+        [
+            'font_file.required'=>'font file is required',
+            'font_file.file'=>'font file must be a file'
+        ];
+    }
 }
