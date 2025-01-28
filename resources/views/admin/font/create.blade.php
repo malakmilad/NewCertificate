@@ -1,9 +1,8 @@
-<div class="modal fade" id="kt_modal_invite_friends" tabindex="-1"
-    @if ($errors->any()) style="display: block;" aria-modal="true" @endif>
+<div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog mw-650px">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal" id="close">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none">
@@ -27,14 +26,6 @@
                     <label class="required form-label">Font File</label>
                     <input type="file" name="font_file" class="form-control form-control-solid mb-8" rows="3">
                     </input>
-                    @error('font_file')
-                        <div
-                            class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-5 mt-5">
-                            <div class="d-flex flex-column pe-0 pe-sm-10">
-                                <span>{{ $message }}</span>
-                            </div>
-                        </div>
-                    @enderror
                     <button type="submit" class="btn btn-light-primary fw-bolder w-100 mb-8">
                         Save
                     </button>
@@ -43,10 +34,3 @@
         </div>
     </div>
 </div>
-<script>
-    let btn = document.getElementById('close');
-    btn.addEventListener('click', function() {
-        let modal = document.getElementById('kt_modal_invite_friends');
-        modal.style.display = 'none';
-    });
-</script>
