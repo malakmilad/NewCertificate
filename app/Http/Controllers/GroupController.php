@@ -9,6 +9,7 @@ use App\Models\Enrollment;
 use App\Models\Group;
 use App\Models\Student;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 use Vinkla\Hashids\Facades\Hashids;
 
 class GroupController extends Controller
@@ -37,7 +38,7 @@ class GroupController extends Controller
     {
         Group::create(['name' => $request->name]);
         Excel::import(new GroupImport($request->name), $request->file('file'));
-        toastr()->success('Group Has Been Saved Successfully!');
+        Alert::success('Success', 'Group Has Been Saved Successfully!');
         return redirect()->route('group.index');
     }
 
@@ -75,7 +76,7 @@ class GroupController extends Controller
         $hash    = Hashids::decode($id);
         $group   = Group::findOrFail($hash[0]);
         $group->update(['name' => $request->name]);
-        toastr()->success('Group Name Has Been Updated Successfully!');
+        Alert::success('Success', 'Group Name Has Been Updated Successfully!');
         return redirect()->route('group.index');
     }
 
@@ -88,7 +89,7 @@ class GroupController extends Controller
         $group = Group::findOrFail($hash[0]);
         Enrollment::where('group_id',$group->id)->delete();
         $group->delete();
-        toastr()->success('Group Has Been Deleted Successfully!');
+        Alert::success('Success', 'Group Has Been Deleted Successfully!');
         return redirect()->route('group.index');
 
     }

@@ -13,6 +13,7 @@ use App\Models\Student;
 use App\Models\Template;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Vinkla\Hashids\Facades\Hashids;
 
 class GroupTemplateController extends Controller
@@ -75,7 +76,7 @@ class GroupTemplateController extends Controller
             'template_id' => $request->template_id,
         ]);
         event(new AttachmentEvent($request->group_id, $request->template_id));
-        toastr()->success('Generate has been saved successfully!');
+        Alert::success('Success', 'Generate has been saved successfully!');
         return redirect()->route('generate.index');
     }
 

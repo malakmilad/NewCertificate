@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timer' => env('SWEET_ALERT_TIMER', 5000),
+    'timer' => env('SWEET_ALERT_TIMER', null),
 
     /*
     |--------------------------------------------------------------------------

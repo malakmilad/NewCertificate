@@ -46,7 +46,7 @@ class FontController extends Controller
                 'path' => 'fonts/' . $fontName,
             ]);
 
-            Alert::success('Success', 'Post created successfully!');
+            Alert::success('Success', 'Font created successfully!');
             return redirect()->route('font.index');
         }
     }
@@ -64,7 +64,7 @@ class FontController extends Controller
             }
         }
         $font->delete();
-        toastr()->success('Font has been deleted successfully!');
+        Alert::success('Success', 'Font has been deleted successfully!');
         return redirect()->route('font.index');
     }
 }
