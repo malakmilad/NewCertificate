@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFontRequest;
 use App\Models\Font;
+use RealRashid\SweetAlert\Facades\Alert;
 use Vinkla\Hashids\Facades\Hashids;
 
 class FontController extends Controller
@@ -45,7 +46,7 @@ class FontController extends Controller
                 'path' => 'fonts/' . $fontName,
             ]);
 
-            toastr()->success('Font has been saved successfully!');
+            Alert::success('Success', 'Post created successfully!');
             return redirect()->route('font.index');
         }
     }

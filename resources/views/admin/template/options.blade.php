@@ -3,7 +3,7 @@
     title="Options" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-trigger="hover">
     <span id="kt_explore_toggle_label">Options</span>
 </button>
-<div id="kt_explore" class="bg-body @if ($errors->any()) drawer drawer-end drawer-on @endif"
+<div id="kt_explore" class="bg-body"
     data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true" data-kt-drawer-overlay="false"
     data-kt-drawer-width="{default:'350px', 'lg': '475px'}" data-kt-drawer-direction="end"
     data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close">

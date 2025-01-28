@@ -26,6 +26,7 @@
     </div>
     @include('admin.layout.scroll_to_top')
     @include('admin.layout.scripts')
+    @include('sweetalert::alert')
 </body>
 
 </html>

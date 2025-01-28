@@ -1,4 +1,4 @@
-<div class="modal fade @if ($errors->any()) show @endif" id="kt_modal_invite_friends" tabindex="-1"
+<div class="modal fade" id="kt_modal_invite_friends" tabindex="-1"
     @if ($errors->any()) style="display: block;" aria-modal="true" @endif>
     <div class="modal-dialog mw-650px">
         <div class="modal-content">
