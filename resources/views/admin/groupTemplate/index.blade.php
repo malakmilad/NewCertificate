@@ -34,7 +34,7 @@
                                     <th class="min-w-150px">Email</th>
                                     <th class="min-w-150px">NotionalID OR Passport</th>
                                     <th class="min-w-150px">Phone</th>
-                                    <th class="min-w-150px">Courses</th>
+                                    <th class="min-w-150px">Course</th>
                                     <th class="min-w-100px">Template</th>
                                     <th class="min-w-100px">Group</th>
                                     <th class="min-w-100px text-end">Actions</th>

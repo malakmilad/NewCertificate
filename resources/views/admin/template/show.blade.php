@@ -73,7 +73,9 @@
             <div id="student">{{ $template->options['student']['content'] }}</div>
             <div id="course">{{ $template->options['course']['content'] }}</div>
             <div id="date">{{ $template->options['date']['content'] }}</div>
+            @if($template->options['qr_code']['content'])
             <img id="qrImg" src="{{ $template->options['qr_code']['content'] }}"></img>
+            @endif
             @php
                 $texts = $template->options['texts'];
             @endphp
