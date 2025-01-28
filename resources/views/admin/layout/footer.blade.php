@@ -2,7 +2,7 @@
     <div
         class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
         <div class="text-dark order-2 order-md-1">
-            <span class="text-muted fw-bold me-1">2024©</span>
+            <span class="text-muted fw-bold me-1">2025©</span>
             <a href="https://www.entlaqa.com/" target="_blank"
                 class="text-gray-800 text-hover-primary">ENTLAQA</a>
         </div>

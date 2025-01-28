@@ -1,8 +1,9 @@
-<div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
+<div class="modal fade @if ($errors->any()) show @endif" id="kt_modal_invite_friends" tabindex="-1"
+    @if ($errors->any()) style="display: block;" aria-modal="true" @endif>
     <div class="modal-dialog mw-650px">
         <div class="modal-content">
             <div class="modal-header pb-0 border-0 justify-content-end">
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal" id="close">
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none">
@@ -42,3 +43,10 @@
         </div>
     </div>
 </div>
+<script>
+    let btn = document.getElementById('close');
+    btn.addEventListener('click', function() {
+        let modal = document.getElementById('kt_modal_invite_friends');
+        modal.style.display = 'none';
+    });
+</script>
