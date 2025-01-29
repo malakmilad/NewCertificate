@@ -40,15 +40,15 @@ class StoreTemplateRequest extends FormRequest
         [
             'template_name.required'=>'title is required',
             'template_name.unique'=>'please write another title',
-            'template_image.required'=>'certificate is required',
+            'template_image.required'=>'certificate template is required',
             'template_image.dimensions'=>'certificate dimension must be 1920*1080',
-            'student_content.required'=>'student content is required',
+            'student_content.required'=>'student field is required',
             'student_font_family.required'=>'student font family is required',
             'student_font_size.required'=>'student font size is required',
-            'course_content.required'=>'course content is required',
+            'course_content.required'=>'course field is required',
             'course_font_size.required'=>'course font size is required',
             'course_font_family.required'=>'course font family required',
-            'date_content.required'=>'date content required',
+            'date_content.required'=>'date field required',
             'date_font_size.required'=>'date font size required',
         ];
     }

@@ -47,7 +47,7 @@
                     </div>
                     <div class="rounded border border-dashed border-gray-300 py-4 px-6 mb-5">
                         <div>
-                            <label class="required form-label">Template Image</label>
+                            <label class="required form-label">Certificate Template</label>
                             <input type="file" name="template_image" id="template_image" class="form-control">
                             @error('template_image')
                                 <div

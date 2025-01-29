@@ -42,6 +42,11 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-start flex-row">
+                                                <span class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$group->name}}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-end flex-shrink-0">
                                                 <a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-2"
                                                     data-bs-toggle="modal" data-bs-target="#edit_group">
                                                     <span class="svg-icon svg-icon-3">
@@ -56,11 +61,6 @@
                                                         </svg>
                                                     </span>
                                                 </a>
-                                                <span class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$group->name}}</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-end flex-shrink-0">
                                                 <a href="{{ route('group.show', Hashids::encode($group->id)) }}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                     <span class="svg-icon svg-icon-3">

@@ -36,7 +36,7 @@ class UpdateGroupRequest extends FormRequest
     {
         return
         [
-            'template_name.required'=>'title is required',
+            'name.required'=>'Group name is required',
         ];
     }
 }
