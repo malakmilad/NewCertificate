@@ -32,4 +32,11 @@ class UpdateGroupRequest extends FormRequest
             ],
         ];
     }
+    public function messages():array
+    {
+        return
+        [
+            'template_name.required'=>'title is required',
+        ];
+    }
 }
