@@ -20,6 +20,9 @@ class GroupController extends Controller
     public function index()
     {
         $groups = Group::get();
+        $title = 'Delete Group!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('admin.group.index', compact('groups'));
     }
 

@@ -46,7 +46,7 @@
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
                                                 <a href="{{ route('font.delete', Hashids::encode($font->id)) }}"
-                                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" data-confirm-delete="true">
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                             height="24" viewBox="0 0 24 24" fill="none">

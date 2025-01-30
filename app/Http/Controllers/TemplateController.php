@@ -16,6 +16,9 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = Template::get();
+        $title = 'Delete Template!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('admin.template.index', compact('templates'));
     }
 

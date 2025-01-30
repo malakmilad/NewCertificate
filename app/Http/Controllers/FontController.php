@@ -15,6 +15,9 @@ class FontController extends Controller
     public function index()
     {
         $fonts=Font::get();
+        $title = 'Delete Font!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('admin.font.index',compact('fonts'));
     }
 
