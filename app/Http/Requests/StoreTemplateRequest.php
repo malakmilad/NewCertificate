@@ -32,7 +32,7 @@ class StoreTemplateRequest extends FormRequest
             'course_font_family'=>'required',
             'date_content'=>'required',
             'date_font_size'=>'required',
-            'countText'=>'required',
+            // 'countText'=>'required',
             'countSignature'=>'required',
             'qr_code'=>'required',
         ];
@@ -53,7 +53,7 @@ class StoreTemplateRequest extends FormRequest
             'course_font_family.required'=>'course font family is required',
             'date_content.required'=>'date field is required',
             'date_font_size.required'=>'date font size is required',
-            'countText.required'=>'text field is required',
+            // 'countText.required'=>'text field is required',
             'countSignature.required'=>'signature field is required',
             'qr_code.required'=>'qr code field is required',
         ];
