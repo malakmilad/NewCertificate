@@ -26,6 +26,7 @@ $("#qrButton").click(function (e) {
         let newContent = getQRInputHtml();
         $(this).closest(".rounded").after(newContent); // Correct the selector
         initializeQrCodeInputs();
+        document.getElementById("qr_code").value='https://quickchart.io/qr?text=EEIC';
     }
 });
 

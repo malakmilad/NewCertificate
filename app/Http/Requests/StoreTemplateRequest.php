@@ -32,14 +32,17 @@ class StoreTemplateRequest extends FormRequest
             'course_font_family'=>'required',
             'date_content'=>'required',
             'date_font_size'=>'required',
+            'countText'=>'required',
+            'countSignature'=>'required',
+            'qr_code'=>'required',
         ];
     }
     public function messages():array
     {
         return
         [
-            'template_name.required'=>'title is required',
-            'template_name.unique'=>'please write another title',
+            'template_name.required'=>'template name is required',
+            'template_name.unique'=>'please write another template name',
             'template_image.required'=>'certificate template is required',
             'template_image.dimensions'=>'certificate dimension must be 1920*1080',
             'student_content.required'=>'student field is required',
@@ -47,9 +50,12 @@ class StoreTemplateRequest extends FormRequest
             'student_font_size.required'=>'student font size is required',
             'course_content.required'=>'course field is required',
             'course_font_size.required'=>'course font size is required',
-            'course_font_family.required'=>'course font family required',
-            'date_content.required'=>'date field required',
-            'date_font_size.required'=>'date font size required',
+            'course_font_family.required'=>'course font family is required',
+            'date_content.required'=>'date field is required',
+            'date_font_size.required'=>'date font size is required',
+            'countText.required'=>'text field is required',
+            'countSignature.required'=>'signature field is required',
+            'qr_code.required'=>'qr code field is required',
         ];
     }
 }

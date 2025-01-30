@@ -234,6 +234,7 @@
                             <input type="hidden" name="height" id="height">
                             <input type="hidden" name="countText" id="countText">
                             <input type="hidden" name="countSignature" id="countSignature">
+                            <input type="hidden" name="qr_code" id="qr_code">
                         </div>
                     </div>
                     <br>
