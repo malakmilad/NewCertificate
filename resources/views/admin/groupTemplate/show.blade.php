@@ -18,14 +18,14 @@
                 top: {{ number_format($signature['position_percent_y'], 2) }}%;
                 left: {{ number_format($signature['position_percent_x'], 2) }}%;
                 width: 200px;
-                heigth: 100px;
+                height: 100px;
             }
         @endforeach
         #canvas {
             position: relative;
             width: 100%;
             height: 700px;
-            background-size: cover;
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             overflow: hidden;

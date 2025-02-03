@@ -32,7 +32,10 @@
         position: relative;
         width: 100%;
         height: 470px;
-        background-size: cover;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;
         overflow: hidden;
@@ -47,7 +50,7 @@
         <div class="row gy-5 g-xl-8">
             <div class="col-xl-8">
                 <div class="card card-xl-stretch mb-5 mb-xl-8">
-                    <div id="canvas" class="card-body py-3">
+                    <div id="canvas" class="card-body">
                         <div id="student">{{old('student_content')}}</div>
                         <div id="course">{{old('course_content')}}</div>
                         <div id="date">{{old('date_content')}}</div>

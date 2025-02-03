@@ -16,19 +16,15 @@
         @page {
             size: a4 landscape;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background-size: contain;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('{{ public_path($template->image) }}');
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
-            overflow: hidden;
-            background-image: url('{{ public_path($template->image) }}');
         }
 
         @foreach ($template->options['texts'] as $index => $text)
@@ -40,6 +36,7 @@
                 font-size: {{ $text['font_size'] }}px;
                 font-family: {{ $text['font_family'] }};
                 direction: rtl;
+
             }
         @endforeach
         @foreach ($template->options['signatures'] as $key => $signature)
@@ -48,7 +45,8 @@
                 top: {{ number_format($signature['position_percent_y'], 2) }}%;
                 left: {{ number_format($signature['position_percent_x'], 2) }}%;
                 width: 200px;
-                heigth: 100px;
+                height: 100px;
+
             }
         @endforeach
         #course {
@@ -59,6 +57,7 @@
             font-size: {{ $template->options['course']['font_size'] }}px;
             font-family: {{ $template->options['course']['font_family'] }};
             direction: rtl;
+
         }
 
         #student {
@@ -69,6 +68,7 @@
             font-size: {{ $template->options['student']['font_size'] }}px;
             font-family: {{ $template->options['student']['font_family'] }};
             direction: rtl;
+
         }
 
         #qrImg {
@@ -77,8 +77,8 @@
             left: {{ number_format($template->options['qr_code']['position_percent_x'], 2) }}%;
             width: 75px;
             height: 75px;
-        }
 
+        }
         #date {
             position: absolute;
             top: {{ number_format($template->options['date']['position_percent_y'], 2) }}%;
