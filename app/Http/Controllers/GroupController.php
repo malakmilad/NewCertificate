@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Exports\GroupExport;
@@ -54,22 +55,27 @@ class GroupController extends Controller
         $groupId = $hash[0];
 
         $students = Student::whereHas('enrollments', function ($query) use ($groupId) {
-            $query->where('group_id', $groupId); // Filter enrollments by group ID
+            $query->where('group_id', $groupId);
         })
             ->with(['enrollments' => function ($query) use ($groupId) {
-                $query->where('group_id', $groupId)->with('course'); // Ensure we only get group-specific courses
+                $query->where('group_id', $groupId)
+                    ->with('course')
+                    ->select('id', 'student_id', 'group_id', 'course_id', 'student_name'); // Include override name
             }])
-            ->get();
+            ->get()
+            ->map(function ($student) {
+                $student->name = $student->enrollments->first()->student_name ?? $student->name;
+                return $student;
+            });
+
         return view('admin.group.show', compact('students', 'id'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Group $group)
-    {
-
-    }
+    public function edit(Group $group) {}
 
     /**
      * Update the specified resource in storage.
@@ -90,11 +96,10 @@ class GroupController extends Controller
     {
         $hash  = Hashids::decode($id);
         $group = Group::findOrFail($hash[0]);
-        Enrollment::where('group_id',$group->id)->delete();
+        Enrollment::where('group_id', $group->id)->delete();
         $group->delete();
         Alert::success('Success', 'Group Has Been Deleted Successfully!');
         return redirect()->route('group.index');
-
     }
     public function export()
     {

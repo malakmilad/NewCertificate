@@ -58,6 +58,7 @@ class GroupImport implements ToModel, WithHeadingRow
                 'course_id' => $course->id,
                 'student_id' => $student->id,
                 'group_id' => $group->id,
+                'student_name'=>$row['student_name']
             ]);
 
             return $enrollment;

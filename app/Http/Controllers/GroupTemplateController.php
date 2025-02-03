@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Events\AttachmentEvent;
 use App\Http\Requests\StoreGroupTemplateRequest;
 use App\Models\Course;
 use App\Models\EnrollmentTemplate;
-use App\Models\Font;
 use App\Models\Group;
 use App\Models\GroupTemplate;
 use App\Models\Student;
@@ -24,7 +22,7 @@ class GroupTemplateController extends Controller
     public function index()
     {
         // Retrieve all groups and templates
-        $groups = Group::all();
+        $groups    = Group::all();
         $templates = Template::all();
 
         // Retrieve all enrollment templates with related group and template
@@ -34,25 +32,25 @@ class GroupTemplateController extends Controller
         $students = $enrollmentTemplates->flatMap(function ($groupTemplate) {
             return $groupTemplate->group->enrollments->map(function ($enrollment) use ($groupTemplate) {
                 $student = $enrollment->student;
-                $course = $enrollment->course;
-                $group=$enrollment->group;
+                $course  = $enrollment->course;
+                $group   = $enrollment->group;
                 return [
-                    'id' => $student->id,
-                    'name' => $student->name,
-                    'email' => $student->email,
-                    'uuid' => $student->uuid,
-                    'phone' => $student->phone,
-                    'course_id' => $course->id,
-                    'course' => $course->name,
-                    'template' => $groupTemplate->template->name,
+                    'id'          => $student->id,
+                    'name'        => $enrollment->student_name,
+                    'email'       => $student->email,
+                    'uuid'        => $student->uuid,
+                    'phone'       => $student->phone,
+                    'course_id'   => $course->id,
+                    'course'      => $course->name,
+                    'template'    => $groupTemplate->template->name,
                     'template_id' => $groupTemplate->template->id,
-                    'group'=>$group
+                    'group'       => $group,
                 ];
             });
         });
         $data = [
-            'students' => $students,
-            'groups' => $groups,
+            'students'  => $students,
+            'groups'    => $groups,
             'templates' => $templates,
         ];
         return view('admin.groupTemplate.index', $data);
@@ -72,7 +70,7 @@ class GroupTemplateController extends Controller
     public function store(StoreGroupTemplateRequest $request)
     {
         EnrollmentTemplate::updateOrCreate([
-            'group_id' => $request->group_id,
+            'group_id'    => $request->group_id,
             'template_id' => $request->template_id,
         ]);
         event(new AttachmentEvent($request->group_id, $request->template_id));
@@ -85,17 +83,24 @@ class GroupTemplateController extends Controller
      */
     public function show($id, $course_id, $templateId)
     {
-        $hash = Hashids::decode($id);
+        $hash      = Hashids::decode($id);
         $studentId = $hash[0];
 
         $student = Student::with(['enrollments' => function ($query) use ($course_id) {
-            $query->where('id', $course_id);
-        }])->findOrFail($studentId);
-        $course = Course::findOrFail($course_id);
+            $query->where('id', $course_id)
+                ->select('id', 'student_id', 'group_id', 'course_id', 'student_name') // Include override
+                ->with('course');
+        }])
+            ->findOrFail($studentId);
+
+        // Use override name if available, otherwise use the original student name
+        $student->name = optional($student->enrollments->first())->student_name ?? $student->name;
+
+        $course   = Course::findOrFail($course_id);
         $template = Template::findOrFail($templateId);
-        $data = [
-            'student' => $student,
-            'course' => $course,
+        $data     = [
+            'student'  => $student,
+            'course'   => $course,
             'template' => $template,
         ];
         return view('admin.groupTemplate.show', $data);
@@ -126,17 +131,24 @@ class GroupTemplateController extends Controller
     }
     public function download($id, $course_id, $templateId)
     {
-        $hash = Hashids::decode($id);
+        $hash      = Hashids::decode($id);
         $studentId = $hash[0];
 
         $student = Student::with(['enrollments' => function ($query) use ($course_id) {
-            $query->where('id', $course_id);
-        }])->findOrFail($studentId);
-        $course = Course::findOrFail($course_id);
+            $query->where('id', $course_id)
+                ->select('id', 'student_id', 'group_id', 'course_id', 'student_name') // Include override
+                ->with('course');
+        }])
+            ->findOrFail($studentId);
+
+        // Use override name if available, otherwise use the original student name
+        $student->name = optional($student->enrollments->first())->student_name ?? $student->name;
+
+        $course   = Course::findOrFail($course_id);
         $template = Template::findOrFail($templateId);
-        $data = [
-            'student' => $student,
-            'course' => $course,
+        $data     = [
+            'student'  => $student,
+            'course'   => $course,
             'template' => $template,
         ];
         $studentPdf = Pdf::loadView('admin.pdf.student', $data);
