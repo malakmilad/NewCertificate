@@ -44,8 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(GroupTemplateController::class)->group(function () {
         Route::get('generate/index', 'index')->name('generate.index');
         Route::get('generate/create', 'create')->name('generate.create');
-        Route::get('generate/show/{id}/{course_id}/{template_id}', 'show')->name('generate.show');
-        Route::get('generate/download/{id}/{course_id}/{template_id}', 'download')->name('generate.download');
+        Route::get('generate/show/{id}/{course_id}/{template_id}/{group_id}', 'show')->name('generate.show');
+        Route::get('generate/download/{id}/{course_id}/{template_id}/{group_id}', 'download')->name('generate.download');
         Route::post('generate/store', 'store')->name('generate.store');
     });
     Route::controller(StudentController::class)->group(function(){

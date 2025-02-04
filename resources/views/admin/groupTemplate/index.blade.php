@@ -53,7 +53,7 @@
                                         <td>{{ $student['group']['name'] }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href="{{ route('generate.show', [Hashids::encode($student['id']), $student['course_id'],$student['template_id']]) }}"
+                                                <a href="{{ route('generate.show', [Hashids::encode($student['id']), $student['course_id'],$student['template_id'],$student['group']['id']]) }}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

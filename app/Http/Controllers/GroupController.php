@@ -64,7 +64,9 @@ class GroupController extends Controller
             }])
             ->get()
             ->map(function ($student) {
-                $student->name = $student->enrollments->first()->student_name ?? $student->name;
+                $student->name = !empty($student->enrollments->first()->student_name)
+                ? $student->enrollments->first()->student_name
+                : $student->name;
                 return $student;
             });
 

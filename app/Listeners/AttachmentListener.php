@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Listeners;
 
 use App\Events\AttachmentEvent;
@@ -35,12 +36,11 @@ class AttachmentListener
             }])
             ->get()
             ->map(function ($student) {
-                // Use override name if available, otherwise use the original name
-                $student->name = optional($student->enrollments->first())->student_name ?? $student->name;
+                $student->name = ! empty($student->enrollments->first()->student_name)
+                ? $student->enrollments->first()->student_name : $student->name;
                 return $student;
             });
 
         event(new StoreAttachmentEvent($students, $template, $group));
     }
-
 }
