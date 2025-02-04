@@ -6,7 +6,7 @@
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-bolder fs-3 mb-1">Student</span>
-                        <span class="text-muted mt-1 fw-bold fs-7">Over :{{count($students)}}</span>
+                        <span class="text-muted mt-1 fw-bold fs-7">Over :{{ count($students) }}</span>
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         title="Click to add a Generate">
@@ -48,20 +48,22 @@
                                         <td>{{ $student['email'] }}</td>
                                         <td>{{ $student['uuid'] }}</td>
                                         <td>{{ $student['phone'] }}</td>
-                                        <td><span class="badge badge-light-danger">{{ $student['course'] }}</span></td> <!-- Single course per row -->
+                                        <td><span class="badge badge-light-danger">{{ $student['course'] }}</span></td>
+                                        <!-- Single course per row -->
                                         <td>{{ $student['template'] }}</td>
                                         <td>{{ $student['group']['name'] }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href="{{ route('generate.show', [Hashids::encode($student['id']), $student['course_id'],$student['template_id'],$student['group']['id']]) }}"
+                                                <a href="{{ route('generate.show', [Hashids::encode($student['id']), $student['course_id'], $student['template_id'], $student['group']->id]) }}"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                     <span class="svg-icon svg-icon-3">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                                        <path
-                                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                                    </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" fill="currentColor" class="bi bi-eye-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                            <path
+                                                                d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                                        </svg>
                                                     </span>
                                                 </a>
                                             </div>
@@ -78,7 +80,7 @@
     @include('admin.groupTemplate.create')
 @endsection
 @push('script')
-<script>
-    new DataTable('#generate');
-</script>
+    <script>
+        new DataTable('#generate');
+    </script>
 @endpush
