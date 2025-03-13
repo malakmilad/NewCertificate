@@ -21,7 +21,7 @@
                 top: {{ number_format($signature['position_percent_y'], 2) }}%;
                 left: {{ number_format($signature['position_percent_x'], 2) }}%;
                 width: 200px;
-                heigth: 100px;
+                height: 100px;
             }
         @endforeach
         #canvas {

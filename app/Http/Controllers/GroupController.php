@@ -63,11 +63,17 @@ class GroupController extends Controller
                     ->select('id', 'student_id', 'group_id', 'course_id', 'student_name'); // Include override name
             }])
             ->get()
-            ->map(function ($student) {
-                $student->name = !empty($student->enrollments->first()->student_name)
-                ? $student->enrollments->first()->student_name
-                : $student->name;
-                return $student;
+            ->flatMap(function ($student) {
+                return $student->enrollments->map(function ($enrollment) use ($student) {
+                    return (object) [
+                        'id'          => $student->id,
+                        'name'        => ! empty($enrollment->student_name) ? $enrollment->student_name : $student->name,
+                        'email'       => $student->email,
+                        'uuid'        => $student->uuid,
+                        'phone'       => $student->phone,
+                        'course_name' => $enrollment->course->name,
+                    ];
+                });
             });
 
         return view('admin.group.show', compact('students', 'id'));

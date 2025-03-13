@@ -48,9 +48,6 @@ Route::middleware('auth')->group(function () {
         Route::get('generate/download/{id}/{course_id}/{template_id}/{group_id}', 'download')->name('generate.download');
         Route::post('generate/store', 'store')->name('generate.store');
     });
-    Route::controller(StudentController::class)->group(function(){
-        Route::post('student/store','store')->name('student.store');
-    });
 });
 
 require __DIR__ . '/auth.php';
