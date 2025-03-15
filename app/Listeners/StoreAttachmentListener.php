@@ -31,20 +31,9 @@ class StoreAttachmentListener
     {
         $students = $event->students;
         $template = $event->template;
-        $group = $event->group;
-
         foreach ($students as $student) {
-            $studentId = $student->id;
-            $groupId = $group->id;
-            $templateId = $template->id;
-            $courses = Course::whereHas('enrollments', function ($query) use ($studentId, $groupId, $templateId) {
-                $query->where('student_id', $studentId)
-                    ->where('group_id', $groupId)
-                    ->whereHas('group.templates', function ($templateQuery) use ($templateId) {
-                        $templateQuery->where('template_id', $templateId);
-                    });
-            })->get();
-            foreach ($courses as $course) {
+            $course_id = $student->course_id;
+            $course = Course::find($course_id);
                 if ($course) {
                     $fonts = Font::get();
                     $data = [
@@ -72,9 +61,7 @@ class StoreAttachmentListener
                     } else {
                         Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath,$course));
                     }
-                    Log::info('Mail sent successfully to ' . $student->email . ' for course ' . $course->name . ' template ' . $template->name);
                 }
-            }
         }
     }
 

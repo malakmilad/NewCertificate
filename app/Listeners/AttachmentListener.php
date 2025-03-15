@@ -28,17 +28,18 @@ class AttachmentListener
         $template = Template::findOrFail($event->template_id);
         $group    = Group::findOrFail($groupId);
         $students = DB::table('enrollments')
-        ->join('enrollment_templates', 'enrollments.group_id', '=', 'enrollment_templates.group_id')
+        ->join('groups', 'enrollments.group_id', '=', 'groups.id')
+        ->join('courses', 'enrollments.course_id', '=', 'courses.id')
         ->join('students', 'enrollments.student_id', '=', 'students.id')
-        ->where('enrollment_templates.template_id', $template->id)
-        ->where('enrollment_templates.group_id', $groupId)
+        ->where('enrollments.group_id', $groupId)
         ->select(
             'students.id as id',
             'enrollments.student_name as name',
-            'students.email as email'
+            'students.email as email',
+            'courses.id as course_id',
+            'courses.name as course_name',
         )
         ->get();
-
         event(new StoreAttachmentEvent($students, $template, $group));
     }
 }
