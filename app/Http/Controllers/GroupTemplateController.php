@@ -130,30 +130,37 @@ class GroupTemplateController extends Controller
     {
         //
     }
-    public function download($id, $course_id, $templateId,$groupId)
+    public function download($id, $course_id, $templateId, $groupId)
     {
         $hash      = Hashids::decode($id);
         $studentId = $hash[0];
 
-        $student = Student::with(['enrollments' => function ($query) use ($course_id) {
-            $query->where('id', $course_id)
-                ->select('id', 'student_id', 'group_id', 'course_id', 'student_name')
-                ->with('course');
-        }])
-            ->findOrFail($studentId);
+        $student = Student::findOrFail($studentId);
 
-            $group=Group::findOrFail($groupId);
-            $student_name=Enrollment::where('student_id', $studentId)->where('group_id',  $group->id)->first();
-            $student->name = ! empty($student_name->student_name) ? $student_name->student_name : $student->name;
+        $enrollment = Enrollment::where('student_id', $studentId)
+            ->where('group_id', $groupId)
+            ->where('course_id', $course_id)
+            ->first();
+
+        if ($enrollment && ! empty($enrollment->student_name)) {
+            $student->name = $enrollment->student_name;
+        }
+
         $course   = Course::findOrFail($course_id);
         $template = Template::findOrFail($templateId);
-        $data     = [
+
+        $data = [
             'student'  => $student,
             'course'   => $course,
             'template' => $template,
         ];
-        $studentPdf = Pdf::loadView('admin.pdf.student', $data);
-        $studentPdf->setPaper('A4', 'landscape');
+
+        if ($template->type == 'landscape') {
+            $studentPdf = Pdf::loadView('admin.pdf.landscape', $data)->setPaper('a4', 'landscape');
+        } else {
+            $studentPdf = Pdf::loadView('admin.pdf.portrait', $data)->setPaper('a4', 'portrait');
+        }
+
         return $studentPdf->download($student->name . '_' . $course->name . '.pdf');
     }
 }
