@@ -155,11 +155,8 @@ class GroupTemplateController extends Controller
             'template' => $template,
         ];
 
-        if ($template->type == 'landscape') {
-            $studentPdf = Pdf::loadView('admin.pdf.landscape', $data)->setPaper('a4', 'landscape');
-        } else {
-            $studentPdf = Pdf::loadView('admin.pdf.portrait', $data)->setPaper('a4', 'portrait');
-        }
+        $studentPdf = Pdf::loadView('admin.pdf.student', $data);
+        $studentPdf->setPaper('A4', 'landscape');
 
         return $studentPdf->download($student->name . '_' . $course->name . '.pdf');
     }
