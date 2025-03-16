@@ -50,6 +50,8 @@ class StoreAttachmentListener
                     $studentAttachment->save($filePath);
                     Attachment::updateOrCreate([
                         'student_id' => $student->id,
+                        'student_name'=>$student->name,
+                        'course_id' => $course->id,
                         'path' => $filePath,
                     ]);
                     $detector = new LanguageDetector();
