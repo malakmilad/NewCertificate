@@ -4,7 +4,7 @@
         @foreach ($template->options['texts'] as $index => $text)
             #text{{ $index }} {
                 position: absolute;
-            transform: translateX(-50%);
+                transform: translateX(25%);
                 top: {{ number_format($text['position_percent_y'], 2) }}%;
                 left: {{ number_format($text['position_percent_x'], 2) }}%;
                 color: {{ $text['color'] }};
@@ -18,7 +18,7 @@
                 position: absolute;
                 top: {{ number_format($signature['position_percent_y'], 2) }}%;
                 left: {{ number_format($signature['position_percent_x'], 2) }}%;
-                width: 200px;
+                width: 150px;
                 height: 100px;
             }
         @endforeach
@@ -35,7 +35,7 @@
 
         #course {
             position: absolute;
-            transform: translateX(-50%);
+            transform: translateX(-30%);
             top: {{ number_format($template->options['course']['position_percent_y'], 2) }}%;
             left: {{ number_format($template->options['course']['position_percent_x'], 2) }}%;
             color: {{ $template->options['course']['color'] }};
@@ -46,7 +46,7 @@
 
         #student {
             position: absolute;
-            transform: translateX(-50%);
+            transform: translateX(-25%);
             top: {{ number_format($template->options['student']['position_percent_y'], 2) }}%;
             left: {{ number_format($template->options['student']['position_percent_x'], 2) }}%;
             color: {{ $template->options['student']['color'] }};
@@ -78,8 +78,8 @@
             <div id="student">{{ $template->options['student']['content'] }}</div>
             <div id="course">{{ $template->options['course']['content'] }}</div>
             <div id="date">{{ $template->options['date']['content'] }}</div>
-            @if($template->options['qr_code']['content'])
-            <img id="qrImg" src="{{ $template->options['qr_code']['content'] }}"></img>
+            @if ($template->options['qr_code']['content'])
+                <img id="qrImg" src="{{ $template->options['qr_code']['content'] }}"></img>
             @endif
             @php
                 $texts = $template->options['texts'];
@@ -91,7 +91,7 @@
                 $signatures = $template->options['signatures'];
             @endphp
             @foreach ($signatures as $key => $signature)
-                <img id="signature{{ $key }}" src="{{asset($signature['content'])}}"></img>
+                <img id="signature{{ $key }}" src="{{ asset($signature['content']) }}"></img>
             @endforeach
         </div>
     </div>
