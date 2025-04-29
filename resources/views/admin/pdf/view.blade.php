@@ -30,6 +30,7 @@
         @foreach ($template->options['texts'] as $index => $text)
             #text{{ $index }} {
                 position: absolute;
+            transform: translateX(-50%);
                 top: {{ number_format($text['position_percent_y'], 2) }}%;
                 left: {{ number_format($text['position_percent_x'], 2) }}%;
                 color: {{ $text['color'] }};
@@ -49,6 +50,7 @@
         @endforeach
         #course {
             position: absolute;
+            transform: translateX(-50%);
             top: {{ number_format($template->options['course']['position_percent_y'], 2) }}%;
             left: {{ number_format($template->options['course']['position_percent_x'], 2) }}%;
             color: {{ $template->options['course']['color'] }};
@@ -59,6 +61,7 @@
 
         #student {
             position: absolute;
+            transform: translateX(-50%);
             top: {{ number_format($template->options['student']['position_percent_y'], 2) }}%;
             left: {{ number_format($template->options['student']['position_percent_x'], 2) }}%;
             color: {{ $template->options['student']['color'] }};
