@@ -40,6 +40,7 @@ class AttachmentListener
             'courses.name as course_name',
         )
         ->get();
+        dd($students);
         event(new StoreAttachmentEvent($students, $template, $group));
     }
 }

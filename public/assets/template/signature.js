@@ -49,7 +49,7 @@ function optionsSignature(counter) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 signatureContainer.src = e.target.result;
-                signatureContainer.style.width = "200px";
+                signatureContainer.style.width = "150px";
                 signatureContainer.style.height = "100px";
             };
             reader.readAsDataURL(signatureFile);
