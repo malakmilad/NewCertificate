@@ -1,50 +1,53 @@
 @extends('admin.layout.app')
 @push('css')
-<style>
-    #student{
-        position: absolute;
-        left:{{old('student_x')}}px;
-        top:{{old('student_y')}}px;
-        color:{{old('student_color')}};
-        font-size:{{old('student_font_size')}}px;
-        font-family:{{old('student_font_family')}};
-        font-weight:normal;
-        font-style:normal;
-    }
-    #course{
-        position: absolute;
-        left:{{old('course_x')}}px;
-        top:{{old('course_y')}}px;
-        color:{{old('course_color')}};
-        font-size:{{old('course_font_size')}}px;
-        font-family:{{old('course_font_family')}};
-        font-weight:normal;
-        font-style:normal;
-    }
-    #date{
-        position: absolute;
-        left:{{old('date_x')}}px;
-        top:{{old('date_y')}}px;
-        color:{{old('date_color')}};
-        font-size:{{old('date_font_size')}}px;
-    }
-    #canvas{
-        position: relative;
-        width: 100%;
-        height: 470px;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-size: 100% 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        overflow: hidden;
-        background-image: url({{asset('assets/media/illustrations/placeholder.jpg')}});
-    }
-</style>
+    <style>
+        #student {
+            position: absolute;
+            left: {{old('student_x')}}px;
+            top: {{old('student_y')}}px;
+            color: {{old('student_color')}};
+            font-size: {{old('student_font_size')}}px;
+            font-family: {{old('student_font_family')}};
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #course {
+            position: absolute;
+            left: {{old('course_x')}}px;
+            top: {{old('course_y')}}px;
+            color: {{old('course_color')}};
+            font-size: {{old('course_font_size')}}px;
+            font-family: {{old('course_font_family')}};
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #date {
+            position: absolute;
+            left: {{old('date_x')}}px;
+            top: {{old('date_y')}}px;
+            color: {{old('date_color')}};
+            font-size: {{old('date_font_size')}}px;
+        }
+
+        #canvas {
+            position: relative;
+            width: 1123px;
+            height: 794px;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-image: url({{asset('assets/media/illustrations/placeholder.jpg')}});
+        }
+    </style>
 @endpush
 @section('content')
-    <form action="{{route('template.store')}}" method="POST" enctype="multipart/form-data" >
+    <form style="padding:0 90px;" action="{{route('template.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <button class="btn btn-light-primary mb-10">Save</button>
         <div class="row gy-5 g-xl-8">
@@ -59,18 +62,17 @@
             </div>
         </div>
         @include('admin.template.options')
-        {{-- @include('admin.template.error') --}}
     </form>
 @endsection
 @push('script')
-<script src="{{asset('assets/template/create.js')}}"></script>
-<script>
-    let fonts =
-        @php
-            echo json_encode($fonts);
-        @endphp
-</script>
-<script src="{{asset('assets/template/text.js')}}"></script>
-<script src="{{asset('assets/template/signature.js')}}"></script>
+    <script src="{{asset('assets/template/create.js')}}"></script>
+    <script>
+        let fonts =
+            @php
+                echo json_encode($fonts);
+            @endphp
+    </script>
+    <script src="{{asset('assets/template/text.js')}}"></script>
+    <script src="{{asset('assets/template/signature.js')}}"></script>
 
 @endpush

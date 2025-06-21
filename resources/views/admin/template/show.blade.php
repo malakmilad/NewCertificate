@@ -5,8 +5,8 @@
             #text{{ $index }} {
                 position: absolute;
                 transform: translateX(25%);
-                top: {{ number_format($text['position_percent_y'], 2) }}%;
-                left: {{ number_format($text['position_percent_x'], 2) }}%;
+                top: {{ $text['position_percent_y'] }}%;
+                left: {{ $text['position_percent_x']}}%;
                 color: {{ $text['color'] }};
                 font-size: {{ $text['font_size'] }}px;
                 font-family: {{ $text['font_family'] }};
@@ -16,16 +16,16 @@
         @foreach ($template->options['signatures'] as $key => $signature)
             #signature{{ $key }} {
                 position: absolute;
-                top: {{ number_format($signature['position_percent_y'], 2) }}%;
-                left: {{ number_format($signature['position_percent_x'], 2) }}%;
+                top: {{ $signature['position_percent_y'] }}%;
+                left: {{ $signature['position_percent_x']}}%;
                 width: 150px;
                 height: 100px;
             }
         @endforeach
         #canvas {
             position: relative;
-            width: 100%;
-            height: 700px;
+            width: 1123px;
+            height: 794px;
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
@@ -36,8 +36,8 @@
         #course {
             position: absolute;
             transform: translateX(-30%);
-            top: {{ number_format($template->options['course']['position_percent_y'], 2) }}%;
-            left: {{ number_format($template->options['course']['position_percent_x'], 2) }}%;
+            top: {{ $template->options['course']['position_percent_y'] }}%;
+            left: {{ $template->options['course']['position_percent_x'] }}%;
             color: {{ $template->options['course']['color'] }};
             font-size: {{ $template->options['course']['font_size'] }}px;
             font-family: {{ $template->options['course']['font_family'] }};
@@ -47,8 +47,8 @@
         #student {
             position: absolute;
             transform: translateX(-25%);
-            top: {{ number_format($template->options['student']['position_percent_y'], 2) }}%;
-            left: {{ number_format($template->options['student']['position_percent_x'], 2) }}%;
+            top: {{ $template->options['student']['position_percent_y'] }}%;
+            left: {{ $template->options['student']['position_percent_x'] }}%;
             color: {{ $template->options['student']['color'] }};
             font-size: {{ $template->options['student']['font_size'] }}px;
             font-family: {{ $template->options['student']['font_family'] }};
@@ -57,16 +57,16 @@
 
         #qrImg {
             position: absolute;
-            top: {{ number_format($template->options['qr_code']['position_percent_y'], 2) }}%;
-            left: {{ number_format($template->options['qr_code']['position_percent_x'], 2) }}%;
+            top: {{$template->options['qr_code']['position_percent_y']}}%;
+            left: {{ $template->options['qr_code']['position_percent_x']}}%;
             width: 75px;
             height: 75px;
         }
 
         #date {
             position: absolute;
-            top: {{ number_format($template->options['date']['position_percent_y'], 2) }}%;
-            left: {{ number_format($template->options['date']['position_percent_x'], 2) }}%;
+            top: {{ $template->options['date']['position_percent_y'] }}%;
+            left: {{ $template->options['date']['position_percent_x'] }}%;
             color: {{ $template->options['date']['color'] }};
             font-size: {{ $template->options['date']['font_size'] }}px;
         }
