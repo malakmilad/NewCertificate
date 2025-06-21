@@ -31,39 +31,43 @@ class StoreAttachmentListener
     {
         $students = $event->students;
         $template = $event->template;
+
         foreach ($students as $student) {
             $course_id = $student->course_id;
             $course = Course::find($course_id);
-                if ($course) {
-                    $fonts = Font::get();
-                    $data = [
-                        'fonts' => $fonts,
-                        'student' => $student,
-                        'course' => $course,
-                        'template' => $template,
-                    ];
-                    $studentAttachment = Pdf::loadView('admin.pdf.view', $data);
-                    $studentAttachment->setPaper('A4', 'landscape');
-                    $attachmentPath = public_path('attachment');
-                    $fileName = "{$student->name}_{$course->name}_{$template->name}.pdf";
-                    $filePath = "{$attachmentPath}/{$fileName}";
-                    $studentAttachment->save($filePath);
-                    Attachment::updateOrCreate([
-                        'student_id' => $student->id,
-                        'student_name'=>$student->name,
-                        'course_id' => $course->id,
-                        'path' => $filePath,
-                    ]);
-                    $detector = new LanguageDetector();
 
-                    $language = $detector->evaluate($course->name)->getLanguage();
+            if ($course) {
+                $fonts = Font::get();
+                $data = [
+                    'fonts' => $fonts,
+                    'student' => $student,
+                    'course' => $course,
+                    'template' => $template,
+                ];
 
-                    if ($language == 'ar') {
-                        Mail::to($student->email)->send(new ArabicStudentMail($student, $filePath,$course));
-                    } else {
-                        Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath,$course));
-                    }
+                $studentAttachment = Pdf::loadView('admin.pdf.view', $data);
+                $studentAttachment->setPaper('A4', 'landscape');
+                $attachmentPath = public_path('attachment');
+                $fileName = "{$student->name}_{$course->name}_{$template->name}.pdf";
+                $filePath = "{$attachmentPath}/{$fileName}";
+                $studentAttachment->save($filePath);
+
+                Attachment::updateOrCreate([
+                    'student_id' => $student->id,
+                    'student_name' => $student->name, // This is now from enrollment
+                    'course_id' => $course->id,
+                    'path' => $filePath,
+                ]);
+
+                $detector = new LanguageDetector();
+                $language = $detector->evaluate($course->name)->getLanguage();
+
+                if ($language == 'ar') {
+                    Mail::to($student->email)->send(new ArabicStudentMail($student, $filePath, $course));
+                } else {
+                    Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath, $course));
                 }
+            }
         }
     }
 

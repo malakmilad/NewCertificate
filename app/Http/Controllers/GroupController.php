@@ -51,29 +51,21 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        $hash    = Hashids::decode($id);
+        $hash = Hashids::decode($id);
         $groupId = $hash[0];
 
-        $students = Student::whereHas('enrollments', function ($query) use ($groupId) {
-            $query->where('group_id', $groupId);
-        })
-            ->with(['enrollments' => function ($query) use ($groupId) {
-                $query->where('group_id', $groupId)
-                    ->with('course')
-                    ->select('id', 'student_id', 'group_id', 'course_id', 'student_name'); // Include override name
-            }])
+        $students = Enrollment::where('group_id', $groupId)
+            ->with(['student', 'course'])
             ->get()
-            ->flatMap(function ($student) {
-                return $student->enrollments->map(function ($enrollment) use ($student) {
-                    return (object) [
-                        'id'          => $student->id,
-                        'name'        => ! empty($enrollment->student_name) ? $enrollment->student_name : $student->name,
-                        'email'       => $student->email,
-                        'uuid'        => $student->uuid,
-                        'phone'       => $student->phone,
-                        'course_name' => $enrollment->course->name,
-                    ];
-                });
+            ->map(function ($enrollment) {
+                return (object) [
+                    'id' => $enrollment->student->id,
+                    'name' => $enrollment->student_name, // Always use from enrollment
+                    'email' => $enrollment->student->email,
+                    'uuid' => $enrollment->student->uuid,
+                    'phone' => $enrollment->student->phone,
+                    'course_name' => $enrollment->course->name,
+                ];
             });
 
         return view('admin.group.show', compact('students', 'id'));
@@ -83,15 +75,17 @@ class GroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Group $group) {}
+    public function edit(Group $group)
+    {
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateGroupRequest $request, $id)
     {
-        $hash    = Hashids::decode($id);
-        $group   = Group::findOrFail($hash[0]);
+        $hash = Hashids::decode($id);
+        $group = Group::findOrFail($hash[0]);
         $group->update(['name' => $request->name]);
         Alert::success('Success', 'Group Name Has Been Updated Successfully!');
         return redirect()->route('group.index');
@@ -102,7 +96,7 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        $hash  = Hashids::decode($id);
+        $hash = Hashids::decode($id);
         $group = Group::findOrFail($hash[0]);
         Enrollment::where('group_id', $group->id)->delete();
         $group->delete();
