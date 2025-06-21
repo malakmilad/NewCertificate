@@ -24,7 +24,6 @@ class StoreTemplateRequest extends FormRequest
         return [
             'template_name'=>'required|unique:templates,name',
             'template_image'=>'required|dimensions:width=1920,height=1080',
-            'countSignature'=>'required',
             'student_content'=>'required',
             'student_font_family'=>'required',
             'student_font_size'=>'required',
