@@ -73,7 +73,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="card">
+    <div>
         <div id="canvas" class="card-img-top">
             <div id="student">{{ $template->options['student']['content'] }}</div>
             <div id="course">{{ $template->options['course']['content'] }}</div>
