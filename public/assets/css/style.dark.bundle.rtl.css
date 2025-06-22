@@ -45515,20 +45515,12 @@ code:not([class*=language-]) {
   transition: transform 0.3s ease-in-out;
 }
 .drawer.drawer-start {
-    right: 0 ;
-    transform: translateX(100%);
-    -webkit-transform: translateX(100%);
-    -moz-transform: translateX(100%);
-    -ms-transform: translateX(100%);
-    -o-transform: translateX(100%);
+  right: 0;
+  transform: translateX(100%);
 }
 .drawer.drawer-end {
-    left: 0 ;
-    transform: translateX(-100%);
-    -webkit-transform: translateX(-100%);
-    -moz-transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
-    -o-transform: translateX(-100%);
+  left: 0;
+  transform: translateX(-100%);
 }
 .drawer.drawer-on {
   transform: none;

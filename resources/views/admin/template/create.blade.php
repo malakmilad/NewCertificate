@@ -47,7 +47,7 @@
     </style>
 @endpush
 @section('content')
-    <form style="padding:0 90px;" action="{{route('template.store')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('template.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <button class="btn btn-light-primary mb-10">Save</button>
         <div class="row gy-5 g-xl-8">
