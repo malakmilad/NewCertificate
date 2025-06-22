@@ -5,7 +5,7 @@
 </button>
 <div id="kt_explore" class="bg-body"
     data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true" data-kt-drawer-overlay="false"
-    data-kt-drawer-width="{default:'350px', 'lg': '475px'}" data-kt-drawer-direction="end"
+    data-kt-drawer-width="{default:'350px', 'lg': '400px'}" data-kt-drawer-direction="end"
     data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close">
     <div class="card shadow-none rounded-0 w-100">
         <div class="card-header" id="kt_explore_header">
