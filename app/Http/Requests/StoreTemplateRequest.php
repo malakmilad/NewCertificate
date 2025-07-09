@@ -23,7 +23,7 @@ class StoreTemplateRequest extends FormRequest
     {
         return [
             'template_name'=>'required|unique:templates,name',
-            'template_image'=>'required|dimensions:width=1024,height=768',
+            'template_image'=>'required',
             'student_content'=>'required',
             'student_font_family'=>'required',
             'student_font_size'=>'required',
@@ -39,7 +39,7 @@ class StoreTemplateRequest extends FormRequest
             'template_name.required'=>'template name is required',
             'template_name.unique'=>'please write another template name',
             'template_image.required'=>'certificate template is required',
-            'template_image.dimensions'=>'certificate dimension must be 1920*1080',
+            // 'template_image.dimensions'=>'certificate dimension must be 1920*1080',
             'student_content.required'=>'student field is required',
             'student_font_family.required'=>'student font family is required',
             'student_font_size.required'=>'student font size is required',
