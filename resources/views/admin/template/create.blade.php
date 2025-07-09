@@ -33,8 +33,8 @@
 
         #canvas {
             position: relative;
-            width: 1123px;
-            height: 794px;
+            width: 1024px;
+            height: 768px;
             margin: 0;
             padding: 0;
             box-sizing: border-box;

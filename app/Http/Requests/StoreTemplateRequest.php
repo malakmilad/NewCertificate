@@ -23,7 +23,7 @@ class StoreTemplateRequest extends FormRequest
     {
         return [
             'template_name'=>'required|unique:templates,name',
-            'template_image'=>'required|dimensions:width=1920,height=1080',
+            'template_image'=>'required|dimensions:width=1024,height=768',
             'student_content'=>'required',
             'student_font_family'=>'required',
             'student_font_size'=>'required',

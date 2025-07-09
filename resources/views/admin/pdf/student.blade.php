@@ -19,8 +19,8 @@
         }
 
         body {
-            width: 1123px;
-            height: 794px;
+            width: 1024px;
+            height: 768px;
             background-image: url('{{ public_path($template->image) }}');
             background-size: 100% 100%;
             background-position: center;

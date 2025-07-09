@@ -27,8 +27,8 @@
         @endforeach
         #canvas {
             position: relative;
-           width: 1123px;
-height: 794px;
+            width: 1024px;
+            height: 768px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
