@@ -50,7 +50,9 @@
         @endforeach
         #course {
             position: absolute;
-            transform: translateX(-30%);
+            width: 100%;
+            transform: translateX(-50%);
+            text-align: center;
             top: {{ $template->options['course']['position_percent_y'] }}%;
             left: {{ $template->options['course']['position_percent_x'] }}%;
             color: {{ $template->options['course']['color'] }};
