@@ -43,6 +43,7 @@
             color: {{ $template->options['course']['color'] }};
             font-size: {{ $template->options['course']['font_size'] }}px;
             font-family: {{ $template->options['course']['font_family'] }};
+            direction: rtl;
         }
 
         #student {
