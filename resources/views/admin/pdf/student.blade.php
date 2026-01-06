@@ -54,7 +54,7 @@
             width: 100%;
             transform: translateX(-50%);
             text-align: center;
-            top: {{ $template->options['course']['position_percent_y'] }}%;
+            top: {{ $coursePositionY }}px;
             left: {{ $template->options['course']['position_percent_x'] }}%;
             color: {{ $template->options['course']['color'] }};
             font-size: {{ $template->options['course']['font_size'] }}px;
@@ -65,7 +65,7 @@
         #student {
             position: absolute;
             transform: translateX(-25%);
-            top: {{ $template->options['student']['position_percent_y'] }}%;
+            top: {{ $studentPositionY }}px;
             left: {{ $template->options['student']['position_percent_x'] }}%;
             color: {{ $template->options['student']['color'] }};
             font-size: {{ $template->options['student']['font_size'] }}px;

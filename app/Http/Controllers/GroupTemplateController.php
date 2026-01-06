@@ -145,7 +145,8 @@ class GroupTemplateController extends Controller
 
         $course = Course::findOrFail($course_id);
         $template = Template::findOrFail($templateId);
-
+        $studentPositionY = $template->options['student']['position_pixel_y'] - 25;
+        $coursePositionY = $template->options['course']['position_pixel_y'] - 25;
         $report = new \ArPHP\I18N\Arabic();
         $originalStudentName = $student->name;
         $originalCourseName = $course->name;
@@ -157,6 +158,8 @@ class GroupTemplateController extends Controller
             'student' => $student,
             'course' => $course,
             'template' => $template,
+            'studentPositionY' => $studentPositionY,
+            'coursePositionY' => $coursePositionY,
         ];
 
         $studentPdf = Pdf::loadView('admin.pdf.student', $data);
