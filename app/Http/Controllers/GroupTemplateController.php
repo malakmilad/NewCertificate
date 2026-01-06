@@ -146,7 +146,12 @@ class GroupTemplateController extends Controller
         $course = Course::findOrFail($course_id);
         $template = Template::findOrFail($templateId);
 
-        // Ar-PHP reshaping removed as Browsershot handles Arabic natively
+        $report = new \ArPHP\I18N\Arabic();
+        $originalStudentName = $student->name;
+        $originalCourseName = $course->name;
+
+        $student->name = $report->utf8Glyphs($student->name);
+        $course->name = $report->utf8Glyphs($course->name);
 
         $data = [
             'student' => $student,
@@ -154,21 +159,9 @@ class GroupTemplateController extends Controller
             'template' => $template,
         ];
 
-        $html = view('admin.pdf.student', $data)->render();
+        $studentPdf = Pdf::loadView('admin.pdf.student', $data);
+        $studentPdf->setPaper('A4', 'landscape');
 
-        $pdfContent = \Spatie\Browsershot\Browsershot::html($html)
-            ->setNodeBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/node')
-            ->setNpmBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/npm')
-            ->setNodeModulePath(base_path('node_modules'))
-            ->noSandbox()
-            ->showBackground()
-            ->format('A4')
-            ->landscape()
-            ->margins(0, 0, 0, 0)
-            ->pdf();
-
-        return response($pdfContent)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="' . $student->name . '_' . $course->name . '.pdf"');
+        return $studentPdf->download($originalStudentName . '_' . $originalCourseName . '.pdf');
     }
 }

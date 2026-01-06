@@ -39,7 +39,12 @@ class StoreAttachmentListener
             if ($course) {
                 $fonts = Font::get();
 
-                // Ar-PHP reshaping removed
+                $originalStudentName = $student->name;
+                $originalCourseName = $course->name;
+
+                $report = new \ArPHP\I18N\Arabic();
+                $student->name = $report->utf8Glyphs($student->name);
+                $course->name = $report->utf8Glyphs($course->name);
 
                 $data = [
                     'fonts' => $fonts,
@@ -48,22 +53,12 @@ class StoreAttachmentListener
                     'template' => $template,
                 ];
 
-                $html = view('admin.pdf.view', $data)->render();
-
+                $studentAttachment = Pdf::loadView('admin.pdf.view', $data);
+                $studentAttachment->setPaper('A4', 'landscape');
                 $attachmentPath = public_path('attachment');
-                $fileName = "{$student->name}_{$course->name}_{$template->name}.pdf";
+                $fileName = "{$originalStudentName}_{$originalCourseName}_{$template->name}.pdf";
                 $filePath = "{$attachmentPath}/{$fileName}";
-
-                \Spatie\Browsershot\Browsershot::html($html)
-                    ->setNodeBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/node')
-                    ->setNpmBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/npm')
-                    ->setNodeModulePath(base_path('node_modules'))
-                    ->noSandbox()
-                    ->showBackground()
-                    ->format('A4')
-                    ->landscape()
-                    ->margins(0, 0, 0, 0)
-                    ->save($filePath);
+                $studentAttachment->save($filePath);
 
                 Attachment::updateOrCreate([
                     'student_id' => $student->id,
