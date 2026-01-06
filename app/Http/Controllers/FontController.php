@@ -39,6 +39,11 @@ class FontController extends Controller
             $fontName = $file->getClientOriginalName();
             $fontNameWithoutExtension = pathinfo($fontName, PATHINFO_FILENAME);
             $whiteSpace = preg_replace('/(?<=\p{L})(?=\p{N})|(?<=\p{N})(?=\p{L})/', ' ', $fontNameWithoutExtension);
+            $path = public_path('fonts');
+
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
 
             // Move file to the fonts directory
             $file->move(public_path('fonts'), $fontName);
