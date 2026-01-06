@@ -38,6 +38,9 @@ class StoreAttachmentListener
 
             if ($course) {
                 $fonts = Font::get();
+
+                // Ar-PHP reshaping removed
+
                 $data = [
                     'fonts' => $fonts,
                     'student' => $student,
@@ -45,12 +48,22 @@ class StoreAttachmentListener
                     'template' => $template,
                 ];
 
-                $studentAttachment = Pdf::loadView('admin.pdf.view', $data);
-                $studentAttachment->setPaper('A4', 'landscape');
+                $html = view('admin.pdf.view', $data)->render();
+
                 $attachmentPath = public_path('attachment');
                 $fileName = "{$student->name}_{$course->name}_{$template->name}.pdf";
                 $filePath = "{$attachmentPath}/{$fileName}";
-                $studentAttachment->save($filePath);
+
+                \Spatie\Browsershot\Browsershot::html($html)
+                    ->setNodeBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/node')
+                    ->setNpmBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/npm')
+                    ->setNodeModulePath(base_path('node_modules'))
+                    ->noSandbox()
+                    ->showBackground()
+                    ->format('A4')
+                    ->landscape()
+                    ->margins(0, 0, 0, 0)
+                    ->save($filePath);
 
                 Attachment::updateOrCreate([
                     'student_id' => $student->id,

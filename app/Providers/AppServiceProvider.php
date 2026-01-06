@@ -34,7 +34,13 @@ class AppServiceProvider extends ServiceProvider
             StoreAttachmentEvent::class,
             StoreAttachmentListener::class,
         );
-        $fonts=Font::get();
-         View::share('fonts',$fonts);
+        if (!app()->runningInConsole()) {
+            try {
+                $fonts = Font::get();
+                View::share('fonts', $fonts);
+            } catch (\Exception $e) {
+                // Ignore database errors during setup
+            }
+        }
     }
 }

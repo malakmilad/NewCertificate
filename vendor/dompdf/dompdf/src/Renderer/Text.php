@@ -6,7 +6,6 @@
  */
 namespace Dompdf\Renderer;
 
-use ArPHP\I18N\Arabic;
 use Dompdf\Adapter\CPDF;
 use Dompdf\Frame;
 
@@ -72,10 +71,7 @@ class Text extends AbstractRenderer
           array($this->_canvas->get_page_number()),
           $text
         );*/
-        if (strtolower($style->direction) == 'rtl') {
-            $arabic=new Arabic('Glyphs');
-            $text = $arabic->utf8Glyphs($text);
-        }
+
         $this->_canvas->text($x, $y, $text,
             $font, $size,
             $style->color, $word_spacing, $letter_spacing);

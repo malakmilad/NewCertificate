@@ -146,15 +146,29 @@ class GroupTemplateController extends Controller
         $course = Course::findOrFail($course_id);
         $template = Template::findOrFail($templateId);
 
+        // Ar-PHP reshaping removed as Browsershot handles Arabic natively
+
         $data = [
             'student' => $student,
             'course' => $course,
             'template' => $template,
         ];
 
-        $studentPdf = Pdf::loadView('admin.pdf.student', $data);
-        $studentPdf->setPaper('A4', 'landscape');
+        $html = view('admin.pdf.student', $data)->render();
 
-        return $studentPdf->download($student->name . '_' . $course->name . '.pdf');
+        $pdfContent = \Spatie\Browsershot\Browsershot::html($html)
+            ->setNodeBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/node')
+            ->setNpmBinary('/home/entlaqa/.nvm/versions/node/v24.12.0/bin/npm')
+            ->setNodeModulePath(base_path('node_modules'))
+            ->noSandbox()
+            ->showBackground()
+            ->format('A4')
+            ->landscape()
+            ->margins(0, 0, 0, 0)
+            ->pdf();
+
+        return response($pdfContent)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $student->name . '_' . $course->name . '.pdf"');
     }
 }

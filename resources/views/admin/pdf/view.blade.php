@@ -18,13 +18,30 @@
             margin: 0;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-             width: 100vw;
+            width: 100vw;
             height: 100vh;
-            background-image: url('{{ public_path($template->image) }}');
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            direction: rtl;
+            text-align: right;
+            @php
+                $imagePath = public_path($template->image);
+                $imageData = base64_encode(file_get_contents($imagePath));
+                $imageSrc = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
+            @endphp
+            background-image: url('{{ $imageSrc }}');
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         @foreach ($template->options['texts'] as $index => $text)
@@ -36,7 +53,9 @@
                 color: {{ $text['color'] }};
                 font-size: {{ $text['font_size'] }}px;
                 font-family: {{ $text['font_family'] }};
+                font-weight: 600;
                 direction: rtl;
+                line-height: 1.4;
             }
         @endforeach
         @foreach ($template->options['signatures'] as $key => $signature)
@@ -58,7 +77,9 @@
             color: {{ $template->options['course']['color'] }};
             font-size: {{ $template->options['course']['font_size'] }}px;
             font-family: {{ $template->options['course']['font_family'] }};
+            font-weight: 700;
             direction: rtl;
+            line-height: 1.4;
         }
 
         #student {
@@ -69,7 +90,9 @@
             color: {{ $template->options['student']['color'] }};
             font-size: {{ $template->options['student']['font_size'] }}px;
             font-family: {{ $template->options['student']['font_family'] }};
+            font-weight: 700;
             direction: rtl;
+            line-height: 1.4;
         }
 
         #qrImg {
@@ -86,6 +109,8 @@
             left: {{ $template->options['date']['position_percent_x']}}%;
             color: {{ $template->options['date']['color'] }};
             font-size: {{ $template->options['date']['font_size'] }}px;
+            font-family: {{ $template->options['date']['font_family'] ?? 'Cairo' }};
+            font-weight: 600;
         }
     </style>
 </head>
@@ -109,7 +134,16 @@
         $signatures = $template->options['signatures'];
     @endphp
     @foreach ($signatures as $key => $signature)
-        <img id="signature{{ $key }}" src="{{ public_path($signature['content']) }}"></img>
+        @php
+            $sigPath = public_path($signature['content']);
+            if (file_exists($sigPath)) {
+                $sigData = base64_encode(file_get_contents($sigPath));
+                $sigSrc = 'data:image/' . pathinfo($sigPath, PATHINFO_EXTENSION) . ';base64,' . $sigData;
+            } else {
+                $sigSrc = '';
+            }
+        @endphp
+        <img id="signature{{ $key }}" src="{{ $sigSrc }}"></img>
     @endforeach
 </body>
 
