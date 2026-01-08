@@ -70,10 +70,60 @@ class StoreAttachmentListener
                 $detector = new LanguageDetector();
                 $language = $detector->evaluate($course->name)->getLanguage();
 
-                if ($language == 'ar') {
-                    Mail::to($student->email)->send(new ArabicStudentMail($student, $filePath, $course));
-                } else {
-                    Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath, $course));
+                try {
+                    // Use queue if connection is not 'sync', otherwise send immediately
+                    $queueConnection = config('queue.default', 'sync');
+                    $useQueue = $queueConnection !== 'sync';
+                    
+                    if ($language == 'ar') {
+                        $mail = new ArabicStudentMail($student, $filePath, $course);
+                        if ($useQueue) {
+                            Mail::to($student->email)->queue($mail);
+                            Log::info('Email queued successfully (Arabic)', [
+                                'student_email' => $student->email,
+                                'student_name' => $originalStudentName,
+                                'course' => $originalCourseName,
+                                'queue_connection' => $queueConnection
+                            ]);
+                        } else {
+                            Mail::to($student->email)->send($mail);
+                            Log::info('Email sent successfully (Arabic)', [
+                                'student_email' => $student->email,
+                                'student_name' => $originalStudentName,
+                                'course' => $originalCourseName
+                            ]);
+                        }
+                    } else {
+                        $mail = new EnglishStudentMail($student, $filePath, $course);
+                        if ($useQueue) {
+                            Mail::to($student->email)->queue($mail);
+                            Log::info('Email queued successfully (English)', [
+                                'student_email' => $student->email,
+                                'student_name' => $originalStudentName,
+                                'course' => $originalCourseName,
+                                'queue_connection' => $queueConnection
+                            ]);
+                        } else {
+                            Mail::to($student->email)->send($mail);
+                            Log::info('Email sent successfully (English)', [
+                                'student_email' => $student->email,
+                                'student_name' => $originalStudentName,
+                                'course' => $originalCourseName
+                            ]);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    Log::error('Failed to send/queue email', [
+                        'student_email' => $student->email,
+                        'student_name' => $originalStudentName,
+                        'course' => $originalCourseName,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                        'mailer' => config('mail.default'),
+                        'mail_host' => config('mail.mailers.smtp.host'),
+                        'queue_connection' => config('queue.default'),
+                    ]);
+                    // Continue processing other students even if one email fails
                 }
             }
         }
