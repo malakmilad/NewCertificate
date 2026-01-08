@@ -10,12 +10,15 @@ use App\Models\Attachment;
 use App\Models\Course;
 use App\Models\Font;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use LanguageDetector\LanguageDetector;
 
-class StoreAttachmentListener
+class StoreAttachmentListener implements ShouldQueue
 {
+    use InteractsWithQueue;
     /**
      * Create the event listener.
      */
@@ -71,46 +74,23 @@ class StoreAttachmentListener
                 $language = $detector->evaluate($course->name)->getLanguage();
 
                 try {
-                    // Use queue if connection is not 'sync', otherwise send immediately
-                    $queueConnection = config('queue.default', 'sync');
-                    $useQueue = $queueConnection !== 'sync';
-                    
+                    // Always queue emails since listener itself is queued
                     if ($language == 'ar') {
                         $mail = new ArabicStudentMail($student, $filePath, $course);
-                        if ($useQueue) {
-                            Mail::to($student->email)->queue($mail);
-                            Log::info('Email queued successfully (Arabic)', [
-                                'student_email' => $student->email,
-                                'student_name' => $originalStudentName,
-                                'course' => $originalCourseName,
-                                'queue_connection' => $queueConnection
-                            ]);
-                        } else {
-                            Mail::to($student->email)->send($mail);
-                            Log::info('Email sent successfully (Arabic)', [
-                                'student_email' => $student->email,
-                                'student_name' => $originalStudentName,
-                                'course' => $originalCourseName
-                            ]);
-                        }
+                        Mail::to($student->email)->queue($mail);
+                        Log::info('Email queued successfully (Arabic)', [
+                            'student_email' => $student->email,
+                            'student_name' => $originalStudentName,
+                            'course' => $originalCourseName
+                        ]);
                     } else {
                         $mail = new EnglishStudentMail($student, $filePath, $course);
-                        if ($useQueue) {
-                            Mail::to($student->email)->queue($mail);
-                            Log::info('Email queued successfully (English)', [
-                                'student_email' => $student->email,
-                                'student_name' => $originalStudentName,
-                                'course' => $originalCourseName,
-                                'queue_connection' => $queueConnection
-                            ]);
-                        } else {
-                            Mail::to($student->email)->send($mail);
-                            Log::info('Email sent successfully (English)', [
-                                'student_email' => $student->email,
-                                'student_name' => $originalStudentName,
-                                'course' => $originalCourseName
-                            ]);
-                        }
+                        Mail::to($student->email)->queue($mail);
+                        Log::info('Email queued successfully (English)', [
+                            'student_email' => $student->email,
+                            'student_name' => $originalStudentName,
+                            'course' => $originalCourseName
+                        ]);
                     }
                 } catch (\Exception $e) {
                     Log::error('Failed to send/queue email', [
