@@ -3,16 +3,19 @@
 namespace App\Listeners;
 
 use App\Events\StoreAttachmentEvent;
-use App\Jobs\ProcessStudentCertificate;
+use App\Mail\ArabicStudentMail;
+use App\Mail\EnglishStudentMail;
+use App\Mail\StudentMail;
+use App\Models\Attachment;
+use App\Models\Course;
 use App\Models\Font;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use LanguageDetector\LanguageDetector;
 
-class StoreAttachmentListener implements ShouldQueue
+class StoreAttachmentListener
 {
-    use InteractsWithQueue;
-    
     /**
      * Create the event listener.
      */
@@ -23,30 +26,80 @@ class StoreAttachmentListener implements ShouldQueue
 
     /**
      * Handle the event.
-     * Optimized: Loads fonts once and dispatches individual jobs for parallel processing
      */
     public function handle(StoreAttachmentEvent $event): void
     {
         $students = $event->students;
         $template = $event->template;
 
-        // Load fonts once (optimization - was loading on every iteration)
-        $fonts = Font::get();
-
-        Log::info('Dispatching certificate jobs', [
-            'student_count' => count($students),
-            'template_id' => $template->id,
-        ]);
-
-        // Dispatch individual jobs for each student (enables parallel processing)
         foreach ($students as $student) {
-            ProcessStudentCertificate::dispatch($student, $template, $fonts)
-                ->onQueue('default');
-        }
+            $course_id = $student->course_id;
+            $course = Course::find($course_id);
 
-        Log::info('All certificate jobs dispatched', [
-            'student_count' => count($students),
-        ]);
+            if ($course) {
+                $fonts = Font::get();
+
+                $originalStudentName = $student->name;
+                $originalCourseName = $course->name;
+
+                $report = new \ArPHP\I18N\Arabic();
+                $student->name = $report->utf8Glyphs($student->name);
+                $course->name = $report->utf8Glyphs($course->name);
+
+                $data = [
+                    'fonts' => $fonts,
+                    'student' => $student,
+                    'course' => $course,
+                    'template' => $template,
+                ];
+
+                $studentAttachment = Pdf::loadView('admin.pdf.view', $data);
+                $studentAttachment->setPaper('A4', 'landscape');
+                $attachmentPath = public_path('attachment');
+                $fileName = "{$originalStudentName}_{$originalCourseName}_{$template->name}.pdf";
+                $filePath = "{$attachmentPath}/{$fileName}";
+                $studentAttachment->save($filePath);
+
+                Attachment::updateOrCreate([
+                    'student_id' => $student->id,
+                    'student_name' => $student->name, // This is now from enrollment
+                    'course_id' => $course->id,
+                    'path' => $filePath,
+                ]);
+
+                $detector = new LanguageDetector();
+                $language = $detector->evaluate($course->name)->getLanguage();
+
+                try {
+                    if ($language == 'ar') {
+                        Mail::to($student->email)->send(new ArabicStudentMail($student, $filePath, $course));
+                        Log::info('Email sent successfully (Arabic)', [
+                            'student_email' => $student->email,
+                            'student_name' => $originalStudentName,
+                            'course' => $originalCourseName
+                        ]);
+                    } else {
+                        Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath, $course));
+                        Log::info('Email sent successfully (English)', [
+                            'student_email' => $student->email,
+                            'student_name' => $originalStudentName,
+                            'course' => $originalCourseName
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    Log::error('Failed to send email', [
+                        'student_email' => $student->email,
+                        'student_name' => $originalStudentName,
+                        'course' => $originalCourseName,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                        'mailer' => config('mail.default'),
+                        'mail_host' => config('mail.mailers.smtp.host'),
+                    ]);
+                    // Continue processing other students even if one email fails
+                }
+            }
+        }
     }
 
 }
