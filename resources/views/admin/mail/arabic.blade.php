@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html dir="rtl" lang="ar">
 
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>شهادة إتمام البرنامج التدريبي</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Tahoma', 'DejaVu Sans', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body dir="rtl">
-    <h1>الأستاذ/ة {{ $student->name }}</h1>
+    <h1>الأستاذ/ة {!! $student->name !!}</h1>
     <h3>تحية طيبة وبعد</h3>
-    <p>يسر مركز مصر لريادة الأعمال والابتكار إرفاق شهادة إتمام برنامج {{ $course->name }} بنجاح.</p>
+    <p>يسر مركز مصر لريادة الأعمال والابتكار إرفاق شهادة إتمام برنامج {!! $course->name !!} بنجاح.</p>
     <p>ندعوك لاستكشاف <a href="https://learn.eeic.gov.eg/home" target="_blank">منصتنا التعليمية</a>.. سواء كنت تسعى للتعمق
         في موضوعات معينة أو توسيع مهاراتك، فإن منصتنا التعليمية مصممة لدعم نموك المستمر. كما ندعوك لمتابعة <a
             href="https://www.facebook.com/people/%D9%85%D8%B1%D9%83%D8%B2-%D9%85%D8%B5%D8%B1-%D9%84%D8%B1%D9%8A%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%A3%D8%B9%D9%85%D8%A7%D9%84-%D9%88%D8%A7%D9%84%D8%A7%D8%A8%D8%AA%D9%83%D8%A7%D8%B1/100094676387464/"

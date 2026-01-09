@@ -42,6 +42,25 @@ class StoreAttachmentListener
                 $originalStudentName = $student->name;
                 $originalCourseName = $course->name;
 
+                // Use original course name for language detection (before utf8Glyphs modification)
+                $detector = new LanguageDetector();
+                $detectedLanguage = $detector->evaluate($originalCourseName)->getLanguage();
+                
+                // More robust Arabic detection: check for Arabic characters directly
+                // Arabic Unicode range: U+0600 to U+06FF
+                $hasArabicChars = preg_match('/[\x{0600}-\x{06FF}]/u', $originalCourseName);
+                
+                // Use Arabic if either detector says Arabic OR if Arabic characters are found
+                $language = ($detectedLanguage == 'ar' || $hasArabicChars) ? 'ar' : 'en';
+                
+                Log::info('Language detection result', [
+                    'course_name' => $originalCourseName,
+                    'detected_language' => $detectedLanguage,
+                    'has_arabic_chars' => $hasArabicChars,
+                    'final_language' => $language
+                ]);
+
+                // Format Arabic text for PDF
                 $report = new \ArPHP\I18N\Arabic();
                 $student->name = $report->utf8Glyphs($student->name);
                 $course->name = $report->utf8Glyphs($course->name);
@@ -67,19 +86,30 @@ class StoreAttachmentListener
                     'path' => $filePath,
                 ]);
 
-                $detector = new LanguageDetector();
-                $language = $detector->evaluate($course->name)->getLanguage();
+                // Prepare student and course objects for email
+                // For emails, use original names without utf8Glyphs (email clients handle Arabic better without it)
+                // utf8Glyphs is mainly for PDF rendering, not for HTML emails
+                $emailStudent = (object) [
+                    'id' => $student->id,
+                    'name' => $originalStudentName, // Use original name for email
+                    'email' => $student->email,
+                ];
+                
+                $emailCourse = (object) [
+                    'id' => $course->id,
+                    'name' => $originalCourseName, // Use original name for email
+                ];
 
                 try {
                     if ($language == 'ar') {
-                        Mail::to($student->email)->send(new ArabicStudentMail($student, $filePath, $course));
+                        Mail::to($student->email)->send(new ArabicStudentMail($emailStudent, $filePath, $emailCourse));
                         Log::info('Email sent successfully (Arabic)', [
                             'student_email' => $student->email,
                             'student_name' => $originalStudentName,
                             'course' => $originalCourseName
                         ]);
                     } else {
-                        Mail::to($student->email)->send(new EnglishStudentMail($student, $filePath, $course));
+                        Mail::to($student->email)->send(new EnglishStudentMail($emailStudent, $filePath, $emailCourse));
                         Log::info('Email sent successfully (English)', [
                             'student_email' => $student->email,
                             'student_name' => $originalStudentName,
